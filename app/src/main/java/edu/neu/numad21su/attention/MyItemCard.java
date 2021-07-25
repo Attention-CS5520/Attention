@@ -13,11 +13,11 @@ public class MyItemCard implements ItemClickListener {
 
 
     //Constructor
-    public MyItemCard(String itemDesc, int imageSource) {
+    public MyItemCard(String itemDesc) {
 
         //this.itemName = itemName;
         this.itemDesc = itemDesc;
-        this.imageSource = imageSource;
+        //this.imageSource = imageSource;
     }
 
     //Getters for the imageSource, itemName and itemDesc
