@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/teal_200"
     tools:context=".LiveClassDiscussionActivity">
 
     <TextView
@@ -13,7 +14,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginBottom="0dp"
         android:text="LIVE CLASS DISCUSSION"
-        android:textColor="@android:color/holo_blue_dark"
+        android:textColor="@color/white"
         android:textSize="32dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/recycler_view2"
@@ -27,7 +28,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginTop="120dp"
-        android:background="@android:color/background_light"
         android:padding="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.459"
