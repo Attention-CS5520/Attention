@@ -25,8 +25,20 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
                 R.drawable.ic_launcher_background);
         itemList.add(itemCard);
 
-        itemCard = new MyItemCard("Hope You are enjoying the class!",
-                R.drawable.ic_launcher_background);
+        itemCard = new MyItemCard("Hope You are enjoying the class! This is great class " +
+                "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!", R.drawable.ic_launcher_background);
+        itemList.add(itemCard);
+
+        itemCard = new MyItemCard("Hope You are enjoying the class! This is great class " +
+                "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!", R.drawable.ic_launcher_background);
+        itemList.add(itemCard);
+
+        itemCard = new MyItemCard("Hope You are enjoying the class! This is great class " +
+                "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!", R.drawable.ic_launcher_background);
+        itemList.add(itemCard);
+
+        itemCard = new MyItemCard("Hope You are enjoying the class! This is great class " +
+                "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!", R.drawable.ic_launcher_background);
         itemList.add(itemCard);
 
         createRecyclerView();
