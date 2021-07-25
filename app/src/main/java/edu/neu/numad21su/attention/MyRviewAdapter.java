@@ -35,7 +35,7 @@ public class MyRviewAdapter extends RecyclerView.Adapter<MyRviewHolder> {
         MyItemCard currentItem = itemList.get(position);
 
         //holder.itemIcon.setImageResource(currentItem.getImageSource());
-        //holder.itemName.setText(currentItem.getItemName());
+        holder.itemName.setText(currentItem.getItemTime());
         holder.itemDesc.setText(currentItem.getItemDesc());
         //holder.checkBox.setChecked(currentItem.getStatus());
     }

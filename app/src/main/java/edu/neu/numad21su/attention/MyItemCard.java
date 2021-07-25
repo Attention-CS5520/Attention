@@ -1,10 +1,13 @@
 package edu.neu.numad21su.attention;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import edu.neu.numad21su.attention.ItemClickListener;
 
 public class MyItemCard implements ItemClickListener {
 
-    //private final String itemName;
+    private final String itemTime;
     private final String itemDesc;
     private int imageSource;
 
@@ -15,7 +18,7 @@ public class MyItemCard implements ItemClickListener {
     //Constructor
     public MyItemCard(String itemDesc) {
 
-        //this.itemName = itemName;
+        this.itemTime = date();
         this.itemDesc = itemDesc;
         //this.imageSource = imageSource;
     }
@@ -27,12 +30,22 @@ public class MyItemCard implements ItemClickListener {
         return itemDesc;
     }
 
+    public String getItemTime() {
+        return itemTime;
+    }
+
     //public String getItemName() {
     //    return itemName;
     //}
 
     public int getImageSource() {
         return imageSource;
+    }
+
+    public static String date() {
+        Date dNow = new Date();
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd H:mm aaa");
+        return ft.format(dNow);
     }
 
 
