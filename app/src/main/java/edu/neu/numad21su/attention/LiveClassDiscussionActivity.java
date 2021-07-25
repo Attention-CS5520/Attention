@@ -20,6 +20,16 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_class_discussion);
+        // Just adding a couple of items for now, will come from database in future.
+        MyItemCard itemCard = new MyItemCard("Welcome to the class!",
+                R.drawable.ic_launcher_background);
+        itemList.add(itemCard);
+
+        itemCard = new MyItemCard("Hope You are enjoying the class!",
+                R.drawable.ic_launcher_background);
+        itemList.add(itemCard);
+
+        createRecyclerView();
     }
 
     private void createRecyclerView() {

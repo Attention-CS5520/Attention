@@ -13,7 +13,7 @@ public class MyItemCard implements ItemClickListener {
 
 
     //Constructor
-    public MyItemCard(int imageSource, String itemName, String itemDesc, boolean isChecked) {
+    public MyItemCard(String itemDesc, int imageSource) {
 
         //this.itemName = itemName;
         this.itemDesc = itemDesc;
