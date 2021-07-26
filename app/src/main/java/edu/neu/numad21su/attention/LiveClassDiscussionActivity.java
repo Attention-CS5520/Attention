@@ -40,6 +40,10 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
                 "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!");
         itemList.add(itemCard);
 
+        itemCard = new MyItemCard("Hope You are enjoying the class! This is a great class " +
+                "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!");
+        itemList.add(itemCard);
+
         createRecyclerView();
     }
 
