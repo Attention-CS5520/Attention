@@ -21,26 +21,26 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_class_discussion);
         // Just adding a couple of items for now, will come from database in future.
-        MyItemCard itemCard = new MyItemCard("Welcome to the class!");
+        MyItemCard itemCard = new MyItemCard("1.Welcome to the class!");
         itemList.add(itemCard);
 
-        itemCard = new MyItemCard("Hope You are enjoying the class! This is a great class " +
+        itemCard = new MyItemCard("2.Hope You are enjoying the class! This is a great class " +
                 "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!");
         itemList.add(itemCard);
 
-        itemCard = new MyItemCard("Hope You are enjoying the class! This is a great class " +
+        itemCard = new MyItemCard("3.Hope You are enjoying the class! This is a great class " +
                 "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!");
         itemList.add(itemCard);
 
-        itemCard = new MyItemCard("Hope You are enjoying the class! This is a great class " +
+        itemCard = new MyItemCard("4.Hope You are enjoying the class! This is a great class " +
                 "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!");
         itemList.add(itemCard);
 
-        itemCard = new MyItemCard("Hope You are enjoying the class! This is a great class " +
+        itemCard = new MyItemCard("5.Hope You are enjoying the class! This is a great class " +
                 "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!");
         itemList.add(itemCard);
 
-        itemCard = new MyItemCard("Hope You are enjoying the class! This is a great class " +
+        itemCard = new MyItemCard("6.Hope You are enjoying the class! This is a great class " +
                 "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!");
         itemList.add(itemCard);
 
