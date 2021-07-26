@@ -44,10 +44,10 @@
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="@+id/recycler_view2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.964"
+        app:layout_constraintHorizontal_bias="0.959"
         app:layout_constraintStart_toStartOf="@+id/recycler_view2"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.191"
+        app:layout_constraintVertical_bias="0.207"
         app:srcCompat="@android:drawable/ic_input_add" />
 
     <androidx.fragment.app.FragmentContainerView
