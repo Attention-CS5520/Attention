@@ -24,19 +24,19 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
         MyItemCard itemCard = new MyItemCard("Welcome to the class!");
         itemList.add(itemCard);
 
-        itemCard = new MyItemCard("Hope You are enjoying the class! This is great class " +
+        itemCard = new MyItemCard("Hope You are enjoying the class! This is a great class " +
                 "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!");
         itemList.add(itemCard);
 
-        itemCard = new MyItemCard("Hope You are enjoying the class! This is great class " +
+        itemCard = new MyItemCard("Hope You are enjoying the class! This is a great class " +
                 "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!");
         itemList.add(itemCard);
 
-        itemCard = new MyItemCard("Hope You are enjoying the class! This is great class " +
+        itemCard = new MyItemCard("Hope You are enjoying the class! This is a great class " +
                 "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!");
         itemList.add(itemCard);
 
-        itemCard = new MyItemCard("Hope You are enjoying the class! This is great class " +
+        itemCard = new MyItemCard("Hope You are enjoying the class! This is a great class " +
                 "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!");
         itemList.add(itemCard);
 
