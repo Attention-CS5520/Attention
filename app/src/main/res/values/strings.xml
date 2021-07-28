@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Attention</string>
+    <string name="welcome_signin">Welcome/Sign-In/Sign-Up</string>
+    <string name="attendance">Attendance Screen</string>
+    <string name="in_class">In-Class Screen</string>
+    <string name="quiz_results">Quiz Results Screen</string>
+    <string name="quiz_screen">Quiz Screen</string>
+    <string name="class_discussion">Class Discussion Screen</string>
 </resources>
