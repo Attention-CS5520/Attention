@@ -8,9 +8,10 @@
 
     <TextView
         android:id="@+id/textView11"
-        android:layout_width="253dp"
+        android:layout_width="296dp"
         android:layout_height="89dp"
         android:layout_marginTop="8dp"
+        android:gravity="center"
         android:text="This is the question text. Choose your answer from the options."
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,12 +36,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.11" />
+        app:layout_constraintGuide_percent="0.09" />
 
     <Button
         android:id="@+id/button11"
-        android:layout_width="240dp"
-        android:layout_height="64dp"
+        android:layout_width="296dp"
+        android:layout_height="46dp"
         android:text="Option A"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,8 +50,8 @@
 
     <Button
         android:id="@+id/button12"
-        android:layout_width="240dp"
-        android:layout_height="64dp"
+        android:layout_width="296dp"
+        android:layout_height="48dp"
         android:layout_marginTop="12dp"
         android:text="Option B"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
@@ -61,8 +62,8 @@
 
     <Button
         android:id="@+id/button13"
-        android:layout_width="240dp"
-        android:layout_height="64dp"
+        android:layout_width="296dp"
+        android:layout_height="45dp"
         android:text="Option C"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,8 +72,8 @@
 
     <Button
         android:id="@+id/button14"
-        android:layout_width="240dp"
-        android:layout_height="64dp"
+        android:layout_width="296dp"
+        android:layout_height="48dp"
         android:text="Option D"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintEnd_toEndOf="parent"
@@ -113,16 +114,5 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.85" />
-
-    <Button
-        android:id="@+id/button15"
-        android:layout_width="70dp"
-        android:layout_height="51dp"
-        android:text="QUIT"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.27"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
