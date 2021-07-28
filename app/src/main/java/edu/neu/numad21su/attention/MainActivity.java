@@ -18,4 +18,9 @@ public class MainActivity extends AppCompatActivity {
         Intent activity2Intent = new Intent(getApplicationContext(), LiveClassDiscussionActivity.class);
         startActivity(activity2Intent);
     }
+
+    public void openQuizScreen(View view) {
+        Intent activity2Intent = new Intent(getApplicationContext(), QuizScreen.class);
+        startActivity(activity2Intent);
+    }
 }
