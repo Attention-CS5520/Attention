@@ -15,4 +15,6 @@
     <string name="quiz_name">QUIZ_NAME</string>
     <string name="percent">PERCENT</string>
     <string name="letter">LETTER</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
