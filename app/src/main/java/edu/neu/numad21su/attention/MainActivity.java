@@ -23,4 +23,11 @@ public class MainActivity extends AppCompatActivity {
         Intent activity2Intent = new Intent(getApplicationContext(), QuizScreen.class);
         startActivity(activity2Intent);
     }
+    public void goToAttendance(View view) {
+      MainActivity.this.startActivity(new Intent(MainActivity.this, AttendanceActivity.class));
+    }
+
+    public void goToQuizResults(View view) {
+      MainActivity.this.startActivity(new Intent(MainActivity.this, QuizResults.class));
+    }
 }

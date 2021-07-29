@@ -1,5 +1,20 @@
 <resources>
     <string name="app_name">Attention</string>
+    <string name="welcome_message">WELCOME_MESSAGE</string>
+    <string name="app_banner">ATTENTION</string>
+    <string name="login_method_prompt">Let\'s take attendance!</string>
+    <string name="autowave_button">BEGIN AUTOWAVE</string>
+    <string name="question_text">QUESTION_TEXT</string>
+    <string name="answer_text">ANSWER_TEXT</string>
+    <string name="answer_1_amount">25%</string>
+    <string name="answer_2_amount">25%</string>
+    <string name="answer_3_amount">25%</string>
+    <string name="answer_4_amount">25%</string>
+    <string name="quiz_results_title">Quiz Results</string>
+    <string name="user_name">USER_NAME</string>
+    <string name="quiz_name">QUIZ_NAME</string>
+    <string name="percent">PERCENT</string>
+    <string name="letter">LETTER</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
