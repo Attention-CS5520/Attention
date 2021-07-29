@@ -5,9 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
-    <Button
-        android:id="@+id/Discussion"
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/class_discussion"
@@ -57,13 +56,25 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/InClass"
+        android:id="@+id/live_class_discussion_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/in_class"
-        app:layout_constraintBottom_toTopOf="@id/Discussion"
+        android:layout_marginTop="50dp"
+        android:text="LiveClassDiscussion"
+        android:onClick="openLiveClassDiscussion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/Attendance" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="openQuizScreen"
+        android:text="Quiz Screen"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
