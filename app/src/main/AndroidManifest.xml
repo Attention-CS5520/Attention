@@ -11,10 +11,12 @@
         android:theme="@style/Theme.Attention">
         <activity android:name=".QuizScreen"></activity>
         <activity android:name=".LiveClassDiscussionActivity" />
+        <activity android:name=".QuizResults"/>
+        <activity android:name=".AttendanceActivity"/>
+        <activity android:name=".ui.login.LoginActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -40,7 +40,7 @@
             android:text="@string/login_method_prompt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/login_method-_prompt"
+            android:id="@+id/login_method_prompt"
             android:textColor="#FFFFFF"
             android:textSize="22sp"
             app:layout_constraintTop_toTopOf="parent"
