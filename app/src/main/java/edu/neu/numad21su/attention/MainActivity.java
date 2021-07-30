@@ -36,4 +36,10 @@ public class MainActivity extends AppCompatActivity {
     public void goToWelcomeScreen(View view) {
         MainActivity.this.startActivity(new Intent(MainActivity.this, LoginActivity.class));
     }
+
+    public void goToInClassScreen(View view){
+
+        MainActivity.this.startActivity(new Intent(MainActivity.this, InClass.class));
+
+    }
 }

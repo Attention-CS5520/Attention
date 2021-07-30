@@ -1,11 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="ask_a_question" type="id">ask_a_question</item>
-    <item name="question_input" type="id">question_input</item>
-    <item name="live_class_discussion" type="id">live_class_discussion</item>
-    <item name="discussionText1" type="id">discussionText1</item>
-    <item name="discussionText2" type="id">discussionText2</item>
-    <item name="discussionText3" type="id">discussionText3</item>
-    <item name="moreText" type="id">moreText</item>
-    <item name="submitButton" type="id">submitButton</item>
+
 </resources>

@@ -14,6 +14,7 @@
         <activity android:name=".QuizResults"/>
         <activity android:name=".AttendanceActivity"/>
         <activity android:name=".ui.login.LoginActivity"/>
+        <activity android:name=".InClass"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
