@@ -56,4 +56,17 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
         recyclerView.setAdapter(rviewAdapter);
         recyclerView.setLayoutManager(rLayoutManger);
     }
+
+    // A method to take in a JSON and produce a MyItemCard
+    private MyItemCard createItemCard(){
+
+        String itemDesc;
+        String itemTime;
+
+
+
+        MyItemCard newItemCard = new MyItemCard(itemDesc, itemTime);
+
+    }
+
 }
