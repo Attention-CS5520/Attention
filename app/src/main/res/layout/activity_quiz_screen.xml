@@ -7,7 +7,7 @@
     tools:context=".QuizScreen">
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/quiz_screen_question_text"
         android:layout_width="296dp"
         android:layout_height="89dp"
         android:layout_marginTop="8dp"
@@ -39,9 +39,10 @@
         app:layout_constraintGuide_percent="0.09" />
 
     <Button
-        android:id="@+id/button11"
+        android:id="@+id/quiz_screen_optionA"
         android:layout_width="296dp"
         android:layout_height="46dp"
+        android:onClick="onOptionClick"
         android:text="Option A"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,10 +50,11 @@
         app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
     <Button
-        android:id="@+id/button12"
+        android:id="@+id/quiz_screen_optionB"
         android:layout_width="296dp"
         android:layout_height="48dp"
         android:layout_marginTop="12dp"
+        android:onClick="onOptionClick"
         android:text="Option B"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,9 +63,10 @@
         app:layout_constraintTop_toTopOf="@+id/guideline4" />
 
     <Button
-        android:id="@+id/button13"
+        android:id="@+id/quiz_screen_optionC"
         android:layout_width="296dp"
         android:layout_height="45dp"
+        android:onClick="onOptionClick"
         android:text="Option C"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,9 +74,10 @@
         app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
     <Button
-        android:id="@+id/button14"
+        android:id="@+id/quiz_screen_optionD"
         android:layout_width="296dp"
         android:layout_height="48dp"
+        android:onClick="onOptionClick"
         android:text="Option D"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintEnd_toEndOf="parent"
