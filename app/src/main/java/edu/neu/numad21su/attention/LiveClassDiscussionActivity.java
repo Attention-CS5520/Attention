@@ -5,7 +5,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class LiveClassDiscussionActivity extends AppCompatActivity {
@@ -44,6 +50,17 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
                 "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!");
         itemList.add(itemCard);
 
+        // ItemCard with sample JSON object
+        try {
+            itemCard = createItemCard(makeJSON());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // Adding the sample item to the list
+        itemList.add(itemCard);
+
+
         createRecyclerView();
     }
 
@@ -58,14 +75,29 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
     }
 
     // A method to take in a JSON and produce a MyItemCard
-    private MyItemCard createItemCard(){
+    private MyItemCard createItemCard(JSONObject jsonObject){
 
-        String itemDesc;
-        String itemTime;
-
+        String itemDesc = "desc";
 
 
-        MyItemCard newItemCard = new MyItemCard(itemDesc, itemTime);
+        MyItemCard newItemCard = new MyItemCard(itemDesc);
+
+        return newItemCard;
+
+    }
+
+    JSONObject makeJSON() throws JSONException {
+
+        // creating JSONObject
+        JSONObject jo = new JSONObject();
+
+        // putting data to JSONObject
+        jo.put("ItemDesc", "desc 1");
+
+
+
+        return jo;
+
 
     }
 
