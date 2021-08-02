@@ -30,6 +30,10 @@
     <string name="quiz_name">QUIZ_NAME</string>
     <string name="percent">PERCENT</string>
     <string name="letter">LETTER</string>
+    <string name="signUp">Sign Up</string>
+    <string name="firstName">First Name</string>
+    <string name="lastName">Last Name</string>
+    <string name="registrationInstructions">Use this form to register for a new account. If you are registering with a Univeristy, use your University issued e-mail address to ensure accurate records keeping by your instructor</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
