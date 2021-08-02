@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -80,17 +81,30 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 //                "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!");
 //        itemList.add(itemCard);
 
+
+
+
+
         // ItemCard with sample JSON object
         try {
-            MyItemCard itemCard2 = createItemCard(makeJSON());
+            MyItemCard itemCard = createItemCard(makeJSON());
 
-            itemList.add(itemCard2);
+            itemList.add(itemCard);
+
+            // Put String data in intent, start activity:
+            Intent i = new Intent(LiveClassDiscussionActivity.this, InClass.class);
+            i.putExtra("DISCUSSION_TEXT", itemCard.getItemDesc());
+            //startActivity(i);
+
+
 
 
         } catch (JSONException e) {
             //e.printStackTrace();
             Log.d("JSON", "JSON exception found");
         }
+
+
 
 
         createRecyclerView();
@@ -118,6 +132,7 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
     }
 
+    // Making a sample JSON object
     JSONObject makeJSON() throws JSONException {
 
         // creating JSONObject

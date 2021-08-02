@@ -56,7 +56,7 @@ public class InClass extends AppCompatActivity {
         EditText questionInput = findViewById(R.id.question_input);
         questionInput.setHint("Enter your question here");
 
-        // Getting the discussion excerpts from the Class Discussion activity...
+
 
 
         // https://stackoverflow.com/questions/3510649/how-to-pass-a-value-from-one-activity-to-another-in-android
@@ -65,11 +65,15 @@ public class InClass extends AppCompatActivity {
         // i.putExtra("MY_kEY",String X);
 
 
+        // Getting the discussions from LiveClassDiscussion to display here
         Intent intent = getIntent();
-        String result = intent.getStringExtra("MY_KEY");
+        String liveDiscussion = intent.getStringExtra("DISCUSSION_TEXT");
+
+        discussion1 = findViewById(R.id.discussionText1);
+        discussion1.setText(liveDiscussion);
 
 
-        // Also have to get the header info
+        // Also have to get the header info [...]
 
 
         // Getting the user's question from the text field
@@ -119,8 +123,8 @@ public class InClass extends AppCompatActivity {
     public void see_all_discussion(View view) {
 
         // The user switches to the Class Discussion activity
-        // Intent switchActivityIntent = new Intent(this, ClassDiscussion.class);
-        // startActivity(switchActivityIntent);
+         Intent switchActivityIntent = new Intent(this, LiveClassDiscussionActivity.class);
+         startActivity(switchActivityIntent);
 
 
     }
