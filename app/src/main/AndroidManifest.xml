@@ -19,7 +19,6 @@
         <activity android:name=".LiveClassDiscussionActivity" />
         <activity android:name=".QuizResults"/>
         <activity android:name=".AttendanceActivity"/>
-        <activity android:name=".WelcomeLogin"/>
         <activity android:name=".InClass"/>
         <activity android:name=".MainActivity">
             <intent-filter>
