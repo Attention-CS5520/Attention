@@ -34,7 +34,7 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
     private FloatingActionButton floatingButton;
 
     ArrayList<CharSequence> arrayListCollection = new ArrayList<>();
-    ArrayAdapter<CharSequence> adapter;
+   // ArrayAdapter<CharSequence> adapter;
     EditText txt; // user input bar
 
     @Override
@@ -146,6 +146,7 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
     }
 
 
+    // Collects the user's discussion post. (Where does it go next?)
     public void collectInput(){
         // convert edit text to string
         String getInput = txt.getText().toString();
@@ -157,7 +158,7 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
         // add input into an data collection arraylist
         else {
             arrayListCollection.add(getInput);
-            adapter.notifyDataSetChanged();
+           // adapter.notifyDataSetChanged();
         }
     }
 
