@@ -85,7 +85,7 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
 
 
-        // ItemCard with sample JSON object
+        // ItemCard with sample JSON object- should come from database?
         try {
             MyItemCard itemCard = createItemCard(makeJSON());
 

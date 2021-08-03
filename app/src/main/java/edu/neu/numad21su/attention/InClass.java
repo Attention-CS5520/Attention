@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 public class InClass extends AppCompatActivity {
@@ -59,6 +61,30 @@ public class InClass extends AppCompatActivity {
 
 
 
+        // or get the first three discussion items as JSONs from FB, not the LiveClassDiscussion activity?
+
+        try {
+            JSONObject jsonObject = makeJSON();
+
+            String itemDesc = jsonObject.getString("ItemDesc");
+
+
+            discussion1.findViewById(R.id.InClassDiscussionText1);
+            discussion1.setText(itemDesc);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
+
+
+
+
         // https://stackoverflow.com/questions/3510649/how-to-pass-a-value-from-one-activity-to-another-in-android
         // Create intent in ClassDiscussion? Put String data in intent, start activity:
         // Intent i = new Intent(ClassDiscussion.this, InClass.class);
@@ -66,11 +92,11 @@ public class InClass extends AppCompatActivity {
 
 
         // Getting the discussions from LiveClassDiscussion to display here
-        Intent intent = getIntent();
-        String liveDiscussion = intent.getStringExtra("DISCUSSION_TEXT");
+       // Intent intent = getIntent();
+       // String liveDiscussion = intent.getStringExtra("DISCUSSION_TEXT");
 
-        discussion1 = findViewById(R.id.discussionText1);
-        discussion1.setText(liveDiscussion);
+        //discussion1 = findViewById(R.id.discussionText1);
+        //discussion1.setText(liveDiscussion);
 
 
         // Also have to get the header info [...]
@@ -128,4 +154,18 @@ public class InClass extends AppCompatActivity {
 
 
     }
+
+    // Making a sample JSON object
+    JSONObject makeJSON() throws JSONException {
+
+        // creating JSONObject
+        JSONObject jo = new JSONObject();
+
+        // putting data to JSONObject
+        jo.put("ItemDesc", "text from JSON object");
+
+        return jo;
+
+    }
+
 }
