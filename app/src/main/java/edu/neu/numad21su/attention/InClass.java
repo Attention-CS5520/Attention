@@ -31,11 +31,6 @@ public class InClass extends AppCompatActivity {
     // Instructor name
     private TextView instructorName;
 
-    // This is a question for the class and/or professor, entered by the user
-    private String userQuestion;
-
-    // This is a button for submitting the user's question
-    private Button submitButton;
 
     // This text area allows the user to access the full class discussion
     private TextView moreText;
@@ -55,8 +50,6 @@ public class InClass extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_class);
 
-        EditText questionInput = findViewById(R.id.question_input);
-        questionInput.setHint("Enter your question here");
 
         TextView discussion1 = findViewById(R.id.InClassDiscussionText1);
 
@@ -104,20 +97,6 @@ public class InClass extends AppCompatActivity {
         // Also have to get the header info [...]. Where does the header info come from? what format?
 
 
-        // Getting the user's question from the text field
-        userQuestion = questionInput.getText().toString();
-
-        // Setting up the submitButton.
-        // When the button is clicked, the submit_question() is triggered.
-        submitButton = findViewById(R.id.submitButton);
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                submit_question(v);
-
-            }
-        });
 
         // Setting up the More text
         moreText = findViewById(R.id.moreText);
@@ -137,14 +116,6 @@ public class InClass extends AppCompatActivity {
 
     }
 
-
-    // This method submits the user's question
-    public void submit_question(View view) {
-
-        // The question is sent to:
-
-
-    }
 
 
     // This method brings the user to the Class Discussion activity
