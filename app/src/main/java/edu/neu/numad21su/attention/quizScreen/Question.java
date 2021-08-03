@@ -11,12 +11,14 @@ import java.util.List;
 import edu.neu.numad21su.attention.R;
 
 public class Question {
+    String questionId;
     String questionText;
     String optionA;
     String optionB;
     String optionC;
     String optionD;
     String correctAnswer;
+
 
     public Question() {
     }
@@ -31,6 +33,13 @@ public class Question {
         this.correctAnswer = correctAnswer;
     }
 
+    public String getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(String questionId) {
+        this.questionId = questionId;
+    }
     public String getQuestionText() {
         return questionText;
     }
