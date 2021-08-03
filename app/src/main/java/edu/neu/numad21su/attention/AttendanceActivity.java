@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -30,7 +31,7 @@ import java.util.Random;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-//import static android.Manifest.permission.MANAGE_EXTERNAL_STORAGE;
+
 
 
 public class AttendanceActivity extends AppCompatActivity {
@@ -44,9 +45,13 @@ public class AttendanceActivity extends AppCompatActivity {
   public static final int RequestPermissionCode = 1;
   MediaPlayer mediaPlayer ;
 
+  //voice Recognizer
+    /*
   private ImageView iv_mic;
   private TextView tv_Speech_to_text;
   private static final int REQUEST_CODE_SPEECH_INPUT = 1;
+
+     */
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,7 @@ public class AttendanceActivity extends AppCompatActivity {
     setContentView(R.layout.activity_attendance);
 
     // voice recognizer
+      /*
     iv_mic = findViewById(R.id.iv_mic);
     tv_Speech_to_text = findViewById(R.id.tv_speech_to_text);
 
@@ -80,6 +86,8 @@ public class AttendanceActivity extends AppCompatActivity {
         }
       }
     });
+
+       */
     //
 
     buttonStart = (Button) findViewById(R.id.button);
@@ -104,12 +112,17 @@ public class AttendanceActivity extends AppCompatActivity {
                           CreateRandomAudioFileName(5) + "AudioRecording.3gp";
 
 
-          //
+          // checking if a file can be created
           try {
             File root = new File(Environment.getExternalStorageDirectory(), "Notes");
             if (!root.exists()) {
               root.mkdirs();
             }
+
+            if (!root.exists()) {
+              Log.i("file creation","Could not create a directory!!");
+            }
+
             File gpxfile = new File(root, "testfile");
             FileWriter writer = new FileWriter(gpxfile);
             writer.append("hello world");
@@ -120,28 +133,7 @@ public class AttendanceActivity extends AppCompatActivity {
             e.printStackTrace();
           }
 
-          //
-          //
-          //java.io.File AudioSavePathInDevice = new java.io.File(Environment
-          //        .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-          //        + "/AudioRecording.3gp");
 
-          //java.io.File AudioSavePathInDevice = new java.io.File((AttendanceActivity.this
-          //        .getApplicationContext().getFileStreamPath("AudioRecording.3gp")
-          //        .getPath()));
-
-          //
-          /*
-          File directory = new File(AudioSavePathInDevice).getParentFile();
-          if (!directory.exists() && !directory.mkdirs()) {
-            try {
-              throw new IOException("Path to file could not be created.");
-            } catch (IOException e) {
-              e.printStackTrace();
-            }
-          }
-          */
-          //
 
           MediaRecorderReady();
 
@@ -245,6 +237,7 @@ public class AttendanceActivity extends AppCompatActivity {
   }
 
   //voice recognizer
+    /*
   @Override
   protected void onActivityResult(int requestCode, int resultCode,
                                   @Nullable Intent data)
@@ -259,6 +252,8 @@ public class AttendanceActivity extends AppCompatActivity {
       }
     }
   }
+
+     */
 
   //
 
@@ -284,7 +279,7 @@ public class AttendanceActivity extends AppCompatActivity {
 
   private void requestPermission() {
     ActivityCompat.requestPermissions(AttendanceActivity.this, new
-            String[]{WRITE_EXTERNAL_STORAGE, RECORD_AUDIO, READ_EXTERNAL_STORAGE/*, STORAGE_SERVICE*/}, RequestPermissionCode);
+            String[]{WRITE_EXTERNAL_STORAGE, RECORD_AUDIO, READ_EXTERNAL_STORAGE}, RequestPermissionCode);
   }
 
   @Override
@@ -300,8 +295,7 @@ public class AttendanceActivity extends AppCompatActivity {
                   PackageManager.PERMISSION_GRANTED;
           boolean ReadPermission = grantResults[2] ==
                   PackageManager.PERMISSION_GRANTED;
-          //boolean StoragePermission = grantResults[3] ==
-          //        PackageManager.PERMISSION_GRANTED;
+
 
           if (/*StoragePermission && */RecordPermission && ReadPermission && WritePermission) {
             Toast.makeText(AttendanceActivity.this, "Permission Granted",
@@ -315,19 +309,21 @@ public class AttendanceActivity extends AppCompatActivity {
   }
 
   public boolean checkPermission() {
-    int result = ContextCompat.checkSelfPermission(getApplicationContext(),
-            WRITE_EXTERNAL_STORAGE);
-    int result1 = ContextCompat.checkSelfPermission(getApplicationContext(),
-            RECORD_AUDIO);
-    int result2 = ContextCompat.checkSelfPermission(getApplicationContext(),
-            READ_EXTERNAL_STORAGE);
-    //int result3 = ContextCompat.checkSelfPermission(getApplicationContext(),
-    //        STORAGE_SERVICE);
-    return result == PackageManager.PERMISSION_GRANTED &&
-            result1 == PackageManager.PERMISSION_GRANTED && result2 == PackageManager.PERMISSION_GRANTED;
-            //&& result3 == PackageManager.PERMISSION_GRANTED;
+
+    boolean result = (ContextCompat.checkSelfPermission(this,
+            WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+
+    boolean result1 = (ContextCompat.checkSelfPermission(this,
+            RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED);
+
+    boolean result2 = (ContextCompat.checkSelfPermission(this,
+            READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+      Log.i("result", String.valueOf(result));
+      Log.i("result1", String.valueOf(result1));
+      Log.i("result2", String.valueOf(result2));
+      return result && result1 && result2;
+
+
   }
 }
 
-  //}
-//}
