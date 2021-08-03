@@ -33,6 +33,7 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
     private ArrayList<MyItemCard> itemList = new ArrayList<>();
     private FloatingActionButton floatingButton;
 
+    // Gathering a new discussion post from the user
     ArrayList<CharSequence> arrayListCollection = new ArrayList<>();
    // ArrayAdapter<CharSequence> adapter;
     EditText txt; // user input bar
