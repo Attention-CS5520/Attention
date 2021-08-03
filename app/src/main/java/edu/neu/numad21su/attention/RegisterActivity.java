@@ -16,22 +16,18 @@ import com.google.firebase.auth.FirebaseUser;
 public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG = "EmailPassword";
-    // [START declare_auth]
+    // Create a Firebase Authentication Variable
     private FirebaseAuth mAuth;
-    // [END declare_auth]
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // [START initialize_auth]
-        // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.fragment_register);
-        // [END initialize_auth]
     }
 
-    // [START on_start_check_user]
     @Override
+    // Check to see if the user is already logged in on device
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
@@ -41,6 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    // Take the E-Mail and Password input and save it to a String to create the account
     public void registerAccount(View view){
         EditText rawEmail, rawPassword;
         rawEmail = findViewById(R.id.editEmailAddress);
@@ -50,6 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
         createAccount(email, password);
     }
 
+    // Logic that communicated with Firebase and actually creates the account on DB
     private void createAccount(String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -71,6 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
+    //
     private void signIn(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
