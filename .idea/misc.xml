@@ -11,8 +11,11 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_quiz_results.xml" value="0.30512820512820515" />
         <entry key="app/src/main/res/layout/activity_quiz_screen.xml" value="0.30512820512820515" />
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.12291666666666666" />
         <entry key="app/src/main/res/layout/activity_welcome_login.xml" value="0.21510416666666668" />
+        <entry key="app/src/main/res/layout/activity_welcome_login2.xml" value="0.1515625" />
         <entry key="app/src/main/res/layout/fragment_navigation.xml" value="0.21510416666666668" />
+        <entry key="app/src/main/res/layout/fragment_register.xml" value="0.165" />
       </map>
     </option>
   </component>

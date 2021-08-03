@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "315561998159",
+    "project_id": "attentiondatabaseprimary",
+    "storage_bucket": "attentiondatabaseprimary.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:315561998159:android:7f2963bcbdd0efb4ccf73a",
+        "android_client_info": {
+          "package_name": "edu.neu.numad21su.attention"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "315561998159-frpn99gn0igkdn4ai8c5kdkjb1pvf2kd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwLNCRWhQSqRFKk5_CtsCl5UkKJMPO9oY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "315561998159-frpn99gn0igkdn4ai8c5kdkjb1pvf2kd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:315561998159:android:652f141259005cc3ccf73a",
+        "android_client_info": {
+          "package_name": "neu.edu.numad21su.attention"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "315561998159-frpn99gn0igkdn4ai8c5kdkjb1pvf2kd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwLNCRWhQSqRFKk5_CtsCl5UkKJMPO9oY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "315561998159-frpn99gn0igkdn4ai8c5kdkjb1pvf2kd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

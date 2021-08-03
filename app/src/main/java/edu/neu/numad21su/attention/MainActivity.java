@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import edu.neu.numad21su.attention.ui.login.LoginActivity;
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -34,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToWelcomeScreen(View view) {
-        MainActivity.this.startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        MainActivity.this.startActivity(new Intent(MainActivity.this, WelcomeLogin.class));
     }
 
     public void goToInClassScreen(View view){
