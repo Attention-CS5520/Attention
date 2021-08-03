@@ -41,7 +41,7 @@ public class InClass extends AppCompatActivity {
     private TextView moreText;
 
     // The first discussion excerpt
-    private TextView discussion1;
+    //private TextView discussion1;
 
     // The second discussion excerpt
     private TextView discussion2;
@@ -58,6 +58,8 @@ public class InClass extends AppCompatActivity {
         EditText questionInput = findViewById(R.id.question_input);
         questionInput.setHint("Enter your question here");
 
+        TextView discussion1 = findViewById(R.id.InClassDiscussionText1);
+
 
 
 
@@ -69,7 +71,7 @@ public class InClass extends AppCompatActivity {
             String itemDesc = jsonObject.getString("ItemDesc");
 
 
-            discussion1.findViewById(R.id.InClassDiscussionText1);
+
             discussion1.setText(itemDesc);
 
 
@@ -99,7 +101,7 @@ public class InClass extends AppCompatActivity {
         //discussion1.setText(liveDiscussion);
 
 
-        // Also have to get the header info [...]
+        // Also have to get the header info [...]. Where does the header info come from? what format?
 
 
         // Getting the user's question from the text field
