@@ -212,6 +212,7 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
     // A method to add a new discussion document to the post collection, gathered from user input
     private void addPost(){
 
+        // Getting the user's discussion post
 
         AlertDialog.Builder questionAlert = new AlertDialog.Builder(this);
         final EditText userQuestion = new EditText(this);
