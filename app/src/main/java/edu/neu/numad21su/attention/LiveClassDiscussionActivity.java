@@ -220,6 +220,8 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
     // A method to add a new discussion document to the post collection
     private void addPost(){
 
+        // Also create and display ItemCard from post?
+
         SystemClock clock = SystemClock.getInstance();
 
 
