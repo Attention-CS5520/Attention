@@ -1,10 +1,22 @@
 package edu.neu.numad21su.attention;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +27,10 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 public class InClass extends AppCompatActivity {
+
+    private FirebaseFirestore db;
+
+    private DocumentReference documentReference;
 
     // Class name
     private TextView className;
@@ -51,26 +67,36 @@ public class InClass extends AppCompatActivity {
         setContentView(R.layout.activity_in_class);
 
 
-        TextView discussion1 = findViewById(R.id.InClassDiscussionText1);
+
+
+
+
+        // Connect with firebase
+        db = FirebaseFirestore.getInstance();
+
+        getClassDiscussion();
 
 
 
 
         // or get the first three discussion items as JSONs from FB, not the LiveClassDiscussion activity?
 
-        try {
-            JSONObject jsonObject = makeJSON();
+//        try {
+//            JSONObject jsonObject = makeJSON();
+//
+//            String itemDesc = jsonObject.getString("ItemDesc");
+//
+//
+//
+//            discussion1.setText(itemDesc);
+//
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
 
-            String itemDesc = jsonObject.getString("ItemDesc");
 
 
-
-            discussion1.setText(itemDesc);
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
 
 
@@ -112,6 +138,37 @@ public class InClass extends AppCompatActivity {
 
             }
         });
+
+
+    }
+
+    // https://dzone.com/articles/cloud-firestore-read-write-update-and-delete
+
+    public void getClassDiscussion(){
+
+        TextView discussion1 = findViewById(R.id.InClassDiscussionText1);
+
+        DocumentReference post = db.collection("posts")
+                .document("L6yXHPcK6cg7v7mTG0Oc");
+
+        post.get().addOnCompleteListener(new OnCompleteListener < DocumentSnapshot > () {
+            @Override
+            public void onComplete(@NonNull Task < DocumentSnapshot > task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot doc = task.getResult();
+                    StringBuilder fields = new StringBuilder("");
+                    fields.append("author: ").append(doc.get("author"));
+                    discussion1.setText(fields.toString());
+                }
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
 
 
     }
