@@ -1,26 +1,30 @@
-[
-  {
-    "questionText": "What would you rate this course out of 5?",
-    "optionA": "5",
-    "optionB": "4",
-    "optionC": "3",
-    "optionD": "2",
-    "correctAnswer": "A"
-  },
-  {
-    "questionText": "What is your name?",
-    "optionA": "idk",
-    "optionB": "abc",
-    "optionC": "def",
-    "optionD": "ijh",
-    "correctAnswer": "B"
-  },
-  {
-    "questionText": "What is HTML",
-    "optionA": "hyperman",
-    "optionB": "hypetextmarclan",
-    "optionC": "hi tina my love",
-    "optionD": "hyper text markup language",
-    "correctAnswer": "D"
-  }
-]
+{
+  "quizId" : "1",
+  "classId" : "1",
+  "questions" : [
+    {
+      "questionText": "What would you rate this course out of 5?",
+      "optionA": "5",
+      "optionB": "4",
+      "optionC": "3",
+      "optionD": "2",
+      "correctAnswer": "A"
+    },
+    {
+      "questionText": "What is your name?",
+      "optionA": "idk",
+      "optionB": "abc",
+      "optionC": "def",
+      "optionD": "ijh",
+      "correctAnswer": "B"
+    },
+    {
+      "questionText": "What is HTML",
+      "optionA": "hyperman",
+      "optionB": "hypetextmarclan",
+      "optionC": "hi tina my love",
+      "optionD": "hyper text markup language",
+      "correctAnswer": "D"
+    }
+  ]
+}

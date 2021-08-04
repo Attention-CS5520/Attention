@@ -15,6 +15,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import edu.neu.numad21su.attention.quizScreen.Question;
+import edu.neu.numad21su.attention.quizScreen.Quiz;
 
 public class QuizScreen extends AppCompatActivity {
 
@@ -24,6 +25,7 @@ public class QuizScreen extends AppCompatActivity {
     private Button optionB;
     private Button optionC;
     private Button optionD;
+    private Quiz quiz;
     private List<Question> questionList;
     private int curQuestion = 0;
 
@@ -38,9 +40,10 @@ public class QuizScreen extends AppCompatActivity {
         optionD = findViewById(R.id.quiz_screen_optionD);
         String jsonFileString = Question.getJsonQuiz(getApplicationContext());
         Gson gson = new Gson();
-        Type listUserType = new TypeToken<List<Question>>() { }.getType();
+//        Type listUserType = new TypeToken<List<Question>>() { }.getType();
         // get question list from json file
-        questionList = gson.fromJson(jsonFileString, listUserType);
+        quiz = gson.fromJson(jsonFileString, Quiz.class);
+        questionList = quiz.getQuestions();
         switchQuestion(-1);
     }
 
