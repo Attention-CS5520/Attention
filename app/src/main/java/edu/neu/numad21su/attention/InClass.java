@@ -79,7 +79,7 @@ public class InClass extends AppCompatActivity {
         // Connect with firebase
         db = FirebaseFirestore.getInstance();
 
-        addPost();
+        getClassDiscussion();
 
 
 
