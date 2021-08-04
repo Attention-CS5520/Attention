@@ -1,5 +1,6 @@
 package edu.neu.numad21su.attention;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,15 +17,23 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.installations.time.SystemClock;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LiveClassDiscussionActivity extends AppCompatActivity {
+
+    private FirebaseFirestore db;
 
     private Discussion myDiscussion = new Discussion("", "", "");
     private RecyclerView recyclerView;
@@ -42,6 +51,9 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Connect with firebase
+        db = FirebaseFirestore.getInstance();
+
 
         setContentView(R.layout.activity_live_class_discussion);
 
@@ -53,7 +65,7 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
                 Log.d("onClick", "floating action onClick() reached");
 
-                addQuestion(v);
+                addPost();
             }
         });
 
@@ -204,4 +216,41 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
 
     }
+
+    // A method to add a new discussion document to the post collection
+    private void addPost(){
+
+        SystemClock clock = SystemClock.getInstance();
+
+
+        Map<String, Object> newPost = new HashMap<>();
+        newPost.put("author", "James Harlowe");
+        newPost.put("classId", "classId");
+        newPost.put("message", "Here is my message");
+        newPost.put("subject", "Reply");
+        newPost.put("date", clock.currentTimeMillis());
+
+        db.collection("discussion_posts").document("user_post4")
+                .set(newPost).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(@NonNull Void unused) {
+                Toast.makeText(LiveClassDiscussionActivity.this, "Posted!", Toast.LENGTH_SHORT).show();
+
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(LiveClassDiscussionActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                Log.d("error", e.toString());
+
+            }
+        });
+
+
+
+
+    }
+
+
 }
