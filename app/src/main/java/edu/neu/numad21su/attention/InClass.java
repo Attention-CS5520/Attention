@@ -77,60 +77,10 @@ public class InClass extends AppCompatActivity {
 
 
 
-
-
-
         // Connect with firebase
         db = FirebaseFirestore.getInstance();
 
         getClassDiscussion();
-
-
-
-
-        // or get the first three discussion items as JSONs from FB, not the LiveClassDiscussion activity?
-
-//        try {
-//            JSONObject jsonObject = makeJSON();
-//
-//            String itemDesc = jsonObject.getString("ItemDesc");
-//
-//
-//
-//            discussion1.setText(itemDesc);
-//
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-
-
-
-
-
-
-
-
-
-
-
-
-        // https://stackoverflow.com/questions/3510649/how-to-pass-a-value-from-one-activity-to-another-in-android
-        // Create intent in ClassDiscussion? Put String data in intent, start activity:
-        // Intent i = new Intent(ClassDiscussion.this, InClass.class);
-        // i.putExtra("MY_kEY",String X);
-
-
-        // Getting the discussions from LiveClassDiscussion to display here
-       // Intent intent = getIntent();
-       // String liveDiscussion = intent.getStringExtra("DISCUSSION_TEXT");
-
-        //discussion1 = findViewById(R.id.discussionText1);
-        //discussion1.setText(liveDiscussion);
-
-
-        // Also have to get the header info [...]. Where does the header info come from? what format?
-
 
 
         // Setting up the More text
@@ -150,6 +100,11 @@ public class InClass extends AppCompatActivity {
 
 
     }
+
+    // A method to get the current class info [...]
+
+
+
 
     // https://dzone.com/articles/cloud-firestore-read-write-update-and-delete
 
@@ -273,17 +228,6 @@ public class InClass extends AppCompatActivity {
 
     }
 
-    // Making a sample JSON object
-    JSONObject makeJSON() throws JSONException {
 
-        // creating JSONObject
-        JSONObject jo = new JSONObject();
-
-        // putting data to JSONObject
-        jo.put("ItemDesc", "text from JSON object");
-
-        return jo;
-
-    }
 
 }
