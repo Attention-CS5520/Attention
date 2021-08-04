@@ -15,12 +15,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.installations.time.SystemClock;
 
 import org.json.JSONException;
@@ -70,6 +76,11 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
         });
 
 
+
+        createRecyclerView();
+
+        getMessageBoard();
+
         // Just adding a couple of items for now, will come from database in future.
 //        MyItemCard itemCard = new MyItemCard("1.Welcome to the class!");
 //        itemList.add(itemCard);
@@ -99,28 +110,28 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
 
         // ItemCard with sample JSON object- should come from database?
-        try {
-            MyItemCard itemCard = createItemCard(makeJSON());
-
-            itemList.add(itemCard);
-
-            // Put String data in intent, start activity:
-            Intent i = new Intent(LiveClassDiscussionActivity.this, InClass.class);
-            i.putExtra("DISCUSSION_TEXT", itemCard.getItemDesc());
-            //startActivity(i);
-
-
-
-
-        } catch (JSONException e) {
-            //e.printStackTrace();
-            Log.d("JSON", "JSON exception found");
-        }
-
-
+//        try {
+//            MyItemCard itemCard = createItemCard(makeJSON());
+//
+//            itemList.add(itemCard);
+//
+//            // Put String data in intent, start activity:
+//            Intent i = new Intent(LiveClassDiscussionActivity.this, InClass.class);
+//            i.putExtra("DISCUSSION_TEXT", itemCard.getItemDesc());
+//            //startActivity(i);
+//
+//
+//
+//
+//        } catch (JSONException e) {
+//            //e.printStackTrace();
+//            Log.d("JSON", "JSON exception found");
+//        }
 
 
-        createRecyclerView();
+
+
+
     }
 
     private void createRecyclerView() {
@@ -142,19 +153,6 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
         MyItemCard newItemCard = new MyItemCard(itemDesc);
 
         return newItemCard;
-
-    }
-
-    // Making a sample JSON object
-    JSONObject makeJSON() throws JSONException {
-
-        // creating JSONObject
-        JSONObject jo = new JSONObject();
-
-        // putting data to JSONObject
-        jo.put("ItemDesc", "text from JSON object");
-
-        return jo;
 
     }
 
@@ -217,11 +215,47 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
     }
 
-    // A method to add a new discussion document to the post collection
+    // A method to add a new discussion document to the post collection, gathered from user input
     private void addPost(){
 
-        // Also create and display ItemCard from post?
 
+        AlertDialog.Builder questionAlert = new AlertDialog.Builder(this);
+        final EditText userQuestion = new EditText(this);
+
+        questionAlert.setTitle("Enter your question:");
+
+        questionAlert.setView(userQuestion);
+        LinearLayout alertLayout = new LinearLayout(this);
+        alertLayout.setOrientation(LinearLayout.VERTICAL);
+        alertLayout.addView(userQuestion);
+        questionAlert.setView(alertLayout);
+
+        questionAlert.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                txt = userQuestion; // storing the user input
+                collectInput();
+
+
+            }
+        });
+
+        questionAlert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dialog.cancel(); // closes dialog
+
+
+            }
+        });
+
+        questionAlert.create();
+        questionAlert.show();
+
+        // Make an itemCard from the user's message
+        //createItemCard();
+
+
+
+        // Post the user's message to the database
         SystemClock clock = SystemClock.getInstance();
 
 
@@ -248,6 +282,54 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
             }
         });
+
+
+
+
+    }
+
+
+    // Getting the current state of the message board
+    private void getMessageBoard(){
+
+         // Make as many ItemCards as needed
+
+
+        // Get all discussion posts
+        Query post_history = db.collection("discussion_posts").orderBy("date");
+
+        post_history.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                if (task.isSuccessful()){
+
+                    QuerySnapshot querySnapshot = task.getResult();
+
+                    for (int i = 0; i < querySnapshot.size(); i++){
+
+                        String message = (String) querySnapshot.getDocuments().get(i).get("message");
+
+                        Log.d("Message", message);
+
+
+
+
+
+                    }
+
+                }
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Log.d("discussions", "discussion history not found");
+
+            }
+        });
+
 
 
 
