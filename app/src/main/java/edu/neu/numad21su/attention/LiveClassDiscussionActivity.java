@@ -7,15 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,14 +19,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.installations.time.SystemClock;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 
 import java.util.ArrayList;
@@ -40,6 +32,7 @@ import java.util.Map;
 public class LiveClassDiscussionActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
+    private ArrayList<String> messageList = new ArrayList<>();
 
     private Discussion myDiscussion = new Discussion("", "", "");
     private RecyclerView recyclerView;
@@ -75,10 +68,21 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
             }
         });
 
-
+//        ArrayList<String> messageList = getMessageBoard();
+//
+//
+//        for (int i = 0; i < messageList.size(); i++){
+//
+//            MyItemCard itemCard = new MyItemCard(messageList.get(i));
+//
+//            itemList.add(itemCard);
+//
+//        }
+//
+//
         getMessageBoard();
-
-        createRecyclerView();
+//
+//        createRecyclerView();
 
 
 
@@ -298,21 +302,30 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
                         String message = (String) querySnapshot.getDocuments().get(i).get("message");
 
-                        MyItemCard itemCard = new MyItemCard(message);
+                        messageList.add(message);
 
-                        itemList.add(itemCard);
+                        for (int k = 0; k < messageList.size(); k++){
 
-                        Log.d("item", "itemCard added to itemList");
+                            MyItemCard itemCard = new MyItemCard(messageList.get(i));
 
+                            itemList.add(itemCard);
 
+                        }
 
 
 
                     }
 
+
                 }
 
+              createRecyclerView();
+
+
             }
+
+
+
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
@@ -321,8 +334,6 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
             }
         });
-
-
 
 
 
