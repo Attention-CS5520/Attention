@@ -76,10 +76,11 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
         });
 
 
+        getMessageBoard();
 
         createRecyclerView();
 
-        getMessageBoard();
+
 
         // Just adding a couple of items for now, will come from database in future.
 //        MyItemCard itemCard = new MyItemCard("1.Welcome to the class!");
@@ -144,17 +145,6 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(rLayoutManger);
     }
 
-    // A method to take in a JSON and produce a MyItemCard
-    private MyItemCard createItemCard(JSONObject jsonObject) throws JSONException {
-
-        String itemDesc = jsonObject.getString("ItemDesc");
-
-
-        MyItemCard newItemCard = new MyItemCard(itemDesc);
-
-        return newItemCard;
-
-    }
 
 
     // Collects the user's discussion post. (Where does it go next?)
@@ -292,8 +282,6 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
     // Getting the current state of the message board
     private void getMessageBoard(){
 
-         // Make as many ItemCards as needed
-
 
         // Get all discussion posts
         Query post_history = db.collection("discussion_posts").orderBy("date");
@@ -310,7 +298,11 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
                         String message = (String) querySnapshot.getDocuments().get(i).get("message");
 
-                        Log.d("Message", message);
+                        MyItemCard itemCard = new MyItemCard(message);
+
+                        itemList.add(itemCard);
+
+                        Log.d("item", "itemCard added to itemList");
 
 
 
