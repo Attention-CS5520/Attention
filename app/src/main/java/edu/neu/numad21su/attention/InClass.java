@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -21,10 +22,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class InClass extends AppCompatActivity {
 
@@ -74,7 +79,7 @@ public class InClass extends AppCompatActivity {
         // Connect with firebase
         db = FirebaseFirestore.getInstance();
 
-        getClassDiscussion();
+        addPost();
 
 
 
@@ -166,8 +171,41 @@ public class InClass extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
 
+                        Log.d("Failed", "item not read from firebase");
+
                     }
                 });
+
+
+
+    }
+
+    // A method to add a new discussion document to the post collection
+    private void addPost(){
+
+        Map<String, Object> newPost = new HashMap<>();
+        newPost.put("author", "Bilbo Baggins");
+        newPost.put("classId", "classId");
+        newPost.put("message", "Time for tea");
+        newPost.put("subject", "Comments");
+
+        db.collection("discussion_posts").document("user_post")
+                .set(newPost).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(@NonNull Void unused) {
+                Toast.makeText(InClass.this, "Posted!", Toast.LENGTH_SHORT).show();
+
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(InClass.this, e.toString(), Toast.LENGTH_SHORT).show();
+                Log.d("error", e.toString());
+
+            }
+        });
+
 
 
 
