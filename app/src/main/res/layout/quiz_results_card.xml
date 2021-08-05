@@ -12,7 +12,7 @@
             android:layout_margin="5dp">
 
         <TextView
-                android:id="@+id/quiz_title"
+                android:id="@+id/quiz_manager_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
@@ -25,7 +25,7 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/quiz_title"
+                android:layout_below="@+id/quiz_manager_title"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:id="@+id/quiz_last_edit"
@@ -35,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_checkmark"
-                android:id="@+id/delete_quiz_icon"
+                android:id="@+id/correct_indicator"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="7dp"
@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_close"
-                android:id="@+id/edit_quiz_icon"
+                android:id="@+id/incorrect_indicator"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="7dp"

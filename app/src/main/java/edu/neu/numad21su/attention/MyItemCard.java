@@ -53,9 +53,4 @@ public class MyItemCard implements ItemClickListener {
     public void onItemClick(int position) {
 
     }
-
-    @Override
-    public void onCheckBoxClick(int position) {
-
-    }
 }
