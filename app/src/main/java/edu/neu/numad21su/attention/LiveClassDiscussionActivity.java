@@ -235,6 +235,8 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
                 // Posting the user's comment to the database
                 postToDataBase(userQuestion.getText().toString());
 
+
+                // Refreshing the recycler items
                 itemList = new ArrayList<>();
 
                 rviewAdapter.notifyDataSetChanged();
@@ -320,6 +322,8 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
     private void postToDataBase(String userPost){
 
+        int postCount = itemList.size();
+
 
         SystemClock clock = SystemClock.getInstance();
 
@@ -331,7 +335,7 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
         newPost.put("subject", "Reply");
         newPost.put("date", clock.currentTimeMillis());
 
-        db.collection("discussion_posts").document("user_post4")
+        db.collection("discussion_posts").document("user_post" + postCount + 1)
                 .set(newPost).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(@NonNull Void unused) {
