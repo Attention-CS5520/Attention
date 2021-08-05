@@ -16,6 +16,8 @@
         <entry key="app/src/main/res/layout/activity_welcome_login2.xml" value="0.1515625" />
         <entry key="app/src/main/res/layout/fragment_navigation.xml" value="0.21510416666666668" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/my_item_card.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/quiz_results_card.xml" value="0.1" />
       </map>
     </option>
   </component>
