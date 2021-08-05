@@ -14,6 +14,10 @@ public class QuizEntry {
     this.userId = userId;
   }
 
+  public QuizEntry(List<QuestionEntry> questionEntries, String userId) {
+    this.questionEntries = questionEntries;
+    this.userId = userId;
+  }
   public String getQuizEntryId() {
     return quizEntryId;
   }
