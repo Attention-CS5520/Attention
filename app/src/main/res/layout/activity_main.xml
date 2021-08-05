@@ -82,7 +82,7 @@
             app:layout_constraintBottom_toTopOf="@id/quiz_manager_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            />
+            android:onClick="goToQuizEditor"/>
 
     <Button
             android:text="@string/quiz_manager_button"
@@ -92,7 +92,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/quiz_editor_button"/>
+            app:layout_constraintTop_toBottomOf="@id/quiz_editor_button"
+            android:onClick="goToQuizManager"/>
 
 
 

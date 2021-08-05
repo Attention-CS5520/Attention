@@ -40,4 +40,12 @@ public class MainActivity extends AppCompatActivity {
         MainActivity.this.startActivity(new Intent(MainActivity.this, InClass.class));
 
     }
+
+    public void goToQuizManager(View view) {
+        MainActivity.this.startActivity(new Intent(MainActivity.this, QuizManager.class));
+    }
+
+    public void goToQuizEditor(View view) {
+        MainActivity.this.startActivity(new Intent(MainActivity.this, QuizEditor.class));
+    }
 }

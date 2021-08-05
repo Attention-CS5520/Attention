@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".QuestionEditor">
+
+    <EditText
+            android:layout_width="337dp"
+            android:layout_height="110dp"
+            android:inputType="textMultiLine"
+            android:gravity="start|top"
+            android:ems="10"
+            android:id="@+id/question_editor_question_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/question_label"
+            android:layout_marginTop="8dp"/>
+
+    <TextView
+            android:text="@string/question_prompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/question_label"
+            android:textSize="26sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"/>
+
+    <EditText
+            android:layout_width="348dp"
+            android:layout_height="46dp"
+            android:inputType="textPersonName"
+            android:text="@string/optionA_input"
+            android:ems="10"
+            android:id="@+id/question_editor_optionA"
+            app:layout_constraintTop_toBottomOf="@+id/question_editor_question_text"
+            android:layout_marginTop="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
+            android:layout_width="348dp"
+            android:layout_height="46dp"
+            android:inputType="textPersonName"
+            android:text="@string/optionB_input"
+            android:ems="10"
+            android:id="@+id/question_editor_optionB"
+            app:layout_constraintTop_toBottomOf="@+id/question_editor_optionA"
+            android:layout_marginTop="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
+            android:layout_width="348dp"
+            android:layout_height="46dp"
+            android:inputType="textPersonName"
+            android:text="@string/optionC_input"
+            android:ems="10"
+            android:id="@+id/question_editor_optionC"
+            app:layout_constraintTop_toBottomOf="@+id/question_editor_optionB"
+            android:layout_marginTop="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
+            android:layout_width="348dp"
+            android:layout_height="46dp"
+            android:inputType="textPersonName"
+            android:text="@string/optionD_input"
+            android:ems="10"
+            android:id="@+id/question_editor_optionD"
+            app:layout_constraintTop_toBottomOf="@+id/question_editor_optionC"
+            android:layout_marginTop="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+            android:text="@string/add_answer_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/question_editor_optionD"
+            android:layout_marginTop="24dp"
+            app:layout_constraintHorizontal_bias="0.9"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

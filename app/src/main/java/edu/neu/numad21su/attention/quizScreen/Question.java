@@ -6,18 +6,19 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.List;
 
 import edu.neu.numad21su.attention.R;
 
-public class Question {
-    String questionId;
-    String questionText;
-    String optionA;
-    String optionB;
-    String optionC;
-    String optionD;
-    String correctAnswer;
+public class Question implements Serializable {
+    public String questionId;
+    public String questionText;
+    public String optionA;
+    public String optionB;
+    public String optionC;
+    public String optionD;
+    public String correctAnswer;
 
 
     public Question() {

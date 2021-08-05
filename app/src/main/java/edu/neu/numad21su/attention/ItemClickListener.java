@@ -3,6 +3,4 @@ package edu.neu.numad21su.attention;
 public interface ItemClickListener {
 
     void onItemClick(int position);
-
-    void onCheckBoxClick(int position);
 }
