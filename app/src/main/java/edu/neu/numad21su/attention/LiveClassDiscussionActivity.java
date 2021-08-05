@@ -330,6 +330,10 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
             public void onSuccess(@NonNull Void unused) {
                 Toast.makeText(LiveClassDiscussionActivity.this, "Posted!", Toast.LENGTH_SHORT).show();
 
+                // Refresh itemCards
+                messageList = new ArrayList<>();
+                getMessageBoard();
+
 
 
             }
