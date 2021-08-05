@@ -12,7 +12,7 @@
             android:layout_margin="5dp">
 
         <TextView
-                android:id="@+id/quiz_manager_title"
+                android:id="@+id/question_preview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
@@ -20,32 +20,23 @@
                 android:textColor="@android:color/black"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:text="@string/quiz_title"/>
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/quiz_manager_title"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:id="@+id/quiz_last_edit"
-                android:text="@string/quiz_last_edit"/>
+                android:text="@string/question_preview"/>
 
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_delete"
-                android:id="@+id/delete_quiz_icon"
+                android:id="@+id/delete_question_icon"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="7dp"
                 android:layout_marginEnd="10dp"
-                android:layout_toStartOf="@+id/edit_quiz_icon"/>
+                android:layout_toStartOf="@+id/edit_question_icon"/>
 
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_edit"
-                android:id="@+id/edit_quiz_icon"
+                android:id="@+id/edit_question_icon"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="7dp"
@@ -54,3 +45,4 @@
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
+
