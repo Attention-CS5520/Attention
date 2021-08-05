@@ -28,6 +28,7 @@ public class WelcomeLogin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_login);
         mAuth = FirebaseAuth.getInstance();
+
     }
 
     @Override
@@ -65,7 +66,7 @@ public class WelcomeLogin extends AppCompatActivity {
                         // Temporary Toast Message - Need to change to In Class Screen once the in Class screen is merged
                         // Intent activity2Intent = new Intent(getApplicationContext(), InClass.class);
                         // startActivity(activity2Intent);
-                        Toast.makeText(WelcomeLogin.this, "Logged In Sucesfully! ",
+                        Toast.makeText(WelcomeLogin.this, "Logged In Successfully! ",
                                 Toast.LENGTH_SHORT).show();
                         reload();
 
