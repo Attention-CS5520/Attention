@@ -5,12 +5,22 @@ import java.util.List;
 public class Quiz {
   String classId;
   String quizId;
+  String quizName;
   List<Question> questions;
 
-  public Quiz(String classId, String quizId, List<Question> questions) {
+  public Quiz(String quizName, String classId, String quizId, List<Question> questions) {
     this.classId = classId;
     this.quizId = quizId;
     this.questions = questions;
+    this.quizName = quizName;
+  }
+
+  public String getQuizName() {
+    return quizName;
+  }
+
+  public void setQuizName(String quizName) {
+    this.quizName = quizName;
   }
 
   public String getClassId() {
