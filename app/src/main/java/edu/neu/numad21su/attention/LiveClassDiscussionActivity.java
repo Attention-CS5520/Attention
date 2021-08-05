@@ -25,7 +25,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.installations.time.SystemClock;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -322,10 +324,15 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
     private void postToDataBase(String userPost){
 
-        int postCount = itemList.size();
+        int postCount = itemList.size() + 1;
 
 
-        SystemClock clock = SystemClock.getInstance();
+        //SystemClock clock = SystemClock.getInstance();
+
+        Date dNow = new Date();
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd H:mm aaa");
+
+
 
 
         Map<String, Object> newPost = new HashMap<>();
@@ -333,9 +340,9 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
         newPost.put("classId", "classId");
         newPost.put("message", userPost);
         newPost.put("subject", "Reply");
-        newPost.put("date", clock.currentTimeMillis());
+        newPost.put("date", ft.format(dNow));
 
-        db.collection("discussion_posts").document("user_post" + postCount + 1)
+        db.collection("discussion_posts").document("user_post" + postCount)
                 .set(newPost).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(@NonNull Void unused) {

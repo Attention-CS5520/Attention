@@ -102,10 +102,6 @@ public class InClass extends AppCompatActivity {
     }
 
     // A method to get the current class info [...]
-
-
-
-
     // https://dzone.com/articles/cloud-firestore-read-write-update-and-delete
 
     public void getClassDiscussion(){
@@ -116,10 +112,7 @@ public class InClass extends AppCompatActivity {
 
         TextView discussion3 = findViewById(R.id.discussionText3);
 
-        DocumentReference post = db.collection("discussion_posts")
-                .document("user_post");
-
-        Query post_history = db.collection("discussion_posts").orderBy("date").limit(3);
+        Query post_history = db.collection("discussion_posts").limit(3);
 
         post_history.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -127,15 +120,17 @@ public class InClass extends AppCompatActivity {
 
                 if (task.isSuccessful()){
 
+
+
                     QuerySnapshot querySnapshot = task.getResult();
 
                     StringBuilder post1 = new StringBuilder("");
                     StringBuilder post2 = new StringBuilder("");
                     StringBuilder post3 = new StringBuilder("");
 
-                    post1.append(querySnapshot.getDocuments().get(0).get("message"));
+                    post1.append(querySnapshot.getDocuments().get(2).get("message"));
                     post2.append(querySnapshot.getDocuments().get(1).get("message"));
-                    post3.append(querySnapshot.getDocuments().get(2).get("message"));
+                    post3.append(querySnapshot.getDocuments().get(0).get("message"));
 
                     discussion1.setText(post1);
                     discussion2.setText(post2);
@@ -153,68 +148,8 @@ public class InClass extends AppCompatActivity {
             }
         });
 
-
-
-
-
-//        post.get().addOnCompleteListener(new OnCompleteListener < DocumentSnapshot > () {
-//            @Override
-//            public void onComplete(@NonNull Task < DocumentSnapshot > task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot doc = task.getResult();
-//                    StringBuilder fields = new StringBuilder("");
-//                    fields.append(doc.get("message"));
-//                    discussion1.setText(fields.toString());
-//                }
-//            }
-//        })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//
-//                        Log.d("Failed", "item not read from firebase");
-//
-//                    }
-//                });
-
-
-
     }
 
-    // A method to add a new discussion document to the post collection
-    private void addPost(){
-
-        SystemClock clock = SystemClock.getInstance();
-
-
-        Map<String, Object> newPost = new HashMap<>();
-        newPost.put("author", "Robert Lovelace");
-        newPost.put("classId", "classId");
-        newPost.put("message", "Here is my response");
-        newPost.put("subject", "Re: re: re:");
-        newPost.put("date", clock.currentTimeMillis());
-
-        db.collection("discussion_posts").document("user_post3")
-                .set(newPost).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(@NonNull Void unused) {
-                Toast.makeText(InClass.this, "Posted!", Toast.LENGTH_SHORT).show();
-
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(InClass.this, e.toString(), Toast.LENGTH_SHORT).show();
-                Log.d("error", e.toString());
-
-            }
-        });
-
-
-
-
-    }
 
 
 
