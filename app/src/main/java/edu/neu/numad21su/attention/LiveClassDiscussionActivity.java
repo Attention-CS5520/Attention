@@ -231,7 +231,14 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int whichButton) {
                 txt = userQuestion; // storing the user input
                 //collectInput();
+
+                // Posting the user's comment to the database
                 postToDataBase(userQuestion.getText().toString());
+
+                itemList = new ArrayList<>();
+
+                rviewAdapter.notifyDataSetChanged();
+
 
 
             }
