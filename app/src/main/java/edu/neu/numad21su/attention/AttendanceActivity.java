@@ -20,13 +20,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;
+import java.util.Scanner;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.RECORD_AUDIO;
@@ -107,15 +114,25 @@ public class AttendanceActivity extends AppCompatActivity {
 
         if(checkPermission()) {
 
+          //AudioSavePathInDevice =
+          //        Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +
+          //                CreateRandomAudioFileName(5) + "AudioRecording.3gp";
+
+          //AudioSavePathInDevice =
+          //        view.getContext().getExternalFilesDir(null).getAbsolutePath() + "/" +
+          //                CreateRandomAudioFileName(5) + "AudioRecording.3gp";
+
           AudioSavePathInDevice =
-                  Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +
-                          CreateRandomAudioFileName(5) + "AudioRecording.3gp";
+                  view.getContext().getExternalFilesDir(null).getAbsolutePath() + "/" + "AudioRecording.3gp";
 
 
           // checking if a file can be created
+          /*
           try {
-            File root = new File(Environment.getExternalStorageDirectory(), "Notes");
+
+            File root = new File(view.getContext().getExternalFilesDir(null), "Notes");
             if (!root.exists()) {
+              Log.i("file creation","I am trying to create directory");
               root.mkdirs();
             }
 
@@ -132,6 +149,8 @@ public class AttendanceActivity extends AppCompatActivity {
           } catch (IOException e) {
             e.printStackTrace();
           }
+
+           */
 
 
 
@@ -192,6 +211,120 @@ public class AttendanceActivity extends AppCompatActivity {
 
         Toast.makeText(AttendanceActivity.this, "Recording Completed",
                 Toast.LENGTH_LONG).show();
+
+        // printing binary
+        try {
+          byte[] encoded = Files.readAllBytes(Paths.get(AudioSavePathInDevice));
+          Log.i("audio string",Arrays.toString(encoded));
+        } catch (IOException e) {
+
+        }
+
+        // try in decimal
+        StringBuilder sb = new StringBuilder();
+        int maxNum = 0;
+        try (BufferedInputStream is = new BufferedInputStream(new FileInputStream(AudioSavePathInDevice))) {
+          for (int i; (i = is.read()) != -1;) {
+            //String temp = Integer.toHexString(i).toUpperCase();
+            String temp = Integer.toString(i).toUpperCase();
+            //if (temp.length() == 1) {
+            //  sb.append('0');
+            //}
+            sb.append(temp).append(' ');
+            if (Integer.valueOf(temp) > maxNum) maxNum = Integer.valueOf(temp);
+          }
+        } catch (FileNotFoundException e) {
+          e.printStackTrace();
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+        Log.i("hex output",sb.toString());
+        Log.i("maxVal",String.valueOf(maxNum));
+        Log.i("size",String.valueOf(sb.length()));
+        Log.i("file location", AudioSavePathInDevice);
+        //File myObj = new File("/storage/emulated/0/Android/data/edu.neu.numad21su.attention/files/OMIFGAudioRecording.3gp");
+
+        //myObj.delete();
+
+        // Modify the values in string buffer to normalize and change polarities if needed
+        StringBuffer sbNorm = new StringBuffer();
+        String[] sbArray = sb.toString().split(" ");
+        for (int idx =0; idx < sbArray.length; idx++) {
+          double tempDouble = ((double)((double) Integer.valueOf(sbArray[idx]) /maxNum)) - 0.5;
+          sbNorm.append(String.valueOf(tempDouble));
+          sbNorm.append(" ");
+
+        }
+
+
+        try {
+
+          File root = new File(view.getContext().getExternalFilesDir(null), "Notes");
+          if (!root.exists()) {
+            Log.i("file creation","I am trying to create directory");
+            root.mkdirs();
+          }
+
+          if (!root.exists()) {
+            Log.i("file creation","Could not create a directory!!");
+          }
+
+          File gpxfile = new File(root, "inputfile");
+          //File gpxfile = new File(root, "hello");
+          gpxfile.delete();
+          FileWriter writer = new FileWriter(gpxfile);
+          writer.append(sbNorm.toString());
+          writer.flush();
+          writer.close();
+          //Reading
+          Scanner myReader = new Scanner(gpxfile);
+          //while (myReader.hasNextLine()) {
+            String data = myReader.nextLine();
+            Log.i("Reading file data",data);
+          //}
+          myReader.close();
+          // create test for hello
+          gpxfile = new File(root, "hello");
+          myReader = new Scanner(gpxfile);
+          //while (myReader.hasNextLine()) {
+            String hello = myReader.nextLine();
+            Log.i("Reading file data",hello);
+          //}
+          myReader.close();
+          double helloTest = computeFFT(hello,data);
+          Log.i("Hello Test result", String.valueOf(helloTest));
+
+
+          // create test for good
+          gpxfile = new File(root, "good");
+          myReader = new Scanner(gpxfile);
+          //while (myReader.hasNextLine()) {
+          String good = myReader.nextLine();
+          Log.i("Reading file data",good);
+          //}
+          myReader.close();
+          double goodTest = computeFFT(good,data);
+          Log.i("Good Test result", String.valueOf(goodTest));
+
+
+          // create test for class
+          gpxfile = new File(root, "class");
+          myReader = new Scanner(gpxfile);
+          //while (myReader.hasNextLine()) {
+          String class_ = myReader.nextLine();
+          Log.i("Reading file data",class_);
+          //}
+          myReader.close();
+          double classTest = computeFFT(class_,data);
+          Log.i("Class Test result", String.valueOf(classTest));
+
+
+          Toast.makeText(AttendanceActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+
+
       }
     });
 
@@ -324,6 +457,44 @@ public class AttendanceActivity extends AppCompatActivity {
       return result && result1 && result2;
 
 
+  }
+
+  public double computeFFT(String model, String test) {
+    String [] modelParsed = model.split(" ");
+    String [] testParsed = test.split(" ");
+    //Log.i("debugParsed",modelParsed[10]);
+    //Log.i("debugParsed",modelParsed[10]);
+
+    int idx = 0;
+    double sumOfInnerProduct = 0.0;
+    double finalSumOfInnerProduct = -999999999999.0;
+    while (idx < modelParsed.length) {
+      int jdx = 0;
+      int jdxModel = idx;
+      while (jdx < testParsed.length && jdxModel < modelParsed.length) {
+        sumOfInnerProduct += (Double.valueOf(testParsed[jdx]) * Double.valueOf(modelParsed[jdxModel]));
+        jdx++;
+        jdxModel++;
+      }
+      if (sumOfInnerProduct > finalSumOfInnerProduct) {
+        finalSumOfInnerProduct = sumOfInnerProduct;
+      }
+      sumOfInnerProduct = 0.0;
+      idx++;
+      break;
+    }
+    return finalSumOfInnerProduct;
+  }
+
+  public double[] windowFunction(int nSamples) {
+    int m = nSamples / 2;
+    double r;
+    double pi = Math.PI;
+    double[] w = new double[nSamples];
+    r = pi / m;
+    for (int n = -m; n < m; n++)
+      w[m + n] = 0.54f + 0.46f * Math.cos(n * r);
+    return w;
   }
 }
 
