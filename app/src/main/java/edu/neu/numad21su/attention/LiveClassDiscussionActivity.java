@@ -151,68 +151,68 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
 
 
-    // Collects the user's discussion post. (Where does it go next?)
-    public void collectInput(){
-        // convert edit text to string
-        String getInput = txt.getText().toString();
-
-        // ensure that user input bar is not empty
-        if (getInput ==null || getInput.trim().equals("")){
-            Toast.makeText(getBaseContext(), "Please add a question", Toast.LENGTH_LONG).show();
-        }
-        // add input into an data collection arraylist
-        else {
-            arrayListCollection.add(getInput);
-           // adapter.notifyDataSetChanged();
-        }
-    }
+//    // Collects the user's discussion post. (Where does it go next?)
+//    public void collectInput(){
+//        // convert edit text to string
+//        String getInput = txt.getText().toString();
+//
+//        // ensure that user input bar is not empty
+//        if (getInput ==null || getInput.trim().equals("")){
+//            Toast.makeText(getBaseContext(), "Please add a question", Toast.LENGTH_LONG).show();
+//        }
+//        // add input into an data collection arraylist
+//        else {
+//            arrayListCollection.add(getInput);
+//           // adapter.notifyDataSetChanged();
+//        }
+//    }
 
 
     // When the floating button is clicked, the user's question is added and gathered via collectInput()
-    public void addQuestion(View view) {
-
-        Log.d("add question()", "addQuestion() reached");
-
-        AlertDialog.Builder questionAlert = new AlertDialog.Builder(this);
-        final EditText userQuestion = new EditText(this);
-
-        questionAlert.setTitle("Enter your question:");
-
-        questionAlert.setView(userQuestion);
-        LinearLayout alertLayout = new LinearLayout(this);
-        alertLayout.setOrientation(LinearLayout.VERTICAL);
-        alertLayout.addView(userQuestion);
-        questionAlert.setView(alertLayout);
-
-        questionAlert.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                txt = userQuestion; // storing the user input
-                collectInput();
-
-
-            }
-        });
-
-        questionAlert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                dialog.cancel(); // closes dialog
-
-
-            }
-        });
-
-        questionAlert.create();
-        questionAlert.show();
-
-
-
-
-    }
+//    public void addQuestion(View view) {
+//
+//        Log.d("add question()", "addQuestion() reached");
+//
+//        AlertDialog.Builder questionAlert = new AlertDialog.Builder(this);
+//        final EditText userQuestion = new EditText(this);
+//
+//        questionAlert.setTitle("Enter your question:");
+//
+//        questionAlert.setView(userQuestion);
+//        LinearLayout alertLayout = new LinearLayout(this);
+//        alertLayout.setOrientation(LinearLayout.VERTICAL);
+//        alertLayout.addView(userQuestion);
+//        questionAlert.setView(alertLayout);
+//
+//        questionAlert.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int whichButton) {
+//                txt = userQuestion; // storing the user input
+//                //collectInput();
+//
+//
+//            }
+//        });
+//
+//        questionAlert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int whichButton) {
+//                dialog.cancel(); // closes dialog
+//
+//
+//            }
+//        });
+//
+//        questionAlert.create();
+//        questionAlert.show();
+//
+//
+//
+//
+//    }
 
     // A method to add a new discussion document to the post collection, gathered from user input
     private void addPost(){
 
-        // Getting the user's discussion post
+        // Getting the user's discussion post with an AlertDialog
 
         AlertDialog.Builder questionAlert = new AlertDialog.Builder(this);
         final EditText userQuestion = new EditText(this);
@@ -228,7 +228,8 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
         questionAlert.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 txt = userQuestion; // storing the user input
-                collectInput();
+                //collectInput();
+                postToDataBase(userQuestion.getText().toString());
 
 
             }
@@ -244,39 +245,6 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
         questionAlert.create();
         questionAlert.show();
-
-        // Make an itemCard from the user's message
-        //createItemCard();
-
-
-
-        // Post the user's message to the database
-        SystemClock clock = SystemClock.getInstance();
-
-
-        Map<String, Object> newPost = new HashMap<>();
-        newPost.put("author", "James Harlowe");
-        newPost.put("classId", "classId");
-        newPost.put("message", "Here is my message");
-        newPost.put("subject", "Reply");
-        newPost.put("date", clock.currentTimeMillis());
-
-        db.collection("discussion_posts").document("user_post4")
-                .set(newPost).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(@NonNull Void unused) {
-                Toast.makeText(LiveClassDiscussionActivity.this, "Posted!", Toast.LENGTH_SHORT).show();
-
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(LiveClassDiscussionActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
-                Log.d("error", e.toString());
-
-            }
-        });
 
 
 
@@ -332,6 +300,40 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
             public void onFailure(@NonNull Exception e) {
 
                 Log.d("discussions", "discussion history not found");
+
+            }
+        });
+
+
+
+    }
+
+    private void postToDataBase(String userPost){
+
+
+        SystemClock clock = SystemClock.getInstance();
+
+
+        Map<String, Object> newPost = new HashMap<>();
+        newPost.put("author", "James Harlowe");
+        newPost.put("classId", "classId");
+        newPost.put("message", userPost);
+        newPost.put("subject", "Reply");
+        newPost.put("date", clock.currentTimeMillis());
+
+        db.collection("discussion_posts").document("user_post4")
+                .set(newPost).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(@NonNull Void unused) {
+                Toast.makeText(LiveClassDiscussionActivity.this, "Posted!", Toast.LENGTH_SHORT).show();
+
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(LiveClassDiscussionActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                Log.d("error", e.toString());
 
             }
         });
