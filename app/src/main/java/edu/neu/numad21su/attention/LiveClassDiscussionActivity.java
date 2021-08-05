@@ -50,6 +50,8 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
         // Connect with firebase
         db = FirebaseFirestore.getInstance();
 
@@ -273,13 +275,14 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
                         messageList.add(message);
 
-                        for (int k = 0; k < messageList.size(); k++){
 
-                            MyItemCard itemCard = new MyItemCard(messageList.get(i));
+                    }
 
-                            itemList.add(itemCard);
+                    for (int k = 0; k < messageList.size(); k++){
 
-                        }
+                        MyItemCard itemCard = new MyItemCard(messageList.get(k));
+
+                        itemList.add(itemCard);
 
 
 
@@ -326,6 +329,7 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
             @Override
             public void onSuccess(@NonNull Void unused) {
                 Toast.makeText(LiveClassDiscussionActivity.this, "Posted!", Toast.LENGTH_SHORT).show();
+
 
 
             }
