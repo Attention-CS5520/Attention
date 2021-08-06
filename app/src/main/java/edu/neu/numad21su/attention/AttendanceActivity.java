@@ -288,13 +288,31 @@ public class AttendanceActivity extends AppCompatActivity {
           myReader = new Scanner(gpxfile);
           //while (myReader.hasNextLine()) {
             String hello = myReader.nextLine();
-            Log.i("Reading file data",hello);
+            //Log.i("Reading file data",hello);
+          // Print saved hello data
+
+          gpxfile = new File(root, "hello");
+          myReader = new Scanner(gpxfile);
+          hello = myReader.nextLine();
+          int maxLogSize = 900;
+          for(int i = 0; i <= hello.length() / maxLogSize; i++) {
+            int start = i * maxLogSize;
+            int end = (i + 1) * maxLogSize;
+            end = end > hello.length() ? hello.length() : end;
+
+
+            //Log.d("good saved long data", hello.substring(start, end));
+          }
+
+          // apply filter on hello data
+          filterOut(hello);
+
           //}
           myReader.close();
           double helloTest = computeFFT(hello,data);
           Log.i("Hello Test result", String.valueOf(helloTest));
 
-
+         /*
           // create test for good
           gpxfile = new File(root, "good");
           myReader = new Scanner(gpxfile);
@@ -318,7 +336,7 @@ public class AttendanceActivity extends AppCompatActivity {
           double classTest = computeFFT(class_,data);
           Log.i("Class Test result", String.valueOf(classTest));
 
-
+        */
           Toast.makeText(AttendanceActivity.this, "Saved", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
           e.printStackTrace();
@@ -495,6 +513,42 @@ public class AttendanceActivity extends AppCompatActivity {
     for (int n = -m; n < m; n++)
       w[m + n] = 0.54f + 0.46f * Math.cos(n * r);
     return w;
+  }
+
+  public double[] filterOut(String inputArray) {
+    String [] inputArrayString = inputArray.split(" ");
+    double [] doubleArray = new double[inputArrayString.length];
+
+    for (int idx = 0; idx  < inputArrayString.length; idx++) {
+      doubleArray[idx] = Double.valueOf(inputArrayString[idx]);
+    }
+
+    HighPassFilter filter = new HighPassFilter(100,44100, HighPassFilter.PassType.Highpass,1);
+    StringBuilder outputSb = new StringBuilder();
+    for (int i = 0; i < doubleArray.length; i++)
+    {
+      filter.Update(doubleArray[i]);
+      doubleArray[i] = filter.getValue();
+      outputSb.append(filter.getValue());
+      outputSb.append(" ");
+      //Log.d("each data", String.valueOf(filter.getValue()));
+    }
+    // Lets print
+
+    String letsPrint = outputSb.toString();
+
+    int maxLogSize = 900;
+    for(int i = 0; i <= letsPrint.length() / maxLogSize; i++) {
+      int start = i * maxLogSize;
+      int end = (i + 1) * maxLogSize;
+      end = end > letsPrint.length() ? letsPrint.length() : end;
+
+
+      Log.d("hello saved long data", letsPrint.substring(start, end));
+    }
+
+    Log.d("print whole filterd", letsPrint);
+    return doubleArray;
   }
 }
 
