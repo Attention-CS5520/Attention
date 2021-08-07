@@ -10,13 +10,12 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
 import edu.neu.numad21su.attention.quizScreen.Question;
 import edu.neu.numad21su.attention.quizScreen.QuestionEntry;
 import edu.neu.numad21su.attention.quizScreen.Quiz;
@@ -43,6 +42,8 @@ public class QuizScreen extends AppCompatActivity {
         setContentView(R.layout.activity_quiz_screen);
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+        // Initialize Firebase DB
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         questionText = findViewById(R.id.quiz_screen_question_text);
         optionA = findViewById(R.id.quiz_screen_optionA);
         optionB = findViewById(R.id.quiz_screen_optionB);
@@ -79,11 +80,12 @@ public class QuizScreen extends AppCompatActivity {
                 break;
             default:
         }
-        switchQuestion(curQuestion+1);
+        switchQuestion(curQuestion);
     }
 
     private void saveQuestion(String userAnswered){
-        QuestionEntry questionEntry = new QuestionEntry(quiz.getQuizId(), userAnswered);
+        QuestionEntry questionEntry = new QuestionEntry(String.valueOf(curQuestion),
+                questionList.get(curQuestion).getQuestionId(), userAnswered);
         answeredQuestions.add(questionEntry);
     }
 
@@ -92,7 +94,8 @@ public class QuizScreen extends AppCompatActivity {
         if(oldQuestion+1 >= questionList.size()){
             //save to db
             String userEmail = mAuth.getCurrentUser().getEmail();
-            QuizEntry quizEntry = new QuizEntry(answeredQuestions, userEmail);
+            QuizEntry quizEntry = new QuizEntry(answeredQuestions, userEmail, quiz.getQuizTitle());
+            mDatabase.child("quizzes").child(quizEntry.getQuizName()).setValue(quizEntry);
 //            db.save(quizEntry)
             return;
         }

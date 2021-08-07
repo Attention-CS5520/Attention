@@ -38,12 +38,18 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="quiz_manager_button">Quiz Manager</string>
     <string name="quiz_editor_button">Quiz Editor</string>
-    <string name="quiz_title">QUIZ_TITLE</string>
     <string name="quiz_last_edit">QUIZ_LAST_EDIT</string>
     <string name="question_prompt">Question:</string>
-    <string name="answer_input">Answer</string>
+    <string name="optionA_input">Option A</string>
+    <string name="optionB_input">Option B</string>
+    <string name="optionC_input">Option C</string>
+    <string name="optionD_input">Option D</string>
     <string name="add_answer_option">Add</string>
     <string name="multiple_choice_option">Multiple Choice</string>
     <string name="single_choice_option">Single Choice</string>
+    <string name="question_preview">QUESTION_PREVIEW</string>
+    <string name="question_type">QUESTION_TYPE</string>
+    <string name="quiz_title">QUIZ_TITLE</string>
+    <string name="last_edited">LAST_EDITED</string>
 </resources>
 

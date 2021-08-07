@@ -5,6 +5,14 @@ public class QuestionEntry {
   String questionId;
   String selectedOption;
 
+  public String getSelectedOption() {
+    return selectedOption;
+  }
+
+  public void setSelectedOption(String selectedOption) {
+    this.selectedOption = selectedOption;
+  }
+
   public QuestionEntry(String questionEntryId, String questionId, String selectedOption) {
     this.questionEntryId = questionEntryId;
     this.questionId = questionId;
@@ -12,7 +20,6 @@ public class QuestionEntry {
   }
 
   public QuestionEntry(String questionId, String selectedOption) {
-    this.questionEntryId = questionEntryId;
     this.questionId = questionId;
     this.selectedOption = selectedOption;
   }

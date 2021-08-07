@@ -1,16 +1,39 @@
 package edu.neu.numad21su.attention.quizScreen;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Quiz {
-  String classId;
-  String quizId;
-  List<Question> questions;
+public class Quiz implements Serializable {
+  public String classId;
+  public String quizId;
+  public String quizTitle;
+  public String lastEdited;
+  public List<Question> questions;
 
-  public Quiz(String classId, String quizId, List<Question> questions) {
+  public Quiz(String classId, String quizId, String quizTitle,
+              String lastEdited, List<Question> questions) {
     this.classId = classId;
     this.quizId = quizId;
-    this.questions = questions;
+    this.lastEdited = lastEdited;
+    this.questions = new ArrayList<>(questions);
+    this.quizTitle = quizTitle;
+  }
+
+  public String getLastEdited() {
+    return lastEdited;
+  }
+
+  public void setLastEdited(String lastEdited) {
+    this.lastEdited = lastEdited;
+  }
+
+  public String getQuizTitle() {
+    return quizTitle;
+  }
+
+  public void setQuizTitle(String quizTitle) {
+    this.quizTitle = quizTitle;
   }
 
   public String getClassId() {

@@ -1,8 +1,10 @@
 {
   "quizId" : "1",
+  "quizTitle": "JSONQuiz",
   "classId" : "1",
   "questions" : [
     {
+      "questionId" : "q01",
       "questionText": "What would you rate this course out of 5?",
       "optionA": "5",
       "optionB": "4",
@@ -11,6 +13,7 @@
       "correctAnswer": "A"
     },
     {
+      "questionId" : "q02",
       "questionText": "What is your name?",
       "optionA": "idk",
       "optionB": "abc",
@@ -19,6 +22,7 @@
       "correctAnswer": "B"
     },
     {
+      "questionId" : "q03",
       "questionText": "What is HTML",
       "optionA": "hyperman",
       "optionB": "hypetextmarclan",
