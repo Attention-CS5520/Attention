@@ -20,6 +20,16 @@ public class Question implements Serializable {
     public String optionD;
     public String correctAnswer;
 
+    public Question(String questionId, String questionText, String optionA,
+                    String optionB, String optionC, String optionD, String correctAnswer) {
+        this.questionId = questionId;
+        this.questionText = questionText;
+        this.optionA = optionA;
+        this.optionB = optionB;
+        this.optionC = optionC;
+        this.optionD = optionD;
+        this.correctAnswer = correctAnswer;
+    }
 
     public Question() {
     }
