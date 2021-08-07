@@ -13,7 +13,7 @@ public class QuizEntry {
                    List<QuestionEntry> questionEntries, String userId) {
     this.quizId = quizId;
     this.quizName = quizName;
-    this.quizEntryId = quizEntryId;
+//    this.quizEntryId = quizEntryId;
     this.questionEntries = questionEntries;
     this.userId = userId;
   }
@@ -21,6 +21,11 @@ public class QuizEntry {
   public QuizEntry(String quizId, String quizEntryId, List<QuestionEntry> questionEntries, String userId) {
     this.quizId = quizId;
     this.quizEntryId = quizEntryId;
+    this.questionEntries = questionEntries;
+    this.userId = userId;
+  }
+  public QuizEntry(String quizId, List<QuestionEntry> questionEntries, String userId) {
+    this.quizId = quizId;
     this.questionEntries = questionEntries;
     this.userId = userId;
   }
