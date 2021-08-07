@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.github.slugify.Slugify;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -60,6 +62,7 @@ public class QuizScreen extends AppCompatActivity {
     }
 
     public void onOptionClick(View view) {
+        if(curQuestion >= questionList.size()) return;
         Log.i(QUIZ_SCREEN_TAG, "Question Num: " + curQuestion);
         switch (view.getId()) {
             case R.id.quiz_screen_optionA:
@@ -84,19 +87,35 @@ public class QuizScreen extends AppCompatActivity {
     }
 
     private void saveQuestion(String userAnswered){
-        QuestionEntry questionEntry = new QuestionEntry(String.valueOf(curQuestion),
+        String userEmail = mAuth.getCurrentUser().getEmail();
+        userEmail = userEmail == null? "" : userEmail;
+        Slugify slg = new Slugify();
+        String emailSlug = slg.slugify(userEmail);
+        QuestionEntry questionEntry = new QuestionEntry(quiz.getQuizTitle() + "-"
+                + quiz.getQuizId() + "-" + emailSlug + "-" + (curQuestion+1),
                 questionList.get(curQuestion).getQuestionId(), userAnswered);
         answeredQuestions.add(questionEntry);
     }
 
     private void switchQuestion(int oldQuestion){
         int newQuestion = oldQuestion+1;
-        if(oldQuestion+1 >= questionList.size()){
+        if(newQuestion > questionList.size()){
+            return;
+        }
+        if(oldQuestion+1 == questionList.size()){
             //save to db
             String userEmail = mAuth.getCurrentUser().getEmail();
-            QuizEntry quizEntry = new QuizEntry(answeredQuestions, userEmail, quiz.getQuizTitle());
-            mDatabase.child("quizzes").child(quizEntry.getQuizName()).setValue(quizEntry);
+            if(userEmail == null) {
+                Toast.makeText(getApplicationContext(),"Please login",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Slugify slg = new Slugify();
+            String emailSlug = slg.slugify(userEmail);
+            QuizEntry quizEntry = new QuizEntry(quiz.quizId,
+                    quiz.getQuizTitle()+"-"+quiz.getQuizId()+"-"+emailSlug,  answeredQuestions, userEmail);
+            mDatabase.child("quizzes").child(quiz.getQuizTitle()+"-"+quiz.getQuizId()+"-"+emailSlug).setValue(quizEntry);
 //            db.save(quizEntry)
+            curQuestion = newQuestion;
             return;
         }
         curQuestion = newQuestion;
