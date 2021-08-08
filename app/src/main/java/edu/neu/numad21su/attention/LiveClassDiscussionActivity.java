@@ -35,6 +35,7 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
     private ArrayList<String> messageList = new ArrayList<>();
+    private ArrayList<String> dateList = new ArrayList<>();
 
     private Discussion myDiscussion = new Discussion("", "", "");
     private RecyclerView recyclerView;
@@ -72,70 +73,9 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
             }
         });
 
-//        ArrayList<String> messageList = getMessageBoard();
-//
-//
-//        for (int i = 0; i < messageList.size(); i++){
-//
-//            MyItemCard itemCard = new MyItemCard(messageList.get(i));
-//
-//            itemList.add(itemCard);
-//
-//        }
-//
-//
+
+
         getMessageBoard();
-//
-//        createRecyclerView();
-
-
-
-        // Just adding a couple of items for now, will come from database in future.
-//        MyItemCard itemCard = new MyItemCard("1.Welcome to the class!");
-//        itemList.add(itemCard);
-//
-//        itemCard = new MyItemCard("2.Hope You are enjoying the class! This is a great class " +
-//                "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!");
-//        itemList.add(itemCard);
-//
-//        itemCard = new MyItemCard("3.Hope You are enjoying the class! This is a great class " +
-//                "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!");
-//        itemList.add(itemCard);
-//
-//        itemCard = new MyItemCard("4.Hope You are enjoying the class! This is a great class " +
-//                "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!");
-//        itemList.add(itemCard);
-//
-//        itemCard = new MyItemCard("5.Hope You are enjoying the class! This is a great class " +
-//                "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!");
-//        itemList.add(itemCard);
-//
-//        itemCard = new MyItemCard("6.Hope You are enjoying the class! This is a great class " +
-//                "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!");
-//        itemList.add(itemCard);
-
-
-
-
-
-        // ItemCard with sample JSON object- should come from database?
-//        try {
-//            MyItemCard itemCard = createItemCard(makeJSON());
-//
-//            itemList.add(itemCard);
-//
-//            // Put String data in intent, start activity:
-//            Intent i = new Intent(LiveClassDiscussionActivity.this, InClass.class);
-//            i.putExtra("DISCUSSION_TEXT", itemCard.getItemDesc());
-//            //startActivity(i);
-//
-//
-//
-//
-//        } catch (JSONException e) {
-//            //e.printStackTrace();
-//            Log.d("JSON", "JSON exception found");
-//        }
 
 
 
@@ -172,46 +112,7 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 //    }
 
 
-    // When the floating button is clicked, the user's question is added and gathered via collectInput()
-//    public void addQuestion(View view) {
-//
-//        Log.d("add question()", "addQuestion() reached");
-//
-//        AlertDialog.Builder questionAlert = new AlertDialog.Builder(this);
-//        final EditText userQuestion = new EditText(this);
-//
-//        questionAlert.setTitle("Enter your question:");
-//
-//        questionAlert.setView(userQuestion);
-//        LinearLayout alertLayout = new LinearLayout(this);
-//        alertLayout.setOrientation(LinearLayout.VERTICAL);
-//        alertLayout.addView(userQuestion);
-//        questionAlert.setView(alertLayout);
-//
-//        questionAlert.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int whichButton) {
-//                txt = userQuestion; // storing the user input
-//                //collectInput();
-//
-//
-//            }
-//        });
-//
-//        questionAlert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int whichButton) {
-//                dialog.cancel(); // closes dialog
-//
-//
-//            }
-//        });
-//
-//        questionAlert.create();
-//        questionAlert.show();
-//
-//
-//
-//
-//    }
+
 
     // A method to add a new discussion document to the post collection, gathered from user input
     private void addPost(){
@@ -284,14 +185,17 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
                         String message = (String) querySnapshot.getDocuments().get(i).get("message");
 
+                        String messageDate = (String) querySnapshot.getDocuments().get(i).get("date");
+
                         messageList.add(message);
+                        dateList.add(messageDate);
 
 
                     }
 
                     for (int k = 0; k < messageList.size(); k++){
 
-                        MyItemCard itemCard = new MyItemCard(messageList.get(k));
+                        MyItemCard itemCard = new MyItemCard(messageList.get(k), dateList.get(k));
 
                         itemList.add(itemCard);
 
@@ -350,6 +254,7 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
                 // Refresh itemCards
                 messageList = new ArrayList<>();
+                dateList = new ArrayList<>();
                 getMessageBoard();
 
 
