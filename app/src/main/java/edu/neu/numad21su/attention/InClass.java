@@ -112,7 +112,7 @@ public class InClass extends AppCompatActivity {
 
         TextView discussion3 = findViewById(R.id.discussionText3);
 
-        Query post_history = db.collection("discussion_posts").limit(3);
+        Query post_history = db.collection("discussion_posts");
 
         post_history.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -127,15 +127,66 @@ public class InClass extends AppCompatActivity {
                     StringBuilder post2 = new StringBuilder("");
                     StringBuilder post3 = new StringBuilder("");
 
-                    // Check for no items in result. If there are no items, no discussion appears
+                    // If there are no items, no discussion appears
 
-                   // post1.append(querySnapshot.getDocuments().get(2).get("message"));
-                   // post2.append(querySnapshot.getDocuments().get(1).get("message"));
-                   // post3.append(querySnapshot.getDocuments().get(0).get("message"));
+                    // If there is one item, one discussion message appears
+                    if(querySnapshot.size() == 1){
 
-                  //  discussion1.setText(post1);
-                  //  discussion2.setText(post2);
-                  //  discussion3.setText(post3);
+                        post1.append(querySnapshot.getDocuments().get(0).get("message"));
+                        discussion1.setText(post1);
+
+
+
+                    }
+
+                    // If there are two items, two discussion messages appear
+                    if(querySnapshot.size() == 2){
+
+                        post1.append(querySnapshot.getDocuments().get(1).get("message"));
+                        discussion1.setText(post1);
+
+                        post2.append(querySnapshot.getDocuments().get(0).get("message"));
+                        discussion2.setText(post2);
+
+
+
+                    }
+
+                    // If there are three items, three discussion messages appear
+                    if(querySnapshot.size() == 3){
+
+                        post1.append(querySnapshot.getDocuments().get(2).get("message"));
+                        discussion1.setText(post1);
+
+                        post2.append(querySnapshot.getDocuments().get(1).get("message"));
+                        discussion2.setText(post2);
+
+                        post3.append(querySnapshot.getDocuments().get(0).get("message"));
+                        discussion3.setText(post3);
+
+
+
+                    }
+
+                    // If there are more than three items, show the most recent three
+                    if(querySnapshot.size() > 3){
+
+                        Log.d("length of querysnapshot", String.valueOf(querySnapshot.size()));
+
+                        post1.append(querySnapshot.getDocuments().get(querySnapshot.size() - 1).get("message"));
+                        discussion1.setText(post1);
+
+                        post2.append(querySnapshot.getDocuments().get(querySnapshot.size() - 2).get("message"));
+                        discussion2.setText(post2);
+
+                        post3.append(querySnapshot.getDocuments().get(querySnapshot.size() - 3).get("message"));
+                        discussion3.setText(post3);
+
+
+
+
+                    }
+
 
                 }
 
