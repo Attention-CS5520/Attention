@@ -5,7 +5,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".QuizResults">
+        tools:context=".QuizResults"
+        android:background="@drawable/background_gradient_in_class">
 
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"

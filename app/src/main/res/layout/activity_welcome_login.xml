@@ -9,7 +9,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".WelcomeLogin">
+    tools:context=".WelcomeLogin"
+    android:background="@drawable/background_gradient_out_of_class">
 
     <EditText
         android:id="@+id/username"
@@ -24,7 +25,8 @@
         app:layout_constraintBottom_toTopOf="@id/login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/white"/>
 
     <EditText
         android:id="@+id/password"
@@ -41,7 +43,8 @@
         app:layout_constraintBottom_toTopOf="@id/login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/AppDescription" />
+        app:layout_constraintTop_toBottomOf="@id/AppDescription"
+        android:textColor="@color/white" />
 
     <Button
         android:id="@+id/login"
@@ -52,7 +55,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/register"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/password" />
+        app:layout_constraintTop_toBottomOf="@id/password"
+        android:textColor="@color/white" />
 
     <Button
         android:id="@+id/register"
@@ -64,7 +68,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/login"
-        app:layout_constraintTop_toBottomOf="@id/password" />
+        app:layout_constraintTop_toBottomOf="@id/password"
+        android:textColor="@color/white" />
 
     <ProgressBar
         android:id="@+id/loading"
@@ -92,7 +97,8 @@
         app:layout_constraintBottom_toTopOf="@id/AppDescription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/white" />
 
     <TextView
         android:id="@+id/AppDescription"
@@ -103,5 +109,6 @@
         app:layout_constraintBottom_toTopOf="@id/username"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/AppName" />
+        app:layout_constraintTop_toBottomOf="@id/AppName"
+        android:textColor="@color/white" />
 </androidx.constraintlayout.widget.ConstraintLayout>

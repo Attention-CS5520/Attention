@@ -51,5 +51,6 @@
     <string name="question_type">QUESTION_TYPE</string>
     <string name="quiz_title">QUIZ_TITLE</string>
     <string name="last_edited">LAST_EDITED</string>
+    <string name="question_select_answer_label">Select\nAnswer</string>
 </resources>
 

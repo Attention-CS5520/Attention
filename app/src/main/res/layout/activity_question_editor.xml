@@ -5,7 +5,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".QuestionEditor">
+        tools:context=".QuestionEditor"
+        android:background="@drawable/background_gradient_manage_class">
 
     <EditText
             android:layout_width="337dp"
@@ -31,19 +32,19 @@
             android:layout_marginStart="16dp"/>
 
     <EditText
-            android:layout_width="348dp"
+            android:layout_width="300dp"
             android:layout_height="46dp"
             android:inputType="textPersonName"
             android:text="@string/optionA_input"
             android:ems="10"
             android:id="@+id/question_editor_optionA"
             app:layout_constraintTop_toBottomOf="@+id/question_editor_question_text"
-            android:layout_marginTop="32dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:layout_marginTop="60dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/question_answer_radio_group"/>
 
     <EditText
-            android:layout_width="348dp"
+            android:layout_width="300dp"
             android:layout_height="46dp"
             android:inputType="textPersonName"
             android:text="@string/optionB_input"
@@ -51,11 +52,11 @@
             android:id="@+id/question_editor_optionB"
             app:layout_constraintTop_toBottomOf="@+id/question_editor_optionA"
             android:layout_marginTop="32dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/question_answer_radio_group"/>
 
     <EditText
-            android:layout_width="348dp"
+            android:layout_width="300dp"
             android:layout_height="46dp"
             android:inputType="textPersonName"
             android:text="@string/optionC_input"
@@ -63,11 +64,11 @@
             android:id="@+id/question_editor_optionC"
             app:layout_constraintTop_toBottomOf="@+id/question_editor_optionB"
             android:layout_marginTop="32dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/question_answer_radio_group"/>
 
     <EditText
-            android:layout_width="348dp"
+            android:layout_width="300dp"
             android:layout_height="46dp"
             android:inputType="textPersonName"
             android:text="@string/optionD_input"
@@ -75,8 +76,8 @@
             android:id="@+id/question_editor_optionD"
             app:layout_constraintTop_toBottomOf="@+id/question_editor_optionC"
             android:layout_marginTop="32dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/question_answer_radio_group"/>
 
     <Button
             android:text="@string/add_answer_option"
@@ -88,5 +89,55 @@
             app:layout_constraintTop_toBottomOf="@+id/question_editor_optionD"
             android:layout_marginTop="24dp"
             app:layout_constraintHorizontal_bias="0.9"/>
+
+    <RadioGroup
+            android:layout_width="50dp"
+            android:layout_height="280dp"
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/question_editor_optionA"
+            android:id="@+id/question_answer_radio_group">
+
+        <RadioButton
+                android:text=""
+                android:layout_height="46dp"
+                android:layout_width="match_parent"
+                android:id="@+id/answerA_selected"
+                />
+
+        <RadioButton
+                android:text=""
+                android:layout_marginTop="32dp"
+                android:layout_height="46dp"
+                android:layout_width="match_parent"
+                android:id="@+id/answerB_selected"
+                />
+
+        <RadioButton
+                android:text=""
+                android:layout_marginTop="32dp"
+                android:layout_height="46dp"
+                android:layout_width="match_parent"
+                android:id="@+id/answerC_selected"
+                />
+
+        <RadioButton
+                android:text=""
+                android:layout_marginTop="32dp"
+                android:layout_height="46dp"
+                android:layout_width="match_parent"
+                android:id="@+id/answerD_selected"
+                />
+    </RadioGroup>
+
+    <TextView
+            android:text="@string/question_select_answer_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:id="@+id/question_select_answer_label"
+            app:layout_constraintBottom_toTopOf="@+id/question_answer_radio_group"
+            app:layout_constraintTop_toBottomOf="@+id/question_editor_question_text"
+            app:layout_constraintStart_toStartOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

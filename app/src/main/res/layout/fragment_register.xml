@@ -5,7 +5,7 @@
     android:id="@+id/fragmentRegister"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@drawable/background_gradient_out_of_class"
     tools:context=".RegisterActivity">
 
     <TextView
@@ -18,7 +18,8 @@
         app:layout_constraintBottom_toTopOf="@id/AppDescription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/white"/>
 
     <TextView
         android:id="@+id/AppDescription"
@@ -29,7 +30,8 @@
         app:layout_constraintBottom_toTopOf="@id/editFirstName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/applicationName" />
+        app:layout_constraintTop_toBottomOf="@id/applicationName"
+        android:textColor="@color/white" />
 
     <EditText
         android:id="@+id/editFirstName"
@@ -42,7 +44,8 @@
         app:layout_constraintBottom_toTopOf="@id/editLastName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/AppDescription" />
+        app:layout_constraintTop_toBottomOf="@id/AppDescription"
+        android:textColor="@color/white" />
 
     <EditText
         android:id="@+id/editLastName"
@@ -55,7 +58,8 @@
         app:layout_constraintBottom_toTopOf="@id/editEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editFirstName" />
+        app:layout_constraintTop_toBottomOf="@id/editFirstName"
+        android:textColor="@color/white" />
 
     <EditText
         android:id="@+id/editEmailAddress"
@@ -67,7 +71,8 @@
         app:layout_constraintBottom_toTopOf="@id/editPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editLastName" />
+        app:layout_constraintTop_toBottomOf="@id/editLastName"
+        android:textColor="@color/white" />
 
     <EditText
         android:id="@+id/editPassword"
@@ -79,7 +84,8 @@
         app:layout_constraintBottom_toTopOf="@id/SignUp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editEmailAddress" />
+        app:layout_constraintTop_toBottomOf="@id/editEmailAddress"
+        android:textColor="@color/white" />
 
     <Button
         android:id="@+id/SignUp"
@@ -90,7 +96,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editPassword" />
+        app:layout_constraintTop_toBottomOf="@id/editPassword"
+        android:textColor="@color/white" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
