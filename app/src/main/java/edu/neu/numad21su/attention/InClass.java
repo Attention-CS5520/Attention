@@ -121,20 +121,21 @@ public class InClass extends AppCompatActivity {
                 if (task.isSuccessful()){
 
 
-
                     QuerySnapshot querySnapshot = task.getResult();
 
                     StringBuilder post1 = new StringBuilder("");
                     StringBuilder post2 = new StringBuilder("");
                     StringBuilder post3 = new StringBuilder("");
 
-                    post1.append(querySnapshot.getDocuments().get(2).get("message"));
-                    post2.append(querySnapshot.getDocuments().get(1).get("message"));
-                    post3.append(querySnapshot.getDocuments().get(0).get("message"));
+                    // Check for no items in result. If there are no items, no discussion appears
 
-                    discussion1.setText(post1);
-                    discussion2.setText(post2);
-                    discussion3.setText(post3);
+                   // post1.append(querySnapshot.getDocuments().get(2).get("message"));
+                   // post2.append(querySnapshot.getDocuments().get(1).get("message"));
+                   // post3.append(querySnapshot.getDocuments().get(0).get("message"));
+
+                  //  discussion1.setText(post1);
+                  //  discussion2.setText(post2);
+                  //  discussion3.setText(post3);
 
                 }
 
