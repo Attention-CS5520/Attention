@@ -11,7 +11,7 @@ public class Quiz implements Serializable {
   public String lastEdited;
   public List<Question> questions;
 
-  public Quiz(String classId, String quizId,String quizTitle,
+  public Quiz(String classId, String quizId, String quizTitle,
               String lastEdited, List<Question> questions) {
     this.classId = classId;
     this.quizId = quizId;
