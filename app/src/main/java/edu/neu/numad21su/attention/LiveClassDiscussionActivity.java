@@ -1,6 +1,7 @@
 package edu.neu.numad21su.attention;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,7 +20,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.installations.time.SystemClock;
@@ -44,10 +49,6 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
     private ArrayList<MyItemCard> itemList = new ArrayList<>();
     private FloatingActionButton floatingButton;
 
-    // Gathering a new discussion post from the user
-    ArrayList<CharSequence> arrayListCollection = new ArrayList<>();
-   // ArrayAdapter<CharSequence> adapter;
-    EditText txt; // user input bar
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,25 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
 
         setContentView(R.layout.activity_live_class_discussion);
+
+
+
+        Query post_history = db.collection("discussion_posts").orderBy("date");
+
+        EventListener<QuerySnapshot> querySnapshotEventListener = new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                Log.d("change", "database changed");
+                getMessageBoard();
+
+
+            }
+        };
+
+
+        post_history.addSnapshotListener(querySnapshotEventListener);
+
 
         // Adding listener to floating button, for user question input
         floatingButton = findViewById(R.id.addButton);
@@ -95,21 +115,6 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
 
 
-//    // Collects the user's discussion post. (Where does it go next?)
-//    public void collectInput(){
-//        // convert edit text to string
-//        String getInput = txt.getText().toString();
-//
-//        // ensure that user input bar is not empty
-//        if (getInput ==null || getInput.trim().equals("")){
-//            Toast.makeText(getBaseContext(), "Please add a question", Toast.LENGTH_LONG).show();
-//        }
-//        // add input into an data collection arraylist
-//        else {
-//            arrayListCollection.add(getInput);
-//           // adapter.notifyDataSetChanged();
-//        }
-//    }
 
 
 
@@ -132,8 +137,7 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
         questionAlert.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                txt = userQuestion; // storing the user input
-                //collectInput();
+
 
                 // Posting the user's comment to the database
                 postToDataBase(userQuestion.getText().toString());
@@ -226,12 +230,19 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
     }
 
+
+
+
+
+
+
+
     private void postToDataBase(String userPost){
+
+
 
         int postCount = itemList.size() + 1;
 
-
-        //SystemClock clock = SystemClock.getInstance();
 
         Date dNow = new Date();
         SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd H:mm aaa");
