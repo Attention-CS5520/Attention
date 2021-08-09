@@ -79,16 +79,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/question_answer_radio_group"/>
 
-    <Button
-            android:text="@string/add_answer_option"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/question_editor_optionD"
-            android:layout_marginTop="24dp"
-            app:layout_constraintHorizontal_bias="0.9"/>
 
     <RadioGroup
             android:layout_width="50dp"
@@ -139,5 +129,17 @@
             app:layout_constraintBottom_toTopOf="@+id/question_answer_radio_group"
             app:layout_constraintTop_toBottomOf="@+id/question_editor_question_text"
             app:layout_constraintStart_toStartOf="parent"/>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:srcCompat="@drawable/ic_add"
+            android:id="@+id/newQuestionButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="30dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
