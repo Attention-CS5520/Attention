@@ -53,7 +53,9 @@ public class AttendanceActivity extends AppCompatActivity {
   String RandomAudioFileName = "ABCDEFGHIJKLMNOP";
   public static final int RequestPermissionCode = 1;
   MediaPlayer mediaPlayer ;
-  public final int[] RANGE = new int[] { 40, 80, 120, 180, 300 };
+  //public final int[] RANGE = new int[] { 40, 80, 120, 180, 300, 500, 700, 900};
+  public final int[] RANGE = new int[] { 40, 60, 80, 100, 500, 900, 910, 950};
+  //public final int[] RANGE = new int[] { 40, 60, 80, 90, 100, 900, 910, 950};
   private static final int FUZ_FACTOR = 2;
 
   //voice Recognizer
@@ -224,7 +226,7 @@ public class AttendanceActivity extends AppCompatActivity {
               }
 
             }
-          }, 7000);
+          }, 9000);
 
 
           //
@@ -650,7 +652,7 @@ public class AttendanceActivity extends AppCompatActivity {
 
   public int getIndex(int freq) {
     int i = 0;
-    while (i < 3 && RANGE[i] < freq)
+    while (i < 7 && RANGE[i] < freq)
       i++;
     return i;
   }
@@ -718,21 +720,21 @@ public class AttendanceActivity extends AppCompatActivity {
   public List<String> postFFTcalculations(List<Complex []> result) {
     //Log.d("result size", String.valueOf(result.size()));
     //Log.d("result 1st row size", String.valueOf(result.get(0).length));
-    Double [][] highscores = new Double[result.size()][4];
-    int [][] points = new int[result.size()][4];
+    Double [][] highscores = new Double[result.size()][8];
+    int [][] points = new int[result.size()][8];
     List<Long> hashedValues = new ArrayList<>();
     List<String> retunrStr = new ArrayList<>();
 
     //Initialize highscores
     //Log.d("postfft", "line 724");
     for (int idx = 0; idx < highscores.length; idx++) {
-      for (int jdx = 0; jdx < 4; jdx++) {
+      for (int jdx = 0; jdx < 8; jdx++) {
         highscores[idx][jdx] = 0.0;
       }
     }
     //Initializing points
     for (int idx = 0; idx < points.length; idx++) {
-      for (int jdx = 0; jdx < 4; jdx++) {
+      for (int jdx = 0; jdx < 8; jdx++) {
         points[idx][jdx] = 0;
       }
     }
@@ -740,7 +742,7 @@ public class AttendanceActivity extends AppCompatActivity {
     //Log.d("postfft", "line 730");
     //try {
       for (int t = 0; t < result.size(); t++) {
-        for (int freq = 40; freq < 900; freq++) {
+        for (int freq = 40; freq < 1024; freq++) {
           // Get the magnitude:
           //Log.d("postfft", "line 734");
           //double mag = Math.log(result.get(t)[freq].abs() + 1);
@@ -771,7 +773,9 @@ public class AttendanceActivity extends AppCompatActivity {
         // form hash tag
         //hashedValues.add(hash(points[t][0], points[t][1], points[t][2], points[t][3]));
         retunrStr.add(String.valueOf(points[t][0]) + " " + String.valueOf(points[t][1])
-                + " " + String.valueOf(points[t][2]) + " " +String.valueOf(points[t][3]));
+                + " " + String.valueOf(points[t][2]) + " " +String.valueOf(points[t][3])
+                +" " +String.valueOf(points[t][4]) +" " +String.valueOf(points[t][5])
+                +" " +String.valueOf(points[t][6]) +" " +String.valueOf(points[t][7]));
         //Log.d("postfft", "line 748");
       }
     //}
