@@ -2,6 +2,7 @@ package edu.neu.numad21su.attention;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import edu.neu.numad21su.attention.ItemClickListener;
 
@@ -53,7 +54,7 @@ public class MyItemCard implements ItemClickListener {
 
     public static String date() {
         Date dNow = new Date();
-        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd H:mm aaa");
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd H:mm aaa", Locale.US);
         return ft.format(dNow);
     }
 

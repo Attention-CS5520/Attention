@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".QuizScreen">
+    tools:context=".QuizScreen"
+    android:background="@drawable/background_gradient_in_class">
 
     <TextView
         android:id="@+id/quiz_screen_question_text"
