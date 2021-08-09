@@ -53,6 +53,8 @@ public class AttendanceActivity extends AppCompatActivity {
   String RandomAudioFileName = "ABCDEFGHIJKLMNOP";
   public static final int RequestPermissionCode = 1;
   MediaPlayer mediaPlayer ;
+  public final int[] RANGE = new int[] { 40, 80, 120, 180, 300 };
+  private static final int FUZ_FACTOR = 2;
 
   //voice Recognizer
     /*
@@ -222,7 +224,7 @@ public class AttendanceActivity extends AppCompatActivity {
               }
 
             }
-          }, 4000);
+          }, 7000);
 
 
           //
@@ -606,7 +608,7 @@ public class AttendanceActivity extends AppCompatActivity {
       }
       sumOfInnerProduct = 0.0;
       idx++;
-      //break;
+      break;
     }
     return finalSumOfInnerProduct;
   }
@@ -621,7 +623,7 @@ public class AttendanceActivity extends AppCompatActivity {
     }
 
     //HighPassFilter filter = new HighPassFilter(100,44100, HighPassFilter.PassType.Highpass,1);
-    HighPassFilter filter = new HighPassFilter(50,44100, HighPassFilter.PassType.Highpass,1);
+    HighPassFilter filter = new HighPassFilter(30,44100, HighPassFilter.PassType.Highpass,1);
     StringBuilder outputSb = new StringBuilder();
     for (int i = 0; i < doubleArray.length; i++)
     {
@@ -640,11 +642,145 @@ public class AttendanceActivity extends AppCompatActivity {
       int end = (i + 1) * maxLogSize;
       end = end > letsPrint.length() ? letsPrint.length() : end;
 
-
       //Log.d("hello saved long data", letsPrint.substring(start, end));
     }
 
     return letsPrint;
+  }
+
+  public int getIndex(int freq) {
+    int i = 0;
+    while (i < 3 && RANGE[i] < freq)
+      i++;
+    return i;
+  }
+
+  private long hash(long p1, long p2, long p3, long p4) {
+    return (p4 - (p4 % FUZ_FACTOR)) * 100000000 + (p3 - (p3 % FUZ_FACTOR))
+            * 100000 + (p2 - (p2 % FUZ_FACTOR)) * 100
+            + (p1 - (p1 % FUZ_FACTOR));
+  }
+
+
+  public List<Complex []> fullFFT(String audioStr) {
+    String [] audioArr = audioStr.split(" ");
+    Log.d("size of audioArr", String.valueOf(audioArr.length));
+    List<Double> audio = new ArrayList<>();
+
+    for (int idx = 0; idx < audioArr.length; idx++) {
+      audio.add(Double.valueOf(audioArr[idx]));
+    }
+
+    int totalSize = audio.size();
+    Log.d("totalsize", String.valueOf(totalSize));
+    int chunkSize = 1024;
+    int sampledChunkSize = totalSize/chunkSize;
+    //Log.d("sampledchunksize", String.valueOf(sampledChunkSize));
+    //Complex result[sampledChunkSize][chunkSize];
+    //Complex result[][];
+    List<Complex []> result = new ArrayList<>();
+
+    for(int j = 0; j < sampledChunkSize; j++) {
+      List<Complex> chunkList = new ArrayList<>();
+      //Log.d("fft result2", "inside first loop"+ String.valueOf(j));
+      for(int i = 0; i < chunkSize; i++) {
+        //complexArray[i] = Complex(audio[(j*chunkSize)+i], 0);
+        chunkList.add(new Complex(audio.get((j * chunkSize) + i),0));
+        //Log.d("fft result3", "inside second loop"+ String.valueOf(i));
+      }
+      Complex [] complexArray = new Complex[chunkList.size()];
+      chunkList.toArray(complexArray);
+      //Log.d("fft result4", "outside second loop");
+      //result[j] = FFT.fft(complexArray);
+      result.add(FFT.fft(complexArray));
+      //Log.d("fft result5", "outside second loopppp");
+      //Log.d("fft result", String.valueOf(result.get(j).length));
+      //Log.d("fft result", String.valueOf(result.get(j)[100].abs()));
+  }
+
+  //Log.d("fft result", String.valueOf(result.get(0).length));
+  Log.d("fft result2", "returning");
+
+    return result;
+
+}
+
+  private int nearestPowerOfTwo (int number) {
+    int i = 2;
+    int prevI = i;
+    while (i <= number) {
+      prevI = i;
+      i = i * i;
+    }
+    return prevI;
+  }
+
+  public List<String> postFFTcalculations(List<Complex []> result) {
+    //Log.d("result size", String.valueOf(result.size()));
+    //Log.d("result 1st row size", String.valueOf(result.get(0).length));
+    Double [][] highscores = new Double[result.size()][4];
+    int [][] points = new int[result.size()][4];
+    List<Long> hashedValues = new ArrayList<>();
+    List<String> retunrStr = new ArrayList<>();
+
+    //Initialize highscores
+    //Log.d("postfft", "line 724");
+    for (int idx = 0; idx < highscores.length; idx++) {
+      for (int jdx = 0; jdx < 4; jdx++) {
+        highscores[idx][jdx] = 0.0;
+      }
+    }
+    //Initializing points
+    for (int idx = 0; idx < points.length; idx++) {
+      for (int jdx = 0; jdx < 4; jdx++) {
+        points[idx][jdx] = 0;
+      }
+    }
+
+    //Log.d("postfft", "line 730");
+    //try {
+      for (int t = 0; t < result.size(); t++) {
+        for (int freq = 40; freq < 900; freq++) {
+          // Get the magnitude:
+          //Log.d("postfft", "line 734");
+          //double mag = Math.log(result.get(t)[freq].abs() + 1);
+          double mag = result.get(t)[freq].abs();
+          //Log.d("postfft", "line 736");
+          // Find out which range we are in:
+          int index = getIndex(freq);
+          //int index = 0;
+          /*
+          Log.d("t value", String.valueOf(t));
+          Log.d("freq value", String.valueOf(freq));
+          Log.d("index value", String.valueOf(index));
+          Log.d("postfftMag", String.valueOf(mag));
+
+           */
+          // Save the highest magnitude and corresponding frequency:
+          if (mag > highscores[t][index]) {
+            //Log.d("postfft", "inside comparison");
+            //Log.d("postfftMag", String.valueOf(mag));
+            points[t][index] = freq;
+            highscores[t][index] = mag;
+
+
+          }
+          //Log.d("postfft", "line 744");
+        }
+        //Log.d("postfft", "line 745");
+        // form hash tag
+        //hashedValues.add(hash(points[t][0], points[t][1], points[t][2], points[t][3]));
+        retunrStr.add(String.valueOf(points[t][0]) + " " + String.valueOf(points[t][1])
+                + " " + String.valueOf(points[t][2]) + " " +String.valueOf(points[t][3]));
+        //Log.d("postfft", "line 748");
+      }
+    //}
+    /*catch (ArrayIndexOutOfBoundsException ex) {
+      Log.d("Exception", "Exception occurred");
+    }*/
+    //Log.d("postfft", "line 749");
+    //return hashedValues;
+    return retunrStr;
   }
 
   public void afterRecording() {
@@ -668,7 +804,7 @@ public class AttendanceActivity extends AppCompatActivity {
     // printing binary
     try {
       byte[] encoded = Files.readAllBytes(Paths.get(AudioSavePathInDevice));
-      Log.i("audio string",Arrays.toString(encoded));
+      //Log.i("audio string",Arrays.toString(encoded));
     } catch (IOException e) {
 
     }
@@ -680,9 +816,7 @@ public class AttendanceActivity extends AppCompatActivity {
       for (int i; (i = is.read()) != -1;) {
         //String temp = Integer.toHexString(i).toUpperCase();
         String temp = Integer.toString(i).toUpperCase();
-        //if (temp.length() == 1) {
-        //  sb.append('0');
-        //}
+
         sb.append(temp).append(' ');
         if (Integer.valueOf(temp) > maxNum) maxNum = Integer.valueOf(temp);
       }
@@ -691,18 +825,19 @@ public class AttendanceActivity extends AppCompatActivity {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    Log.i("hex output",sb.toString());
-    Log.i("maxVal",String.valueOf(maxNum));
+    //Log.i("hex output",sb.toString());
+    //Log.i("maxVal",String.valueOf(maxNum));
     Log.i("size",String.valueOf(sb.length()));
-    Log.i("file location", AudioSavePathInDevice);
-    //File myObj = new File("/storage/emulated/0/Android/data/edu.neu.numad21su.attention/files/OMIFGAudioRecording.3gp");
-
-    //myObj.delete();
+    //Log.i("file location", AudioSavePathInDevice);
 
     // Modify the values in string buffer to normalize and change polarities if needed
     StringBuffer sbNorm = new StringBuffer();
     String[] sbArray = sb.toString().split(" ");
-    for (int idx =0; idx < sbArray.length; idx++) {
+    // making sure that size is even
+    int arraySize = sbArray.length;
+    //arraySize = nearestPowerOfTwo(arraySize);
+
+    for (int idx =0; idx < arraySize; idx++) {
       double tempDouble = ((double)((double) Integer.valueOf(sbArray[idx]) /maxNum)) - 0.5;
       sbNorm.append(String.valueOf(tempDouble));
       sbNorm.append(" ");
@@ -723,7 +858,7 @@ public class AttendanceActivity extends AppCompatActivity {
         Log.i("file creation","Could not create a directory!!");
       }
 
-      File gpxfile = new File(root, "inputfile");
+      File gpxfile = new File(root, "music1");
       //File gpxfile = new File(root, "hello");
       gpxfile.delete();
       FileWriter writer = new FileWriter(gpxfile);
@@ -735,97 +870,87 @@ public class AttendanceActivity extends AppCompatActivity {
 
       String data = myReader.nextLine();
       Log.i("Reading file data",data);
-      myReader.close();
+      //myReader.close();
       // create test for hello
 
-      gpxfile = new File(root, "music7");
+
+      List<String> hashedValues = new ArrayList<>();
+      List<Complex []> returnedList = fullFFT(data);
+      hashedValues = postFFTcalculations(returnedList);
+
+      gpxfile = new File(root, "music1");
       myReader = new Scanner(gpxfile);
       String a = myReader.nextLine();
+
+      // checking if FFt worked;
+      //Log.d("WHOLE FILE", a);
+
+      /*
+      List<Long> hashedValues = new ArrayList<>();
+      List<Complex []> returnedList = fullFFT(a);
+      hashedValues = postFFTcalculations(returnedList);
+
+       */
+
+
+      /*
+      StringBuilder tb = new StringBuilder();
+      for(int idx = 0; idx < returnedList.get(1).length; idx++) {
+        tb.append(returnedList.get(1)[idx].abs());
+        tb.append(" ");
+      }
+
+       */
+      //Log.d("fullFFT result for row 0", tb.toString());
+      Log.d("RETURNED", "I RETURED");
+      // checking hashed values
+      for (int idx = 0; idx < hashedValues.size(); idx++) {
+        Log.d("hashValue", hashedValues.get(idx));
+      }
+
+      //
+
+      //
       int maxLogSize = 900;
       for(int i = 0; i <= a.length() / maxLogSize; i++) {
         int start = i * maxLogSize;
         int end = (i + 1) * maxLogSize;
         end = end > a.length() ? a.length() : end;
 
-
         //Log.d("good saved long data", hello.substring(start, end));
       }
 
       // apply filter on hello data
-      filterOut(a);
+      //filterOut(a);
 
-      //}
       myReader.close();
 
       gpxfile = new File(root, "music1");
       myReader = new Scanner(gpxfile);
       String b = myReader.nextLine();
 
+      /*
       gpxfile = new File(root, "music6");
       myReader = new Scanner(gpxfile);
       String c = myReader.nextLine();
 
-      //double helloTest = computeFFT(computePreFFT(filterOut(a)),computePreFFT(filterOut(data)));
+       */
+
+      /*
       double aTest = computeFFT(filterOut(a),filterOut(data));
-      //double aTest = computeFFT(filterOut(data),filterOut(a));
+
       Log.d("uuuuuuuuuuuu", "!!!!!!!!!!!!!!!!!!!");
       Log.d("a Test result", String.valueOf(aTest));
 
       double bTest = computeFFT(filterOut(b),filterOut(data));
-      //double bTest = computeFFT(filterOut(data),filterOut(b));
-      //Log.d("uuuuuuuuuuuu", "!!!!!!!!!!!!!!!!!!!");
+
       Log.d("b Test result", String.valueOf(bTest));
 
       double cTest = computeFFT(filterOut(c),filterOut(data));
-      //double cTest = computeFFT(filterOut(data),filterOut(c));
-      //Log.d("uuuuuuuuuuuu", "!!!!!!!!!!!!!!!!!!!");
+
       Log.d("c Test result", String.valueOf(cTest));
 
-
-      double aVal = getSum(computePreFFT(filterOut(a)));
-      double bVal = getSum(computePreFFT(filterOut(b)));
-      double cVal = getSum(computePreFFT(filterOut(c)));
-      double inputVal = getSum(computePreFFT(filterOut(data)));
-      //double aVal = getSum(computePreFFT((a)));
-      //double bVal = getSum(computePreFFT((b)));
-      //double cVal = getSum(computePreFFT((c)));
-      //double inputVal = getSum(computePreFFT((data)));
-      //Log.d("helloSum", String.valueOf(getSum(computePreFFT(filterOut(hello)))));
-
-      //Log.d("helloSum", String.valueOf(Math.abs(inputVal - aVal)));
-      //Log.d("goodSum", String.valueOf(Math.abs(inputVal - bVal)));
-      //Log.d("classSum", String.valueOf(Math.abs(inputVal - cVal)));
-
-      //Log.d("helloSum", String.valueOf(getSum(computePreFFT((hello)))));
-      //Log.d("goodSum", String.valueOf(getSum(computePreFFT((good)))));
-      //Log.d("classSum", String.valueOf(getSum(computePreFFT((class_)))));
-      //Log.d("inputSum", String.valueOf(getSum(computePreFFT((data)))));
-
-
-          /*
-          // create test for good
-          gpxfile = new File(root, "good");
-          myReader = new Scanner(gpxfile);
-          //while (myReader.hasNextLine()) {
-          String good = myReader.nextLine();
-          Log.i("Reading file data",good);
-          //}
-          myReader.close();
-          double goodTest = computeFFT(filterOut(good),filterOut(data));
-          Log.i("Good Test result", String.valueOf(goodTest));
-
-
-          // create test for class
-          gpxfile = new File(root, "class");
-          myReader = new Scanner(gpxfile);
-          //while (myReader.hasNextLine()) {
-          String class_ = myReader.nextLine();
-          Log.i("Reading file data",class_);
-          //}
-          myReader.close();
-          double classTest = computeFFT(filterOut(class_),filterOut(data));
-          Log.i("Class Test result", String.valueOf(classTest));
-          */
+       */
 
       Toast.makeText(AttendanceActivity.this, "Saved", Toast.LENGTH_SHORT).show();
     } catch (IOException e) {
