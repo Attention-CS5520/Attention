@@ -71,7 +71,7 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
 
                 Log.d("change", "database changed");
-                getMessageBoard();
+               // getMessageBoard();
 
 
             }
