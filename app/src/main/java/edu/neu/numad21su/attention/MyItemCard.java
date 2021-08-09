@@ -24,6 +24,15 @@ public class MyItemCard implements ItemClickListener {
         //this.imageSource = imageSource;
     }
 
+    //Constructor that takes a date
+    public MyItemCard(String itemDesc, String itemTime) {
+
+        this.itemTime = itemTime;
+        this.itemDesc = itemDesc;
+        //this.imageSource = imageSource;
+    }
+
+
     //Getters for the imageSource, itemName and itemDesc
 
 

@@ -1,30 +1,46 @@
 package edu.neu.numad21su.attention;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.installations.time.SystemClock;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
-
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LiveClassDiscussionActivity extends AppCompatActivity {
+
+    private FirebaseFirestore db;
+    private ArrayList<String> messageList = new ArrayList<>();
+    private ArrayList<String> dateList = new ArrayList<>();
 
     private Discussion myDiscussion = new Discussion("", "", "");
     private RecyclerView recyclerView;
@@ -33,17 +49,37 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
     private ArrayList<MyItemCard> itemList = new ArrayList<>();
     private FloatingActionButton floatingButton;
 
-    // Gathering a new discussion post from the user
-    ArrayList<CharSequence> arrayListCollection = new ArrayList<>();
-   // ArrayAdapter<CharSequence> adapter;
-    EditText txt; // user input bar
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
+
+        // Connect with firebase
+        db = FirebaseFirestore.getInstance();
+
+
         setContentView(R.layout.activity_live_class_discussion);
+
+
+
+        Query post_history = db.collection("discussion_posts").orderBy("date");
+
+        EventListener<QuerySnapshot> querySnapshotEventListener = new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                Log.d("change", "database changed");
+               // getMessageBoard();
+
+
+            }
+        };
+
+
+        post_history.addSnapshotListener(querySnapshotEventListener);
+
 
         // Adding listener to floating button, for user question input
         floatingButton = findViewById(R.id.addButton);
@@ -53,62 +89,18 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
                 Log.d("onClick", "floating action onClick() reached");
 
-                addQuestion(v);
+                addPost();
             }
         });
 
 
-        // Just adding a couple of items for now, will come from database in future.
-//        MyItemCard itemCard = new MyItemCard("1.Welcome to the class!");
-//        itemList.add(itemCard);
-//
-//        itemCard = new MyItemCard("2.Hope You are enjoying the class! This is a great class " +
-//                "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!");
-//        itemList.add(itemCard);
-//
-//        itemCard = new MyItemCard("3.Hope You are enjoying the class! This is a great class " +
-//                "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!");
-//        itemList.add(itemCard);
-//
-//        itemCard = new MyItemCard("4.Hope You are enjoying the class! This is a great class " +
-//                "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!");
-//        itemList.add(itemCard);
-//
-//        itemCard = new MyItemCard("5.Hope You are enjoying the class! This is a great class " +
-//                "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!");
-//        itemList.add(itemCard);
-//
-//        itemCard = new MyItemCard("6.Hope You are enjoying the class! This is a great class " +
-//                "students are helpful!!!!!!!!!!!!!!!!!!!!!!!!");
-//        itemList.add(itemCard);
+
+        getMessageBoard();
 
 
 
 
 
-        // ItemCard with sample JSON object- should come from database?
-        try {
-            MyItemCard itemCard = createItemCard(makeJSON());
-
-            itemList.add(itemCard);
-
-            // Put String data in intent, start activity:
-            Intent i = new Intent(LiveClassDiscussionActivity.this, InClass.class);
-            i.putExtra("DISCUSSION_TEXT", itemCard.getItemDesc());
-            //startActivity(i);
-
-
-
-
-        } catch (JSONException e) {
-            //e.printStackTrace();
-            Log.d("JSON", "JSON exception found");
-        }
-
-
-
-
-        createRecyclerView();
     }
 
     private void createRecyclerView() {
@@ -121,53 +113,16 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(rLayoutManger);
     }
 
-    // A method to take in a JSON and produce a MyItemCard
-    private MyItemCard createItemCard(JSONObject jsonObject) throws JSONException {
-
-        String itemDesc = jsonObject.getString("ItemDesc");
 
 
-        MyItemCard newItemCard = new MyItemCard(itemDesc);
-
-        return newItemCard;
-
-    }
-
-    // Making a sample JSON object
-    JSONObject makeJSON() throws JSONException {
-
-        // creating JSONObject
-        JSONObject jo = new JSONObject();
-
-        // putting data to JSONObject
-        jo.put("ItemDesc", "text from JSON object");
-
-        return jo;
-
-    }
 
 
-    // Collects the user's discussion post. (Where does it go next?)
-    public void collectInput(){
-        // convert edit text to string
-        String getInput = txt.getText().toString();
-
-        // ensure that user input bar is not empty
-        if (getInput ==null || getInput.trim().equals("")){
-            Toast.makeText(getBaseContext(), "Please add a question", Toast.LENGTH_LONG).show();
-        }
-        // add input into an data collection arraylist
-        else {
-            arrayListCollection.add(getInput);
-           // adapter.notifyDataSetChanged();
-        }
-    }
 
 
-    // When the floating button is clicked, the user's question is added and gathered via collectInput()
-    public void addQuestion(View view) {
+    // A method to add a new discussion document to the post collection, gathered from user input
+    private void addPost(){
 
-        Log.d("add question()", "addQuestion() reached");
+        // Getting the user's discussion post with an AlertDialog
 
         AlertDialog.Builder questionAlert = new AlertDialog.Builder(this);
         final EditText userQuestion = new EditText(this);
@@ -182,8 +137,17 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
         questionAlert.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                txt = userQuestion; // storing the user input
-                collectInput();
+
+
+                // Posting the user's comment to the database
+                postToDataBase(userQuestion.getText().toString());
+
+
+                // Refreshing the recycler items
+                itemList = new ArrayList<>();
+
+                rviewAdapter.notifyDataSetChanged();
+
 
 
             }
@@ -204,4 +168,121 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
 
     }
+
+
+    // Getting the current state of the message board
+    private void getMessageBoard(){
+
+
+        // Get all discussion posts
+        Query post_history = db.collection("discussion_posts").orderBy("date");
+
+        post_history.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                if (task.isSuccessful()){
+
+                    QuerySnapshot querySnapshot = task.getResult();
+
+                    for (int i = 0; i < querySnapshot.size(); i++){
+
+                        String message = (String) querySnapshot.getDocuments().get(i).get("message");
+
+                        String messageDate = (String) querySnapshot.getDocuments().get(i).get("date");
+
+                        messageList.add(message);
+                        dateList.add(messageDate);
+
+
+                    }
+
+                    for (int k = 0; k < messageList.size(); k++){
+
+                        MyItemCard itemCard = new MyItemCard(messageList.get(k), dateList.get(k));
+
+                        itemList.add(itemCard);
+
+
+
+                    }
+
+
+                }
+
+              createRecyclerView();
+
+
+            }
+
+
+
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Log.d("discussions", "discussion history not found");
+
+            }
+        });
+
+
+
+    }
+
+
+
+
+
+
+
+
+    private void postToDataBase(String userPost){
+
+
+
+        int postCount = itemList.size() + 1;
+
+
+        Date dNow = new Date();
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd H:mm aaa");
+
+
+
+
+        Map<String, Object> newPost = new HashMap<>();
+        newPost.put("author", "James Harlowe");
+        newPost.put("classId", "classId");
+        newPost.put("message", userPost);
+        newPost.put("subject", "Reply");
+        newPost.put("date", ft.format(dNow));
+
+        db.collection("discussion_posts").document("user_post" + postCount)
+                .set(newPost).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(@NonNull Void unused) {
+                Toast.makeText(LiveClassDiscussionActivity.this, "Posted!", Toast.LENGTH_SHORT).show();
+
+                // Refresh itemCards
+                messageList = new ArrayList<>();
+                dateList = new ArrayList<>();
+                getMessageBoard();
+
+
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(LiveClassDiscussionActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                Log.d("error", e.toString());
+
+            }
+        });
+
+
+
+    }
+
+
 }

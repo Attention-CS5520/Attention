@@ -1,20 +1,44 @@
 package edu.neu.numad21su.attention;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.installations.time.SystemClock;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class InClass extends AppCompatActivity {
+
+    private FirebaseFirestore db;
+
+    private DocumentReference documentReference;
 
     // Class name
     private TextView className;
@@ -31,11 +55,6 @@ public class InClass extends AppCompatActivity {
     // Instructor name
     private TextView instructorName;
 
-    // This is a question for the class and/or professor, entered by the user
-    private String userQuestion;
-
-    // This is a button for submitting the user's question
-    private Button submitButton;
 
     // This text area allows the user to access the full class discussion
     private TextView moreText;
@@ -50,74 +69,19 @@ public class InClass extends AppCompatActivity {
     private TextView discussion3;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_class);
 
-        EditText questionInput = findViewById(R.id.question_input);
-        questionInput.setHint("Enter your question here");
-
-        TextView discussion1 = findViewById(R.id.InClassDiscussionText1);
 
 
+        // Connect with firebase
+        db = FirebaseFirestore.getInstance();
 
+        getClassDiscussion();
 
-        // or get the first three discussion items as JSONs from FB, not the LiveClassDiscussion activity?
-
-        try {
-            JSONObject jsonObject = makeJSON();
-
-            String itemDesc = jsonObject.getString("ItemDesc");
-
-
-
-            discussion1.setText(itemDesc);
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-
-
-
-
-
-
-
-        // https://stackoverflow.com/questions/3510649/how-to-pass-a-value-from-one-activity-to-another-in-android
-        // Create intent in ClassDiscussion? Put String data in intent, start activity:
-        // Intent i = new Intent(ClassDiscussion.this, InClass.class);
-        // i.putExtra("MY_kEY",String X);
-
-
-        // Getting the discussions from LiveClassDiscussion to display here
-       // Intent intent = getIntent();
-       // String liveDiscussion = intent.getStringExtra("DISCUSSION_TEXT");
-
-        //discussion1 = findViewById(R.id.discussionText1);
-        //discussion1.setText(liveDiscussion);
-
-
-        // Also have to get the header info [...]. Where does the header info come from? what format?
-
-
-        // Getting the user's question from the text field
-        userQuestion = questionInput.getText().toString();
-
-        // Setting up the submitButton.
-        // When the button is clicked, the submit_question() is triggered.
-        submitButton = findViewById(R.id.submitButton);
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                submit_question(v);
-
-            }
-        });
 
         // Setting up the More text
         moreText = findViewById(R.id.moreText);
@@ -137,14 +101,108 @@ public class InClass extends AppCompatActivity {
 
     }
 
+    // A method to get the current class info [...]
+    // https://dzone.com/articles/cloud-firestore-read-write-update-and-delete
 
-    // This method submits the user's question
-    public void submit_question(View view) {
+    public void getClassDiscussion(){
 
-        // The question is sent to:
+        TextView discussion1 = findViewById(R.id.InClassDiscussionText1);
 
+        TextView discussion2 = findViewById(R.id.discussionText2);
+
+        TextView discussion3 = findViewById(R.id.discussionText3);
+
+        Query post_history = db.collection("discussion_posts");
+
+        post_history.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                if (task.isSuccessful()){
+
+
+                    QuerySnapshot querySnapshot = task.getResult();
+
+                    StringBuilder post1 = new StringBuilder("");
+                    StringBuilder post2 = new StringBuilder("");
+                    StringBuilder post3 = new StringBuilder("");
+
+                    // If there are no items, no discussion appears
+
+                    // If there is one item, one discussion message appears
+                    if(querySnapshot.size() == 1){
+
+                        post1.append(querySnapshot.getDocuments().get(0).get("message"));
+                        discussion1.setText(post1);
+
+
+
+                    }
+
+                    // If there are two items, two discussion messages appear
+                    if(querySnapshot.size() == 2){
+
+                        post1.append(querySnapshot.getDocuments().get(1).get("message"));
+                        discussion1.setText(post1);
+
+                        post2.append(querySnapshot.getDocuments().get(0).get("message"));
+                        discussion2.setText(post2);
+
+
+
+                    }
+
+                    // If there are three items, three discussion messages appear
+                    if(querySnapshot.size() == 3){
+
+                        post1.append(querySnapshot.getDocuments().get(2).get("message"));
+                        discussion1.setText(post1);
+
+                        post2.append(querySnapshot.getDocuments().get(1).get("message"));
+                        discussion2.setText(post2);
+
+                        post3.append(querySnapshot.getDocuments().get(0).get("message"));
+                        discussion3.setText(post3);
+
+
+
+                    }
+
+                    // If there are more than three items, show the most recent three
+                    if(querySnapshot.size() > 3){
+
+                        Log.d("length of querysnapshot", String.valueOf(querySnapshot.size()));
+
+                        post1.append(querySnapshot.getDocuments().get(querySnapshot.size() - 1).get("message"));
+                        discussion1.setText(post1);
+
+                        post2.append(querySnapshot.getDocuments().get(querySnapshot.size() - 2).get("message"));
+                        discussion2.setText(post2);
+
+                        post3.append(querySnapshot.getDocuments().get(querySnapshot.size() - 3).get("message"));
+                        discussion3.setText(post3);
+
+
+
+
+                    }
+
+
+                }
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Log.d("discussions", "discussion history not found");
+
+            }
+        });
 
     }
+
+
 
 
     // This method brings the user to the Class Discussion activity
@@ -157,17 +215,6 @@ public class InClass extends AppCompatActivity {
 
     }
 
-    // Making a sample JSON object
-    JSONObject makeJSON() throws JSONException {
 
-        // creating JSONObject
-        JSONObject jo = new JSONObject();
-
-        // putting data to JSONObject
-        jo.put("ItemDesc", "text from JSON object");
-
-        return jo;
-
-    }
 
 }

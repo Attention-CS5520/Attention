@@ -3,14 +3,27 @@ package edu.neu.numad21su.attention.quizScreen;
 public class QuestionEntry {
   String questionEntryId;
   String questionId;
-  public enum SelectedOption {OPTION_A,OPTION_B,OPTION_C,OPTION_D}
-  SelectedOption selectedOption;
+  String selectedOption;
 
-  public QuestionEntry(String questionEntryId, String questionId, SelectedOption selectedOption) {
+  public String getSelectedOption() {
+    return selectedOption;
+  }
+
+  public void setSelectedOption(String selectedOption) {
+    this.selectedOption = selectedOption;
+  }
+
+  public QuestionEntry(String questionEntryId, String questionId, String selectedOption) {
     this.questionEntryId = questionEntryId;
     this.questionId = questionId;
     this.selectedOption = selectedOption;
   }
+
+  public QuestionEntry(String questionId, String selectedOption) {
+    this.questionId = questionId;
+    this.selectedOption = selectedOption;
+  }
+
 
 
   public String getQuestionEntryId() {
