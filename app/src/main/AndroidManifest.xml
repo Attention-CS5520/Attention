@@ -22,6 +22,7 @@
         <activity android:name=".InClass"/>
         <activity android:name=".QuizManager"/>
         <activity android:name=".QuizEditor"/>
+        <activity android:name=".QuestionEditor"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
