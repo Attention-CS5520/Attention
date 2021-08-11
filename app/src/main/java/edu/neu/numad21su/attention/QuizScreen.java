@@ -1,5 +1,6 @@
 package edu.neu.numad21su.attention;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -10,9 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.slugify.Slugify;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
@@ -36,7 +40,8 @@ public class QuizScreen extends AppCompatActivity {
     private List<QuestionEntry> answeredQuestions;
     private int curQuestion = 0;
     private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
+//    private DatabaseReference mDatabase;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +50,10 @@ public class QuizScreen extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         // Initialize Firebase DB
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+//        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        // Connect with firebase
+        db = FirebaseFirestore.getInstance();
         questionText = findViewById(R.id.quiz_screen_question_text);
         optionA = findViewById(R.id.quiz_screen_optionA);
         optionB = findViewById(R.id.quiz_screen_optionB);
@@ -113,8 +121,25 @@ public class QuizScreen extends AppCompatActivity {
             String emailSlug = slg.slugify(userEmail);
             QuizEntry quizEntry = new QuizEntry(quiz.quizId,
                     quiz.getQuizTitle()+"-"+quiz.getQuizId()+"-"+emailSlug,  answeredQuestions, userEmail);
-            mDatabase.child("quizzes").child(quiz.getQuizTitle()+"-"+quiz.getQuizId()+"-"+emailSlug).setValue(quizEntry);
-//            db.save(quizEntry)
+//            mDatabase.child("quizzes").child(quiz.getQuizTitle()+"-"+quiz.getQuizId()+"-"+emailSlug).setValue(quizEntry);
+
+            db.collection("quizEntries").document(quiz.getQuizTitle()+"-"+quiz.getQuizId()+"-"+emailSlug)
+                    .set(quizEntry).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(@NonNull Void unused) {
+                    Toast.makeText(getApplicationContext(),
+                            "Submission Successful! You can now exit the quiz" +
+                                    " by pressing the back button.",Toast.LENGTH_LONG).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getApplicationContext(),
+                            "Submission Failed! You can exit the quiz" +
+                                    " by pressing the back button and try again.",Toast.LENGTH_LONG).show();
+                }
+            });
+            //            db.save(quizEntry)
             curQuestion = newQuestion;
             return;
         }
