@@ -85,23 +85,27 @@ public class AttendanceActivity extends AppCompatActivity {
       @Override
       public void onClick(View v)
       {
-        Intent intent
-                = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,
-                Locale.getDefault());
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to text");
+       if (checkPermission()) {
+         Intent intent
+                 = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,
+                 Locale.getDefault());
+         intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to text");
 
-        try {
-          startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT);
-        }
-        catch (Exception e) {
-          Toast
-                  .makeText(AttendanceActivity.this, " " + e.getMessage(),
-                          Toast.LENGTH_SHORT)
-                  .show();
-        }
+         try {
+           startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT);
+         } catch (Exception e) {
+           Toast
+                   .makeText(AttendanceActivity.this, " " + e.getMessage(),
+                           Toast.LENGTH_SHORT)
+                   .show();
+         }
+
+       } else {
+         requestPermission();
+       }
       }
     });
 
@@ -254,7 +258,7 @@ public class AttendanceActivity extends AppCompatActivity {
 
 
           if (/*StoragePermission && */RecordPermission && ReadPermission && WritePermission) {
-            Toast.makeText(AttendanceActivity.this, "Permission Granted",
+            Toast.makeText(AttendanceActivity.this, "Permission Granted, try again",
                     Toast.LENGTH_LONG).show();
           } else {
             Toast.makeText(AttendanceActivity.this, "Permission Denied", Toast.LENGTH_LONG).show();
@@ -642,7 +646,7 @@ public class AttendanceActivity extends AppCompatActivity {
 
 
 
-      Toast.makeText(AttendanceActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+      //Toast.makeText(AttendanceActivity.this, "Saved", Toast.LENGTH_SHORT).show();
     } catch (IOException e) {
       e.printStackTrace();
     }
