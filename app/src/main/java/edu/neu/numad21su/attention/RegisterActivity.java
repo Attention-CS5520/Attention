@@ -6,14 +6,23 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
+
+import com.github.slugify.Slugify;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import edu.neu.numad21su.attention.accountCreation.userAccount;
 
@@ -24,6 +33,8 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     // Create a reference to Firebase DB
     private DatabaseReference primaryDB;
+    private FirebaseFirestore db;
+    private boolean isStudent = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,6 +76,23 @@ public class RegisterActivity extends AppCompatActivity {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "createUserWithEmail:success");
                         FirebaseUser user = mAuth.getCurrentUser();
+                        // Connect with firebase
+                        db = FirebaseFirestore.getInstance();
+                        Map<String, Object> newPost = new HashMap<>();
+                        newPost.put("type", isStudent? "student" : "instructor");
+                        Slugify slg = new Slugify();
+                        String emailSlug = slg.slugify(email);
+                        db.collection("userType").document(emailSlug)
+                                .set(newPost).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(@NonNull Void unused) {
+                                Log.d("UserType", "success");
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d("UserType", "success");}
+                        });
                         createNewUser(email);
                         updateUI(user);
                     } else {
@@ -85,8 +113,27 @@ public class RegisterActivity extends AppCompatActivity {
         String firstName = rawFirstName.getText().toString();
         String lastName = rawLastName.getText().toString();
         userAccount newUser = new userAccount(email, firstName, lastName);
+
         primaryDB.child("users").setValue(email);
         primaryDB.child("users").child(email).setValue(newUser);
+    }
+
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.radio_instructor:
+                if (checked)
+                    // Pirates are the best
+                    isStudent = false;
+                    break;
+            case R.id.radio_student:
+                if (checked)
+                    isStudent = true;
+                    break;
+        }
     }
 
     private void sendEmailVerification() {

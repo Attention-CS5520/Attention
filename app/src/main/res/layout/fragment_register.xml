@@ -14,12 +14,12 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-smallcaps"
         android:text="@string/app_name"
+        android:textColor="@color/white"
         android:textSize="55sp"
         app:layout_constraintBottom_toTopOf="@id/AppDescription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@color/white"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/AppDescription"
@@ -27,11 +27,11 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/registrationInstructions"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@id/editFirstName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/applicationName"
-        android:textColor="@color/white" />
+        app:layout_constraintTop_toBottomOf="@id/applicationName" />
 
     <EditText
         android:id="@+id/editFirstName"
@@ -41,11 +41,11 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="@string/firstName"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@id/editLastName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/AppDescription"
-        android:textColor="@color/white" />
+        app:layout_constraintTop_toBottomOf="@id/AppDescription" />
 
     <EditText
         android:id="@+id/editLastName"
@@ -55,11 +55,11 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="@string/lastName"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@id/editEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editFirstName"
-        android:textColor="@color/white" />
+        app:layout_constraintTop_toBottomOf="@id/editFirstName" />
 
     <EditText
         android:id="@+id/editEmailAddress"
@@ -68,11 +68,11 @@
         android:autofillHints="email"
         android:inputType="textEmailAddress"
         android:text="@string/prompt_email"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@id/editPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editLastName"
-        android:textColor="@color/white" />
+        app:layout_constraintTop_toBottomOf="@id/editLastName" />
 
     <EditText
         android:id="@+id/editPassword"
@@ -81,11 +81,11 @@
         android:autofillHints="password"
         android:inputType="textPassword"
         android:text="@string/prompt_password"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@id/SignUp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editEmailAddress"
-        android:textColor="@color/white" />
+        app:layout_constraintTop_toBottomOf="@id/editEmailAddress" />
 
     <Button
         android:id="@+id/SignUp"
@@ -93,11 +93,42 @@
         android:layout_height="wrap_content"
         android:onClick="registerAccount"
         android:text="@string/signUp"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editPassword"
-        android:textColor="@color/white" />
+        app:layout_constraintStart_toStartOf="@+id/guideline8"
+        app:layout_constraintTop_toBottomOf="@id/editPassword" />
+
+    <RadioGroup
+        android:layout_width="105dp"
+        android:layout_height="96dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline8"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <RadioButton
+            android:id="@+id/radio_instructor"
+            android:layout_width="105dp"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="Instructor" />
+
+        <RadioButton
+            android:id="@+id/radio_student"
+            android:layout_width="105dp"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="Student" />
+    </RadioGroup>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.38" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
