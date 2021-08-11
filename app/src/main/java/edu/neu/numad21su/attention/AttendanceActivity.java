@@ -61,9 +61,11 @@ public class AttendanceActivity extends AppCompatActivity {
 
   //voice Recognizer
 
-  private ImageView iv_mic;
-  private TextView tv_Speech_to_text;
+  //private ImageView iv_mic;
+  private Button speak;
+  //private TextView tv_Speech_to_text;
   private static final int REQUEST_CODE_SPEECH_INPUT = 1;
+  private TextView classRoom;
 
 
 
@@ -74,10 +76,12 @@ public class AttendanceActivity extends AppCompatActivity {
 
     // voice recognizer
 
-    iv_mic = findViewById(R.id.iv_mic);
-    tv_Speech_to_text = findViewById(R.id.tv_speech_to_text);
+    //iv_mic = findViewById(R.id.iv_mic);
+    speak = findViewById(R.id.speak);
+    //tv_Speech_to_text = findViewById(R.id.tv_speech_to_text);
+    classRoom = findViewById(R.id.login_method_prompt);
 
-    iv_mic.setOnClickListener(new View.OnClickListener() {
+    speak.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v)
       {
@@ -104,14 +108,8 @@ public class AttendanceActivity extends AppCompatActivity {
 
     //
 
-    buttonStart = (Button) findViewById(R.id.button);
-    buttonStop = (Button) findViewById(R.id.button2);
-    buttonPlayLastRecordAudio = (Button) findViewById(R.id.button3);
-    buttonStopPlayingRecording = (Button)findViewById(R.id.button4);
-
-    buttonStop.setEnabled(false);
-    buttonPlayLastRecordAudio.setEnabled(false);
-    buttonStopPlayingRecording.setEnabled(false);
+    //buttonStart = (Button) findViewById(R.id.button);
+    buttonStart = (Button) findViewById(R.id.autowave_button);
 
     random = new Random();
 
@@ -153,7 +151,7 @@ public class AttendanceActivity extends AppCompatActivity {
           }
 
           buttonStart.setEnabled(false);
-          buttonStop.setEnabled(true);
+          //buttonStop.setEnabled(true);
 
 
           final Handler handler = new Handler();
@@ -190,170 +188,6 @@ public class AttendanceActivity extends AppCompatActivity {
       }
     });
 
-    buttonStop.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-
-        if (mediaRecorder != null) {
-          try {
-            mediaRecorder.stop();
-            mediaRecorder.release();
-          } catch(RuntimeException ex){
-            //Ignore
-          }
-        }
-        //mediaRecorder.stop();
-        buttonStop.setEnabled(false);
-        buttonPlayLastRecordAudio.setEnabled(true);
-        buttonStart.setEnabled(true);
-        buttonStopPlayingRecording.setEnabled(false);
-
-        Toast.makeText(AttendanceActivity.this, "Recording Completed",
-                Toast.LENGTH_LONG).show();
-
-        // printing binary
-        try {
-          byte[] encoded = Files.readAllBytes(Paths.get(AudioSavePathInDevice));
-          Log.i("audio string",Arrays.toString(encoded));
-        } catch (IOException e) {
-
-        }
-
-        // try in decimal
-        StringBuilder sb = new StringBuilder();
-        int maxNum = 0;
-        try (BufferedInputStream is = new BufferedInputStream(new FileInputStream(AudioSavePathInDevice))) {
-          for (int i; (i = is.read()) != -1;) {
-
-            String temp = Integer.toString(i).toUpperCase();
-
-            sb.append(temp).append(' ');
-            if (Integer.valueOf(temp) > maxNum) maxNum = Integer.valueOf(temp);
-          }
-        } catch (FileNotFoundException e) {
-          e.printStackTrace();
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-        Log.i("hex output",sb.toString());
-        Log.i("maxVal",String.valueOf(maxNum));
-        Log.i("size",String.valueOf(sb.length()));
-        Log.i("file location", AudioSavePathInDevice);
-
-
-        // Modify the values in string buffer to normalize and change polarities if needed
-        StringBuffer sbNorm = new StringBuffer();
-        String[] sbArray = sb.toString().split(" ");
-        for (int idx =0; idx < sbArray.length; idx++) {
-          double tempDouble = ((double)((double) Integer.valueOf(sbArray[idx]) /maxNum)) - 0.5;
-          sbNorm.append(String.valueOf(tempDouble));
-          sbNorm.append(" ");
-
-        }
-
-
-        try {
-
-          File root = new File(view.getContext().getExternalFilesDir(null), "Notes");
-          if (!root.exists()) {
-            Log.i("file creation","I am trying to create directory");
-            root.mkdirs();
-          }
-
-          if (!root.exists()) {
-            Log.i("file creation","Could not create a directory!!");
-          }
-
-          File gpxfile = new File(root, "inputfile");
-          //File gpxfile = new File(root, "hello");
-          gpxfile.delete();
-          FileWriter writer = new FileWriter(gpxfile);
-          writer.append(sbNorm.toString());
-          writer.flush();
-          writer.close();
-          //Reading
-          Scanner myReader = new Scanner(gpxfile);
-          //while (myReader.hasNextLine()) {
-            String data = myReader.nextLine();
-            Log.i("Reading file data",data);
-          //}
-          myReader.close();
-          // create test for hello
-          gpxfile = new File(root, "hello");
-          myReader = new Scanner(gpxfile);
-          //while (myReader.hasNextLine()) {
-            String hello = myReader.nextLine();
-
-
-          gpxfile = new File(root, "hello");
-          myReader = new Scanner(gpxfile);
-          hello = myReader.nextLine();
-          int maxLogSize = 900;
-          for(int i = 0; i <= hello.length() / maxLogSize; i++) {
-            int start = i * maxLogSize;
-            int end = (i + 1) * maxLogSize;
-            end = end > hello.length() ? hello.length() : end;
-
-
-
-          }
-
-          // apply filter on hello data
-          filterOut(hello);
-
-          //}
-          myReader.close();
-          double helloTest = computeFFT(hello,data);
-          Log.i("Hello Test result", String.valueOf(helloTest));
-
-
-          Toast.makeText(AttendanceActivity.this, "Saved", Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-
-
-      }
-    });
-
-    buttonPlayLastRecordAudio.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) throws IllegalArgumentException,
-              SecurityException, IllegalStateException {
-
-        buttonStop.setEnabled(false);
-        buttonStart.setEnabled(false);
-        buttonStopPlayingRecording.setEnabled(true);
-
-        mediaPlayer = new MediaPlayer();
-        try {
-          mediaPlayer.setDataSource(AudioSavePathInDevice);
-          mediaPlayer.prepare();
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-
-        mediaPlayer.start();
-        Toast.makeText(AttendanceActivity.this, "Recording Playing",
-                Toast.LENGTH_LONG).show();
-      }
-    });
-
-    buttonStopPlayingRecording.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        buttonStop.setEnabled(false);
-        buttonStart.setEnabled(true);
-        buttonStopPlayingRecording.setEnabled(false);
-        buttonPlayLastRecordAudio.setEnabled(true);
-
-        if(mediaPlayer != null){
-          mediaPlayer.stop();
-          mediaPlayer.release();
-          MediaRecorderReady();
-        }
-      }
-    });
 
   }
 
@@ -368,8 +202,9 @@ public class AttendanceActivity extends AppCompatActivity {
       if (resultCode == RESULT_OK && data != null) {
         ArrayList<String> result = data.getStringArrayListExtra(
                 RecognizerIntent.EXTRA_RESULTS);
-        tv_Speech_to_text.setText(
-                Objects.requireNonNull(result).get(0));
+        //tv_Speech_to_text.setText(
+                //Objects.requireNonNull(result).get(0));
+        classRoom.setText("Classroom" + " " + Objects.requireNonNull(result).get(0));
       }
     }
   }
@@ -465,45 +300,6 @@ public class AttendanceActivity extends AppCompatActivity {
     return  outputList;
   }
 
-  /*
-  public String computePreFFT(String inputSignal) {
-
-    StringBuilder outputSignal = new StringBuilder();
-    String [] inputArray = inputSignal.split(" ");
-    //double output = 0.0;
-
-    for (int fo = 100; fo <= 3000; fo = fo + 100) {
-      for (int idx = 0; idx < inputArray.length; idx++) {
-        inputArray[idx]  = String.valueOf(Double.valueOf(inputArray[idx])
-                * Math.sin(2 * Math.PI * fo * idx * 0.000022675));
-
-      }
-    }
-    //X[n] = Math.sin(2*Math.PI*fo*n*ts)
-
-    for (int idx = 0; idx < inputArray.length; idx++) {
-      outputSignal.append(inputArray[idx]);
-      outputSignal.append(" ");
-    }
-
-
-
-    return outputSignal.toString();
-  }
-
-   */
-
-  /*
-  private double getSum(String inputStr) {
-    double allSum = 0;
-    String [] inputArr = inputStr.split(" ");
-    for (int i = 0; i < inputArr.length; i ++) {
-      allSum += Double.valueOf(inputArr[i]);
-    }
-    return allSum;
-  }
-
-   */
 
 
   public double computeFFT(String model, String test) {
@@ -704,10 +500,10 @@ public class AttendanceActivity extends AppCompatActivity {
       }
     }
     //mediaRecorder.stop();
-    buttonStop.setEnabled(false);
-    buttonPlayLastRecordAudio.setEnabled(true);
+    //buttonStop.setEnabled(false);
+    //buttonPlayLastRecordAudio.setEnabled(true);
     buttonStart.setEnabled(true);
-    buttonStopPlayingRecording.setEnabled(false);
+    //buttonStopPlayingRecording.setEnabled(false);
 
     Toast.makeText(AttendanceActivity.this, "Recording Completed",
             Toast.LENGTH_LONG).show();
@@ -818,8 +614,10 @@ public class AttendanceActivity extends AppCompatActivity {
 
       if (count > 2) {
         Log.d("Detected", "Voice, number 2");
+        classRoom.setText("Classroom" + " " + "2");
       } else {
         Log.d("Detected", "Song, number 1");
+        classRoom.setText("Classroom" + " " + "1");
       }
 
       Log.d("for second fft", sbPost.toString());
