@@ -1,6 +1,8 @@
 package edu.neu.numad21su.attention;
 
 import androidx.appcompat.app.AppCompatActivity;
+import edu.neu.numad21su.attention.quizmanager.QuizEditor;
+import edu.neu.numad21su.attention.quizmanager.QuizManager;
 
 import android.content.Intent;
 import android.os.Bundle;
