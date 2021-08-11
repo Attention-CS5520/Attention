@@ -13,11 +13,15 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import edu.neu.numad21su.attention.quizScreen.Question;
 import edu.neu.numad21su.attention.quizScreen.Quiz;
 
 public class QuizEditor extends AppCompatActivity {
@@ -48,14 +52,10 @@ public class QuizEditor extends AppCompatActivity {
     recyclerView.setHasFixedSize(true);
     rviewAdapter = new QuestionRecyclerAdapter(quiz.questions);
     rviewAdapter.setDeleteItemListener(i -> {
-      quiz.questions.remove(i);
+      deleteQuiz(quiz.questions.get(i));
       rviewAdapter.notifyDataSetChanged();
     });
-    rviewAdapter.setEditItemListener(i -> {
-      Intent editIntent = new Intent(QuizEditor.this, QuestionEditor.class);
-      editIntent.putExtra("Question", quiz.questions.get(i));
-      QuizEditor.this.startActivity(editIntent);
-    });
+    rviewAdapter.setEditItemListener(i -> openQuestion(quiz.questions.get(i)));
     recyclerView.setAdapter(rviewAdapter);
     recyclerView.setLayoutManager(rLayoutManger);
   }
@@ -63,7 +63,7 @@ public class QuizEditor extends AppCompatActivity {
   public void saveQuiz(View view) {
     quiz.setQuizTitle(quizTitle.getText().toString());
     quiz.setLastEdited(new SimpleDateFormat("yyyy-MM-dd H:mm aaa").format(new Date()));
-    if(quiz.quizId == null){
+    if (quiz.quizId == null) {
       quiz.quizId = UUID.randomUUID().toString();
     }
     db.collection("quizzes").document(quiz.getQuizId()).set(quiz, SetOptions.merge())
@@ -72,4 +72,45 @@ public class QuizEditor extends AppCompatActivity {
               QuizEditor.this.finish();
             }).addOnFailureListener(e -> Log.d("error", e.toString()));
   }
+
+  public void createQuestion(View view) {
+    openQuestion(new Question());
+  }
+
+  private void deleteQuiz(Question question) {
+    List<Question> questions =
+            quiz.questions.stream().filter(q -> !q.equals(question)).collect(Collectors.toList());
+    quiz.questions.remove(question);
+    db.collection("quizzes").document(quiz.quizId).update("questions", questions)
+            .addOnSuccessListener(dr -> {
+              quiz.questions.remove(question);
+              rviewAdapter.notifyDataSetChanged();
+              Toast.makeText(QuizEditor.this, "Question Deleted.", Toast.LENGTH_SHORT).show();
+            }).addOnFailureListener(e -> Log.d("error", e.toString()));
+  }
+
+  private void openQuestion(Question question) {
+    Intent editIntent = new Intent(QuizEditor.this, QuestionEditor.class);
+    editIntent.putExtra("Question", question);
+    editIntent.putExtra("QuizId", quiz);
+    QuizEditor.this.startActivity(editIntent);
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    refreshQuestions();
+  }
+
+  private void refreshQuestions() {
+    db.collection("quizzes").document(quiz.getQuizId()).get()
+            .addOnSuccessListener(dr -> {
+              quiz.questions.clear();
+              quiz.questions.addAll(Objects.requireNonNull(dr.toObject(Quiz.class)).questions);
+              rviewAdapter.notifyDataSetChanged();
+            })
+            .addOnFailureListener(e -> Log.d("error", e.toString()));
+  }
+
+
 }

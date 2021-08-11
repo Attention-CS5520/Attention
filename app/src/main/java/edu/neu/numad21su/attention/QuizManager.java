@@ -22,15 +22,7 @@ public class QuizManager extends AppCompatActivity {
   private RecyclerView recyclerView;
   private QuizRecyclerAdapter rviewAdapter;
   private RecyclerView.LayoutManager rLayoutManger;
-  private List<Quiz> quizCards = new ArrayList<>(
-          Arrays.asList(
-                  new Quiz("1", "1", "Pointers versus Variables", "10/10/2020",
-                           new ArrayList<>(Arrays.asList(new Question("Pick One", "A", "B",
-                                                                      "C", "D", "C")))),
-                  new Quiz("1", "2", "Loops", "1/1/2001", new ArrayList<>()),
-                  new Quiz("1", "3", "Memory Management", "12/25/2021", new ArrayList<>()),
-                  new Quiz("1", "4", "Recursion", "3/3/2003", new ArrayList<>())
-          ));
+  private List<Quiz> quizCards = new ArrayList<>();
   private FirebaseFirestore db;
 
   @Override
