@@ -55,16 +55,17 @@ public class AttendanceActivity extends AppCompatActivity {
   MediaPlayer mediaPlayer ;
   //public final int[] RANGE = new int[] { 40, 80, 120, 180, 300, 500, 700, 900};
   //public final int[] RANGE = new int[] { 40, 60, 80, 100, 500, 900, 910, 950};
-  public final int[] RANGE = new int[] { 40, 80, 100, 300, 500, 900, 910, 950};
+  //public final int[] RANGE = new int[] { 40, 80, 100, 300, 500, 900, 910, 950};
+  public final int[] RANGE = new int[] { 40, 80, 100, 2048, 2049,2050, 2051, 2052};
   private static final int FUZ_FACTOR = 2;
 
   //voice Recognizer
-    /*
+
   private ImageView iv_mic;
   private TextView tv_Speech_to_text;
   private static final int REQUEST_CODE_SPEECH_INPUT = 1;
 
-     */
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +73,7 @@ public class AttendanceActivity extends AppCompatActivity {
     setContentView(R.layout.activity_attendance);
 
     // voice recognizer
-      /*
+
     iv_mic = findViewById(R.id.iv_mic);
     tv_Speech_to_text = findViewById(R.id.tv_speech_to_text);
 
@@ -100,7 +101,7 @@ public class AttendanceActivity extends AppCompatActivity {
       }
     });
 
-       */
+
     //
 
     buttonStart = (Button) findViewById(R.id.button);
@@ -437,7 +438,7 @@ public class AttendanceActivity extends AppCompatActivity {
   }
 
   //voice recognizer
-    /*
+
   @Override
   protected void onActivityResult(int requestCode, int resultCode,
                                   @Nullable Intent data)
@@ -453,7 +454,7 @@ public class AttendanceActivity extends AppCompatActivity {
     }
   }
 
-     */
+
 
   //
 
@@ -666,48 +667,8 @@ public class AttendanceActivity extends AppCompatActivity {
             + (p1 - (p1 % FUZ_FACTOR));
   }
 
-  public List<Complex []> secondFullFFT(String audioStr) {
-    String [] audioArr = audioStr.split(" ");
-    Log.d("size of audioArr", String.valueOf(audioArr.length));
-    List<Double> audio = new ArrayList<>();
 
-    for (int idx = 0; idx < audioArr.length; idx++) {
-      audio.add(Double.valueOf(audioArr[idx]));
-    }
 
-    int totalSize = audio.size();
-    Log.d("totalsize", String.valueOf(totalSize));
-    int chunkSize = 8;
-    int sampledChunkSize = totalSize/chunkSize;
-    //Log.d("sampledchunksize", String.valueOf(sampledChunkSize));
-    //Complex result[sampledChunkSize][chunkSize];
-    //Complex result[][];
-    List<Complex []> result = new ArrayList<>();
-
-    for(int j = 0; j < sampledChunkSize; j++) {
-      List<Complex> chunkList = new ArrayList<>();
-      //Log.d("fft result2", "inside first loop"+ String.valueOf(j));
-      for(int i = 0; i < chunkSize; i++) {
-        //complexArray[i] = Complex(audio[(j*chunkSize)+i], 0);
-        chunkList.add(new Complex(audio.get((j * chunkSize) + i),0));
-        //Log.d("fft result3", "inside second loop"+ String.valueOf(i));
-      }
-      Complex [] complexArray = new Complex[chunkList.size()];
-      chunkList.toArray(complexArray);
-      //Log.d("fft result4", "outside second loop");
-      //result[j] = FFT.fft(complexArray);
-      result.add(FFT.fft(complexArray));
-      //Log.d("fft result5", "outside second loopppp");
-      //Log.d("fft result", String.valueOf(result.get(j).length));
-      //Log.d("fft result", String.valueOf(result.get(j)[100].abs()));
-    }
-
-    //Log.d("fft result", String.valueOf(result.get(0).length));
-    Log.d("fft result2", "returning");
-
-    return result;
-
-  }
 
 
   public List<Complex []> fullFFT(String audioStr) {
@@ -721,7 +682,7 @@ public class AttendanceActivity extends AppCompatActivity {
 
     int totalSize = audio.size();
     Log.d("totalsize", String.valueOf(totalSize));
-    int chunkSize = 512;
+    int chunkSize = 2048;
     int sampledChunkSize = totalSize/chunkSize;
     //Log.d("sampledchunksize", String.valueOf(sampledChunkSize));
     //Complex result[sampledChunkSize][chunkSize];
@@ -753,16 +714,6 @@ public class AttendanceActivity extends AppCompatActivity {
 
 }
 
-  private int nearestPowerOfTwo (int number) {
-    int i = 2;
-    int prevI = i;
-    while (i <= number) {
-      prevI = i;
-      i = i * i;
-    }
-    return prevI;
-  }
-
   public List<String> postFFTcalculations(List<Complex []> result) {
     //Log.d("result size", String.valueOf(result.size()));
     //Log.d("result 1st row size", String.valueOf(result.get(0).length));
@@ -788,7 +739,7 @@ public class AttendanceActivity extends AppCompatActivity {
     //Log.d("postfft", "line 730");
     //try {
       for (int t = 0; t < result.size(); t++) {
-        for (int freq = 40; freq < 512; freq++) {
+        for (int freq = 40; freq < 2048; freq++) {
           // Get the magnitude:
           //Log.d("postfft", "line 734");
           //double mag = Math.log(result.get(t)[freq].abs() + 1);
@@ -818,6 +769,7 @@ public class AttendanceActivity extends AppCompatActivity {
         //Log.d("postfft", "line 745");
         // form hash tag
         //hashedValues.add(hash(points[t][0], points[t][1], points[t][2], points[t][3]));
+        //Log.d("encoded", String.valueOf(hashedValues));
         retunrStr.add(String.valueOf(points[t][0]) + " " + String.valueOf(points[t][1])
                 + " " + String.valueOf(points[t][2]) + " " +String.valueOf(points[t][3])
                 +" " +String.valueOf(points[t][4]) +" " +String.valueOf(points[t][5])
@@ -833,74 +785,7 @@ public class AttendanceActivity extends AppCompatActivity {
     return retunrStr;
   }
 
-  public List<String> secondPostFFTcalculations(List<Complex []> result) {
-    //Log.d("result size", String.valueOf(result.size()));
-    //Log.d("result 1st row size", String.valueOf(result.get(0).length));
-    Double [][] highscores = new Double[result.size()][1];
-    int [][] points = new int[result.size()][1];
-    List<Long> hashedValues = new ArrayList<>();
-    List<String> retunrStr = new ArrayList<>();
 
-    //Initialize highscores
-    //Log.d("postfft", "line 724");
-    for (int idx = 0; idx < highscores.length; idx++) {
-      for (int jdx = 0; jdx < 1; jdx++) {
-        highscores[idx][jdx] = 0.0;
-      }
-    }
-    //Initializing points
-    for (int idx = 0; idx < points.length; idx++) {
-      for (int jdx = 0; jdx < 1; jdx++) {
-        points[idx][jdx] = 0;
-      }
-    }
-
-    //Log.d("postfft", "line 730");
-    //try {
-    for (int t = 0; t < result.size(); t++) {
-      for (int freq = 0; freq < 8; freq++) {
-        // Get the magnitude:
-        //Log.d("postfft", "line 734");
-        //double mag = Math.log(result.get(t)[freq].abs() + 1);
-        double mag = result.get(t)[freq].abs();
-        //Log.d("postfft", "line 736");
-        // Find out which range we are in:
-        //int index = getIndex(freq);
-        int index = 0;
-          /*
-          Log.d("t value", String.valueOf(t));
-          Log.d("freq value", String.valueOf(freq));
-          Log.d("index value", String.valueOf(index));
-
-           */
-          Log.d("postfftMag", String.valueOf(mag));
-
-
-        // Save the highest magnitude and corresponding frequency:
-        if (mag > highscores[t][index]) {
-          //Log.d("postfft", "inside comparison");
-          //Log.d("postfftMag", String.valueOf(mag));
-          points[t][index] = freq;
-          highscores[t][index] = mag;
-
-
-        }
-        //Log.d("postfft", "line 744");
-      }
-      //Log.d("postfft", "line 745");
-      // form hash tag
-      //hashedValues.add(hash(points[t][0], points[t][1], points[t][2], points[t][3]));
-      retunrStr.add(String.valueOf(points[t][0]));
-      //Log.d("postfft", "line 748");
-    }
-    //}
-    /*catch (ArrayIndexOutOfBoundsException ex) {
-      Log.d("Exception", "Exception occurred");
-    }*/
-    //Log.d("postfft", "line 749");
-    //return hashedValues;
-    return retunrStr;
-  }
 
   public void afterRecording() {
     if (mediaRecorder != null) {
@@ -1025,60 +910,53 @@ public class AttendanceActivity extends AppCompatActivity {
       // checking hashed values and trying second level fft
       int groupLow = 0;
       int groupHigh = 0;
+      int count = 0;
       StringBuilder sbPost = new StringBuilder();
       for (int idx = 0; idx < hashedValues.size(); idx++) {
         Log.d("hashValue", hashedValues.get(idx));
         String[] tempStr = hashedValues.get(idx).split(" ");
         groupLow += Integer.valueOf(tempStr[3]);
         groupHigh += Integer.valueOf(tempStr[4]);
-        sbPost.append(tempStr[4]);
+        sbPost.append(tempStr[3]);
         sbPost.append(" ");
-        /*
-        if (idx >= 5 && idx < 13) {
-          String[] tempStr = hashedValues.get(idx).split(" ");
-          sbPost.append(tempStr[4]);
-          sbPost.append(" ");
-        }
 
-         */
+        if (idx != 0 && idx != hashedValues.size() - 1) {
+          if (Integer.valueOf(tempStr[3]) < 1900) {
+            count++;
+          }
+        }
       }
       Log.d("low sum", String.valueOf(groupLow));
       Log.d("high sum", String.valueOf(groupHigh));
       Log.d("total sum", String.valueOf(groupHigh + groupLow));
       Log.d("difference", String.valueOf(groupHigh - groupLow));
 
-      //if (groupHigh + groupLow > 22380) {
-      if (groupHigh > 16100) {
-        //if (groupLow > 6900) {
-        //  Log.d("Detected music", "speech, number 1");
-        //} else {
-          Log.d("Detected music", "Song, number 3");
-        //}
+      if (count > 2) {
+        Log.d("Detected", "Voice, number 2");
       } else {
-        //if (groupLow > 6200) {
-          Log.d("Detected music", "Rain, number 2");
-        //} else {
-        //  Log.d("Detected music", "speech, number 1");
-        //}
+        Log.d("Detected", "Song, number 1");
       }
 
       /*
-      if (detectSong(hashedValues) == 1) {
-        Log.d("Detected music", "Scary, number 1");
-      }
+      if (groupHigh > 16100) {
 
-      if (detectSong(hashedValues) == 2) {
-        Log.d("Detected music", "Rain, number 2");
-      }
+          Log.d("Detected music", "Song, number 3");
 
-      if (detectSong(hashedValues) == 3) {
-        Log.d("Detected music", "Song, number 3");
+      } else {
+
+          Log.d("Detected music", "Rain, number 2");
+
       }
 
        */
 
 
-      //Log.d("for second fft", sbPost.toString());
+
+
+      Log.d("for second fft", sbPost.toString());
+
+
+
       /*
       returnedList = secondFullFFT(sbPost.toString());
       hashedValues = secondPostFFTcalculations(returnedList);
@@ -1149,56 +1027,6 @@ public class AttendanceActivity extends AppCompatActivity {
 
   }
 
-  public int detectSong(List<String> hashedValues) {
 
-    int groupLow = 0;
-    int groupHigh = 0;
-    int count = 0;
-    int countBelow120 = 0;
-    int countBelow380 = 0;
-    for (int idx = 0; idx < hashedValues.size(); idx++) {
-
-      String[] tempStr = hashedValues.get(idx).split(" ");
-      groupLow += Integer.valueOf(tempStr[3]);
-      groupHigh += Integer.valueOf(tempStr[4]);
-
-      if (Integer.valueOf(tempStr[3]) > 200) {
-        count++;
-      }
-
-      if (Integer.valueOf(tempStr[3]) < 120) {
-        countBelow120++;
-      }
-
-      if (Integer.valueOf(tempStr[4]) < 380) {
-        countBelow380++;
-      }
-      /*
-      if (Integer.valueOf(tempStr[4]) < 380) {
-        count++;
-      }
-
-       */
-    }
-    Log.d("count", String.valueOf(count));
-    Log.d("countbelow120", String.valueOf(countBelow120));
-    Log.d("countbelow380", String.valueOf(countBelow380));
-    if (count <= 8  && countBelow380 <= 6) {
-
-      if (countBelow120 > 4) {
-        return 3;
-      }
-       else {
-         return 1;
-      }
-    }
-
-    else {
-      //if (countBelow380 > 9) {
-        return 2;
-      //}
-    }
-  //return 1;
-  }
 }
 
