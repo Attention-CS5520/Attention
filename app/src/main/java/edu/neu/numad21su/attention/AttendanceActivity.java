@@ -121,43 +121,9 @@ public class AttendanceActivity extends AppCompatActivity {
 
         if(checkPermission()) {
 
-          //AudioSavePathInDevice =
-          //        Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +
-          //                CreateRandomAudioFileName(5) + "AudioRecording.3gp";
-
-          //AudioSavePathInDevice =
-          //        view.getContext().getExternalFilesDir(null).getAbsolutePath() + "/" +
-          //                CreateRandomAudioFileName(5) + "AudioRecording.3gp";
 
           AudioSavePathInDevice =
                   view.getContext().getExternalFilesDir(null).getAbsolutePath() + "/" + "AudioRecording.3gp";
-
-
-          // checking if a file can be created
-          /*
-          try {
-
-            File root = new File(view.getContext().getExternalFilesDir(null), "Notes");
-            if (!root.exists()) {
-              Log.i("file creation","I am trying to create directory");
-              root.mkdirs();
-            }
-
-            if (!root.exists()) {
-              Log.i("file creation","Could not create a directory!!");
-            }
-
-            File gpxfile = new File(root, "testfile");
-            FileWriter writer = new FileWriter(gpxfile);
-            writer.append("hello world");
-            writer.flush();
-            writer.close();
-            Toast.makeText(AttendanceActivity.this, "Saved", Toast.LENGTH_SHORT).show();
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
-
-           */
 
 
 
@@ -189,24 +155,7 @@ public class AttendanceActivity extends AppCompatActivity {
           buttonStart.setEnabled(false);
           buttonStop.setEnabled(true);
 
-          //play pre-recorded audio here
-          /*
-          mediaPlayer = new MediaPlayer();
-          try {
-            mediaPlayer.setDataSource(view.getContext().getExternalFilesDir(null).getAbsolutePath() + "/" + "AudioRecording_music1.3gp");
-            mediaPlayer.prepare();
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
 
-          mediaPlayer.start();
-
-
-           */
-
-
-
-          //
           final Handler handler = new Handler();
           handler.postDelayed(new Runnable() {
             @Override
@@ -275,11 +224,9 @@ public class AttendanceActivity extends AppCompatActivity {
         int maxNum = 0;
         try (BufferedInputStream is = new BufferedInputStream(new FileInputStream(AudioSavePathInDevice))) {
           for (int i; (i = is.read()) != -1;) {
-            //String temp = Integer.toHexString(i).toUpperCase();
+
             String temp = Integer.toString(i).toUpperCase();
-            //if (temp.length() == 1) {
-            //  sb.append('0');
-            //}
+
             sb.append(temp).append(' ');
             if (Integer.valueOf(temp) > maxNum) maxNum = Integer.valueOf(temp);
           }
@@ -292,9 +239,7 @@ public class AttendanceActivity extends AppCompatActivity {
         Log.i("maxVal",String.valueOf(maxNum));
         Log.i("size",String.valueOf(sb.length()));
         Log.i("file location", AudioSavePathInDevice);
-        //File myObj = new File("/storage/emulated/0/Android/data/edu.neu.numad21su.attention/files/OMIFGAudioRecording.3gp");
 
-        //myObj.delete();
 
         // Modify the values in string buffer to normalize and change polarities if needed
         StringBuffer sbNorm = new StringBuffer();
@@ -338,8 +283,7 @@ public class AttendanceActivity extends AppCompatActivity {
           myReader = new Scanner(gpxfile);
           //while (myReader.hasNextLine()) {
             String hello = myReader.nextLine();
-            //Log.i("Reading file data",hello);
-          // Print saved hello data
+
 
           gpxfile = new File(root, "hello");
           myReader = new Scanner(gpxfile);
@@ -351,7 +295,7 @@ public class AttendanceActivity extends AppCompatActivity {
             end = end > hello.length() ? hello.length() : end;
 
 
-            //Log.d("good saved long data", hello.substring(start, end));
+
           }
 
           // apply filter on hello data
@@ -362,31 +306,7 @@ public class AttendanceActivity extends AppCompatActivity {
           double helloTest = computeFFT(hello,data);
           Log.i("Hello Test result", String.valueOf(helloTest));
 
-         /*
-          // create test for good
-          gpxfile = new File(root, "good");
-          myReader = new Scanner(gpxfile);
-          //while (myReader.hasNextLine()) {
-          String good = myReader.nextLine();
-          Log.i("Reading file data",good);
-          //}
-          myReader.close();
-          double goodTest = computeFFT(good,data);
-          Log.i("Good Test result", String.valueOf(goodTest));
 
-
-          // create test for class
-          gpxfile = new File(root, "class");
-          myReader = new Scanner(gpxfile);
-          //while (myReader.hasNextLine()) {
-          String class_ = myReader.nextLine();
-          Log.i("Reading file data",class_);
-          //}
-          myReader.close();
-          double classTest = computeFFT(class_,data);
-          Log.i("Class Test result", String.valueOf(classTest));
-
-        */
           Toast.makeText(AttendanceActivity.this, "Saved", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
           e.printStackTrace();
@@ -545,6 +465,7 @@ public class AttendanceActivity extends AppCompatActivity {
     return  outputList;
   }
 
+  /*
   public String computePreFFT(String inputSignal) {
 
     StringBuilder outputSignal = new StringBuilder();
@@ -570,6 +491,9 @@ public class AttendanceActivity extends AppCompatActivity {
     return outputSignal.toString();
   }
 
+   */
+
+  /*
   private double getSum(String inputStr) {
     double allSum = 0;
     String [] inputArr = inputStr.split(" ");
@@ -578,6 +502,9 @@ public class AttendanceActivity extends AppCompatActivity {
     }
     return allSum;
   }
+
+   */
+
 
   public double computeFFT(String model, String test) {
     List<String> modelParsed = new ArrayList<String>();
@@ -615,6 +542,8 @@ public class AttendanceActivity extends AppCompatActivity {
     }
     return finalSumOfInnerProduct;
   }
+
+
 
   public String filterOut(String inputArray) {
     Log.d("started debug", "DEBUG");
@@ -684,30 +613,25 @@ public class AttendanceActivity extends AppCompatActivity {
     Log.d("totalsize", String.valueOf(totalSize));
     int chunkSize = 2048;
     int sampledChunkSize = totalSize/chunkSize;
-    //Log.d("sampledchunksize", String.valueOf(sampledChunkSize));
-    //Complex result[sampledChunkSize][chunkSize];
-    //Complex result[][];
+
     List<Complex []> result = new ArrayList<>();
 
     for(int j = 0; j < sampledChunkSize; j++) {
       List<Complex> chunkList = new ArrayList<>();
-      //Log.d("fft result2", "inside first loop"+ String.valueOf(j));
+
       for(int i = 0; i < chunkSize; i++) {
-        //complexArray[i] = Complex(audio[(j*chunkSize)+i], 0);
+
         chunkList.add(new Complex(audio.get((j * chunkSize) + i),0));
-        //Log.d("fft result3", "inside second loop"+ String.valueOf(i));
+
       }
       Complex [] complexArray = new Complex[chunkList.size()];
       chunkList.toArray(complexArray);
-      //Log.d("fft result4", "outside second loop");
-      //result[j] = FFT.fft(complexArray);
+
       result.add(FFT.fft(complexArray));
-      //Log.d("fft result5", "outside second loopppp");
-      //Log.d("fft result", String.valueOf(result.get(j).length));
-      //Log.d("fft result", String.valueOf(result.get(j)[100].abs()));
+
   }
 
-  //Log.d("fft result", String.valueOf(result.get(0).length));
+
   Log.d("fft result2", "returning");
 
     return result;
@@ -715,15 +639,14 @@ public class AttendanceActivity extends AppCompatActivity {
 }
 
   public List<String> postFFTcalculations(List<Complex []> result) {
-    //Log.d("result size", String.valueOf(result.size()));
-    //Log.d("result 1st row size", String.valueOf(result.get(0).length));
+
     Double [][] highscores = new Double[result.size()][8];
     int [][] points = new int[result.size()][8];
     List<Long> hashedValues = new ArrayList<>();
     List<String> retunrStr = new ArrayList<>();
 
     //Initialize highscores
-    //Log.d("postfft", "line 724");
+
     for (int idx = 0; idx < highscores.length; idx++) {
       for (int jdx = 0; jdx < 8; jdx++) {
         highscores[idx][jdx] = 0.0;
@@ -740,48 +663,32 @@ public class AttendanceActivity extends AppCompatActivity {
     //try {
       for (int t = 0; t < result.size(); t++) {
         for (int freq = 40; freq < 2048; freq++) {
-          // Get the magnitude:
-          //Log.d("postfft", "line 734");
-          //double mag = Math.log(result.get(t)[freq].abs() + 1);
+
           double mag = result.get(t)[freq].abs();
-          //Log.d("postfft", "line 736");
+
           // Find out which range we are in:
           int index = getIndex(freq);
           //int index = 0;
-          /*
-          Log.d("t value", String.valueOf(t));
-          Log.d("freq value", String.valueOf(freq));
-          Log.d("index value", String.valueOf(index));
-          Log.d("postfftMag", String.valueOf(mag));
 
-           */
           // Save the highest magnitude and corresponding frequency:
           if (mag > highscores[t][index]) {
-            //Log.d("postfft", "inside comparison");
-            //Log.d("postfftMag", String.valueOf(mag));
+
             points[t][index] = freq;
             highscores[t][index] = mag;
 
 
           }
-          //Log.d("postfft", "line 744");
+
         }
-        //Log.d("postfft", "line 745");
-        // form hash tag
-        //hashedValues.add(hash(points[t][0], points[t][1], points[t][2], points[t][3]));
-        //Log.d("encoded", String.valueOf(hashedValues));
+
         retunrStr.add(String.valueOf(points[t][0]) + " " + String.valueOf(points[t][1])
                 + " " + String.valueOf(points[t][2]) + " " +String.valueOf(points[t][3])
                 +" " +String.valueOf(points[t][4]) +" " +String.valueOf(points[t][5])
                 +" " +String.valueOf(points[t][6]) +" " +String.valueOf(points[t][7]));
-        //Log.d("postfft", "line 748");
+
       }
-    //}
-    /*catch (ArrayIndexOutOfBoundsException ex) {
-      Log.d("Exception", "Exception occurred");
-    }*/
-    //Log.d("postfft", "line 749");
-    //return hashedValues;
+
+
     return retunrStr;
   }
 
@@ -829,17 +736,16 @@ public class AttendanceActivity extends AppCompatActivity {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    //Log.i("hex output",sb.toString());
-    //Log.i("maxVal",String.valueOf(maxNum));
+
     Log.i("size",String.valueOf(sb.length()));
-    //Log.i("file location", AudioSavePathInDevice);
+
 
     // Modify the values in string buffer to normalize and change polarities if needed
     StringBuffer sbNorm = new StringBuffer();
     String[] sbArray = sb.toString().split(" ");
     // making sure that size is even
     int arraySize = sbArray.length;
-    //arraySize = nearestPowerOfTwo(arraySize);
+
 
     for (int idx =0; idx < arraySize; idx++) {
       double tempDouble = ((double)((double) Integer.valueOf(sbArray[idx]) /maxNum)) - 0.5;
@@ -863,7 +769,7 @@ public class AttendanceActivity extends AppCompatActivity {
       }
 
       File gpxfile = new File(root, "music1");
-      //File gpxfile = new File(root, "hello");
+
       gpxfile.delete();
       FileWriter writer = new FileWriter(gpxfile);
       writer.append(sbNorm.toString());
@@ -874,9 +780,6 @@ public class AttendanceActivity extends AppCompatActivity {
 
       String data = myReader.nextLine();
       Log.i("Reading file data",data);
-      //myReader.close();
-      // create test for hello
-
 
       List<String> hashedValues = new ArrayList<>();
       List<Complex []> returnedList = fullFFT(data);
@@ -886,25 +789,7 @@ public class AttendanceActivity extends AppCompatActivity {
       myReader = new Scanner(gpxfile);
       String a = myReader.nextLine();
 
-      // checking if FFt worked;
-      //Log.d("WHOLE FILE", a);
 
-      /*
-      List<Long> hashedValues = new ArrayList<>();
-      List<Complex []> returnedList = fullFFT(a);
-      hashedValues = postFFTcalculations(returnedList);
-
-       */
-
-
-      /*
-      StringBuilder tb = new StringBuilder();
-      for(int idx = 0; idx < returnedList.get(1).length; idx++) {
-        tb.append(returnedList.get(1)[idx].abs());
-        tb.append(" ");
-      }
-
-       */
       //Log.d("fullFFT result for row 0", tb.toString());
       Log.d("RETURNED", "I RETURED");
       // checking hashed values and trying second level fft
@@ -937,53 +822,15 @@ public class AttendanceActivity extends AppCompatActivity {
         Log.d("Detected", "Song, number 1");
       }
 
-      /*
-      if (groupHigh > 16100) {
-
-          Log.d("Detected music", "Song, number 3");
-
-      } else {
-
-          Log.d("Detected music", "Rain, number 2");
-
-      }
-
-       */
-
-
-
-
       Log.d("for second fft", sbPost.toString());
 
-
-
-      /*
-      returnedList = secondFullFFT(sbPost.toString());
-      hashedValues = secondPostFFTcalculations(returnedList);
-
-      // print second fft
-      for (int idx = 0; idx < hashedValues.size(); idx++) {
-        Log.d("hashValue", hashedValues.get(idx));
-      }
-
-
-       */
-
-
-
-
-
-
-      //
-
-      //
       int maxLogSize = 900;
       for(int i = 0; i <= a.length() / maxLogSize; i++) {
         int start = i * maxLogSize;
         int end = (i + 1) * maxLogSize;
         end = end > a.length() ? a.length() : end;
 
-        //Log.d("good saved long data", hello.substring(start, end));
+
       }
 
       // apply filter on hello data
@@ -995,28 +842,7 @@ public class AttendanceActivity extends AppCompatActivity {
       myReader = new Scanner(gpxfile);
       String b = myReader.nextLine();
 
-      /*
-      gpxfile = new File(root, "music6");
-      myReader = new Scanner(gpxfile);
-      String c = myReader.nextLine();
 
-       */
-
-      /*
-      double aTest = computeFFT(filterOut(a),filterOut(data));
-
-      Log.d("uuuuuuuuuuuu", "!!!!!!!!!!!!!!!!!!!");
-      Log.d("a Test result", String.valueOf(aTest));
-
-      double bTest = computeFFT(filterOut(b),filterOut(data));
-
-      Log.d("b Test result", String.valueOf(bTest));
-
-      double cTest = computeFFT(filterOut(c),filterOut(data));
-
-      Log.d("c Test result", String.valueOf(cTest));
-
-       */
 
       Toast.makeText(AttendanceActivity.this, "Saved", Toast.LENGTH_SHORT).show();
     } catch (IOException e) {
