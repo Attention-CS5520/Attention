@@ -333,22 +333,25 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
         String channelId = getString(R.string.channel_id);
         NotificationCompat.Builder notifyBuild = new NotificationCompat.Builder(this, channelId)
                 //"Notification icons must be entirely white."
-                .setSmallIcon(R.drawable.foo)
-                .setColor(ContextCompat.getColor(this, R.color.colorAccent))
-                .setContentTitle("New mail from " + "test@test.com")
-                .setContentText("Subject")
+                .setSmallIcon(R.drawable.unicorn_png_transparent12)
+                //.setColor(ContextCompat.getColor(this, R.color.colorAccent))
+                .setContentTitle("Hand raised")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 // hide the notification after its selected
-                .setAutoCancel(true)
-                .addAction(R.drawable.foo, "Call", callIntent)
-                .setContentIntent(pIntent);
+                .setAutoCancel(true);
+               // .addAction(R.drawable.unicorn_png_transparent12, "Call", callIntent)
+               // .setContentIntent(pIntent);
 
 
+        Toast.makeText(LiveClassDiscussionActivity.this, "Hand raised", Toast.LENGTH_SHORT).show();
 
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
         // // notificationId is a unique int for each notification that you must define
         notificationManager.notify(0, notifyBuild.build());
+
+        Log.d("notification", "sendNotification() reached");
 
     }
 
