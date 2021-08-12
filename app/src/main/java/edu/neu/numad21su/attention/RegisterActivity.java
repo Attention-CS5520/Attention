@@ -73,9 +73,10 @@ public class RegisterActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "createUserWithEmail:success");
-                        FirebaseUser user = mAuth.getCurrentUser();
+                        // Log.d(TAG, "createUserWithEmail:success");
+                        // FirebaseUser user = mAuth.getCurrentUser();
                         // Connect with firebase
+                        // If succesfull get the firebase instance and log the student as a student.
                         db = FirebaseFirestore.getInstance();
                         Map<String, Object> newPost = new HashMap<>();
                         newPost.put("type", isStudent? "student" : "instructor");
