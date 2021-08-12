@@ -3,13 +3,13 @@ package edu.neu.numad21su.attention;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.github.slugify.Slugify;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -18,7 +18,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+//import com.google.gson.reflect.TypeToken;
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +27,9 @@ import edu.neu.numad21su.attention.quizScreen.Question;
 import edu.neu.numad21su.attention.quizScreen.QuestionEntry;
 import edu.neu.numad21su.attention.quizScreen.Quiz;
 import edu.neu.numad21su.attention.quizScreen.QuizEntry;
+import java.io.Serializable;
 
-public class QuizScreen extends AppCompatActivity {
+public class QuizScreen extends AppCompatActivity implements Serializable {
 
     private static final String QUIZ_SCREEN_TAG = "QUIZ_SCREEN";
     private TextView questionText;
@@ -120,7 +122,7 @@ public class QuizScreen extends AppCompatActivity {
             Slugify slg = new Slugify();
             String emailSlug = slg.slugify(userEmail);
             QuizEntry quizEntry = new QuizEntry(quiz.quizId,
-                    quiz.getQuizTitle()+"-"+quiz.getQuizId()+"-"+emailSlug,  answeredQuestions, userEmail);
+                    quiz.getQuizTitle()+"-"+quiz.getQuizId()+"-"+emailSlug, answeredQuestions, userEmail);
 //            mDatabase.child("quizzes").child(quiz.getQuizTitle()+"-"+quiz.getQuizId()+"-"+emailSlug).setValue(quizEntry);
 
             db.collection("quizEntries").document(quiz.getQuizTitle()+"-"+quiz.getQuizId()+"-"+emailSlug)
@@ -130,6 +132,9 @@ public class QuizScreen extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),
                             "Submission Successful! You can now exit the quiz" +
                                     " by pressing the back button.",Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getApplicationContext(), QuizResults.class);
+                    intent.putExtra("quizEntry", (Serializable) quizEntry);
+                    startActivity(intent);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

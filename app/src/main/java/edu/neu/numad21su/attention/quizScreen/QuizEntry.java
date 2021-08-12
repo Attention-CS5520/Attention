@@ -1,8 +1,9 @@
 package edu.neu.numad21su.attention.quizScreen;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class QuizEntry {
+public class QuizEntry implements Serializable {
   String quizId;
   String quizName;
   String quizEntryId;

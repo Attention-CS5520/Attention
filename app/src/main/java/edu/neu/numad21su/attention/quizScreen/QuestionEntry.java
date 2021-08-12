@@ -1,6 +1,8 @@
 package edu.neu.numad21su.attention.quizScreen;
 
-public class QuestionEntry {
+import java.io.Serializable;
+
+public class QuestionEntry implements Serializable{
   String questionEntryId;
   String questionId;
   String selectedOption;
