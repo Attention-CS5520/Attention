@@ -13,10 +13,13 @@ import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -36,8 +39,19 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.installations.time.SystemClock;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -58,11 +72,13 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
     private FloatingActionButton floatingButton;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        createNotificationChannel();
+
 
 
 
@@ -294,66 +310,10 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
 
     }
 
-    // Create notification channel. Called before notification is sent.
-    public void createNotificationChannel(){
-
-        // This must be called early because it must be called before a notification is sent.
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = getString(R.string.channel_name);
-            String description = getString(R.string.channel_description);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(getString(R.string.channel_id), name, importance);
-            channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
 
 
 
-    }
 
-
-    // Send notification
-    public void sendNotification(View view){
-
-        // Prepare intent which is triggered if the
-        // notification is selected
-//        Intent intent = new Intent(this, edu.neu.madcourse.numad21sugroupattentionstick.notification.ReceiveNotificationActivity.class);
-//        PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
-//        PendingIntent callIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(),
-//                new Intent(this, FakeCallActivity.class), 0);
-
-
-        // Build notification
-        // Need to define a channel ID after Android Oreo
-        String channelId = getString(R.string.channel_id);
-        NotificationCompat.Builder notifyBuild = new NotificationCompat.Builder(this, channelId)
-                //"Notification icons must be entirely white."
-                .setSmallIcon(R.drawable.unicorn_png_transparent12)
-                //.setColor(ContextCompat.getColor(this, R.color.colorAccent))
-                .setContentTitle("Hand raised")
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                // hide the notification after its selected
-                .setAutoCancel(true);
-               // .addAction(R.drawable.unicorn_png_transparent12, "Call", callIntent)
-               // .setContentIntent(pIntent);
-
-
-        Toast.makeText(LiveClassDiscussionActivity.this, "Hand raised", Toast.LENGTH_SHORT).show();
-
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-
-        // // notificationId is a unique int for each notification that you must define
-        notificationManager.notify(0, notifyBuild.build());
-
-        Log.d("notification", "sendNotification() reached");
-
-    }
 
 
 

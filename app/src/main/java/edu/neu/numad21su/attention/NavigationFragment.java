@@ -61,4 +61,15 @@ public class NavigationFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_navigation, container, false);
     }
+
+    // Put the hand raising code here
+
+    // Subscribe to a hand-raising collection in the database
+
+    // If user is a professor, subscribe to hand raising collection in the firebase database
+
+    // Hook up navigation bar fragment
+
+    // RaiseHand()
+
 }
