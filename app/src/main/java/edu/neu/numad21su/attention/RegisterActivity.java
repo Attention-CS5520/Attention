@@ -34,6 +34,11 @@ public class RegisterActivity extends AppCompatActivity {
     private DatabaseReference primaryDB;
     private FirebaseFirestore db;
     private boolean isStudent = false;
+    private String registrantFirstName;
+    private String registrantLastName;
+    private String registrantEmail;
+    private String registrantPassword;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,19 +60,29 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    // Take the E-Mail and Password input and save it to a String to create the account
-    public void registerAccount(View view){
-        EditText rawEmail, rawPassword;
+    public void parseValues() {
+        EditText rawEmail, rawPassword, rawFirstName, rawLastName;
         rawEmail = findViewById(R.id.editEmailAddress);
         rawPassword = findViewById(R.id.editPassword);
-        String email = rawEmail.getText().toString();
-        String password = rawPassword.getText().toString();
-        createAccount(email, password);
+        rawFirstName = findViewById(R.id.editFirstName);
+        rawLastName = findViewById(R.id.editLastName);
+        registrantEmail = rawEmail.getText().toString();
+        registrantFirstName = rawFirstName.getText().toString();
+        registrantLastName = rawLastName.getText().toString();
+        registrantPassword = rawPassword.getText().toString();
+
+    }
+
+    // Take the E-Mail and Password input and save it to a String to create the account
+    public void onClick(View view){
+        parseValues();
+        createAccount();
+       createAccount();
     }
 
     // Logic that communicated with Firebase and actually creates the account on DB
-    private void createAccount(String email, String password) {
-        mAuth.createUserWithEmailAndPassword(email, password)
+    private void createAccount() {
+        mAuth.createUserWithEmailAndPassword(registrantEmail, registrantPassword)
             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -80,8 +95,10 @@ public class RegisterActivity extends AppCompatActivity {
                         db = FirebaseFirestore.getInstance();
                         Map<String, Object> newPost = new HashMap<>();
                         newPost.put("type", isStudent? "student" : "instructor");
+                        newPost.put("firstName", registrantFirstName);
+                        newPost.put("lastName", registrantLastName);
                         Slugify slg = new Slugify();
-                        String emailSlug = slg.slugify(email);
+                        String emailSlug = slg.slugify(registrantEmail);
                         db.collection("userType").document(emailSlug)
                                 .set(newPost).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
@@ -93,7 +110,7 @@ public class RegisterActivity extends AppCompatActivity {
                             public void onFailure(@NonNull Exception e) {
                                 Log.d("UserType", "success");}
                         });
-                        createNewUser(emailSlug);
+                        //createNewUser(emailSlug);
                         finish();
                         Toast.makeText(RegisterActivity.this, "Account Creation Succesfull, Please Login",
                                 Toast.LENGTH_SHORT).show();
@@ -109,17 +126,17 @@ public class RegisterActivity extends AppCompatActivity {
             });
     }
 
-    private void createNewUser(String email) {
-        EditText rawFirstName, rawLastName;
-        rawFirstName = findViewById(R.id.editFirstName);
-        rawLastName = findViewById(R.id.editLastName);
-        String firstName = rawFirstName.getText().toString();
-        String lastName = rawLastName.getText().toString();
-        userAccount newUser = new userAccount(email, firstName, lastName);
-
-        primaryDB.child("users").setValue(email);
-        primaryDB.child("users").child(email).setValue(newUser);
-    }
+//    private void createNewUser(String email) {
+//        EditText rawFirstName, rawLastName;
+//        rawFirstName = findViewById(R.id.editFirstName);
+//        rawLastName = findViewById(R.id.editLastName);
+//        String firstName = rawFirstName.getText().toString();
+//        String lastName = rawLastName.getText().toString();
+//        userAccount newUser = new userAccount(email, firstName, lastName);
+//
+//        primaryDB.child("users").setValue(email);
+//        primaryDB.child("users").child(email).setValue(newUser);
+//    }
 
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
