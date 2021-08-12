@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
-
 import com.github.slugify.Slugify;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -93,8 +92,11 @@ public class RegisterActivity extends AppCompatActivity {
                             public void onFailure(@NonNull Exception e) {
                                 Log.d("UserType", "success");}
                         });
-                        createNewUser(email);
-                        updateUI(user);
+                        createNewUser(emailSlug);
+                        finish();
+                        Toast.makeText(RegisterActivity.this, "Account Creation Succesfull, Please Login",
+                                Toast.LENGTH_SHORT).show();
+                        //updateUI(user);
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -134,17 +136,6 @@ public class RegisterActivity extends AppCompatActivity {
                     isStudent = true;
                     break;
         }
-    }
-
-    private void sendEmailVerification() {
-        final FirebaseUser user = mAuth.getCurrentUser();
-        user.sendEmailVerification()
-            .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    // Email sent
-                }
-            });
     }
 
     private void reload() { }
