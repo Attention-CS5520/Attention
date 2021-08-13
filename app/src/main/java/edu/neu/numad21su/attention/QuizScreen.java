@@ -61,7 +61,13 @@ public class QuizScreen extends AppCompatActivity implements Serializable {
         Gson gson = new Gson();
 //        Type listUserType = new TypeToken<List<Question>>() { }.getType();
         // get question list from json file
-        quiz = gson.fromJson(jsonFileString, Quiz.class);
+//        quiz = gson.fromJson(jsonFileString, Quiz.class);
+        if(this.getIntent().hasExtra("QuizId")){
+            this.quiz = (Quiz) this.getIntent().getSerializableExtra("QuizId");
+        }
+        else {
+            quiz = gson.fromJson(jsonFileString, Quiz.class);
+        }
         questionList = quiz.getQuestions();
         answeredQuestions = new ArrayList<>();
         switchQuestion(-1);
