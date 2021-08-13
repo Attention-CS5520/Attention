@@ -42,6 +42,7 @@ public class QuizResults extends AppCompatActivity implements Serializable {
     mAuth = FirebaseAuth.getInstance();
     currentUser = mAuth.getCurrentUser();
     quizEntry = (QuizEntry) getIntent().getSerializableExtra("quizEntry");
+    System.out.println(quizEntry);
     getUserData();
     getQuizData(quizEntry);
   }
