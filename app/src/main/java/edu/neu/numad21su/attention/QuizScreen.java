@@ -99,7 +99,7 @@ public class QuizScreen extends AppCompatActivity implements Serializable {
         String emailSlug = slg.slugify(userEmail);
         QuestionEntry questionEntry = new QuestionEntry(quiz.getQuizTitle() + "-"
                 + quiz.getQuizId() + "-" + emailSlug + "-" + (curQuestion+1),
-                questionList.get(curQuestion).getQuestionId(), userAnswered);
+                questionList.get(curQuestion), userAnswered);
         answeredQuestions.add(questionEntry);
     }
 
