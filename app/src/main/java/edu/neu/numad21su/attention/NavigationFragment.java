@@ -13,9 +13,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,6 +47,7 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
     private String mParam2;
 
     private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
 
     private Button handRaiseButton;
 
@@ -78,10 +84,7 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
         // Connect with firebase
         db = FirebaseFirestore.getInstance();
 
-
-
-
-
+        mAuth = FirebaseAuth.getInstance();
 
 
 
@@ -172,11 +175,74 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
             }
         });
 
+        // If the user's email is registered as an instructor, send a toast message
+
+        // Get the collection of emails
+        Query email_addresses = db.collection("userType");
 
 
-    }
+        email_addresses.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-    // A method to alert the phone, if the user is registered as an instructor and a new hand raise is posted
+                if (task.isSuccessful()){
+
+                    QuerySnapshot querySnapshot = task.getResult();
+
+                    for (int i = 0; i < querySnapshot.size(); i++){
+
+                        String account = querySnapshot.getDocuments().get(i).getId();
+                        String accountType = (String) querySnapshot.getDocuments().get(i).get("type");
+
+                        if (account.equals(mAuth.getCurrentUser().getEmail())
+                                && accountType.equals("instructor")){
+
+                            Log.d("user type", "current user is instructor");
+
+                        } else {
+
+
+                            Log.d("user type", "current user is not instructor");
+
+                        }
+
+
+
+
+                    }
+
+
+
+
+                }
+
+
+
+
+            }
+
+
+
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Log.d("discussions", "discussion history not found");
+
+            }
+        });
+
+
+
+
+
+
+
+
+
+}
+
+
 
 
 }
