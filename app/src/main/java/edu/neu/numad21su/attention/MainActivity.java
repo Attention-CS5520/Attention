@@ -1,17 +1,60 @@
 package edu.neu.numad21su.attention;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import edu.neu.numad21su.attention.quizScreen.Quiz;
+import edu.neu.numad21su.attention.quizmanager.QuizEditor;
+import edu.neu.numad21su.attention.quizmanager.QuizManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import com.github.slugify.Slugify;
+
+import java.util.HashMap;
+
 public class MainActivity extends AppCompatActivity {
+
+    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        Query quizToTake = db.collection("quizToTake");
+        user = mAuth.getCurrentUser();
+        if(user!=null){
+            String emailSlug = new Slugify().slugify(user.getEmail());
+            db.collection("userType").document(emailSlug).get().addOnSuccessListener(dr -> {
+                String type  = (String) dr.get("type");
+                if(type != null && type.equals("student")){
+                    quizToTake.addSnapshotListener((value, error) -> {
+                        if (value != null) {
+                            value.getDocumentChanges().forEach(quizDoc -> {
+                                Intent quizIntent = new Intent(getApplicationContext(), QuizScreen.class);
+                                quizIntent.putExtra("Quiz",quizDoc.getDocument().toObject(Quiz.class));
+                                MainActivity.this.startActivity(quizIntent);
+                            });
+                        }
+                    });
+                }
+            });
+
+        }
     }
 
     public void openLiveClassDiscussion(View view) {

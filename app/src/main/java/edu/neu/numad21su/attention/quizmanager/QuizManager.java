@@ -1,4 +1,4 @@
-package edu.neu.numad21su.attention;
+package edu.neu.numad21su.attention.quizmanager;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -8,14 +8,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import edu.neu.numad21su.attention.quizScreen.Question;
+import edu.neu.numad21su.attention.R;
 import edu.neu.numad21su.attention.quizScreen.Quiz;
 
 public class QuizManager extends AppCompatActivity {
@@ -41,9 +41,11 @@ public class QuizManager extends AppCompatActivity {
     rviewAdapter = new QuizRecyclerAdapter(quizCards);
     rviewAdapter.setDeleteItemListener(i -> deleteQuiz(quizCards.get(i)));
     rviewAdapter.setEditItemListener(i -> openQuiz(quizCards.get(i)));
+    rviewAdapter.setStartQuizListener(i -> startQuiz(quizCards.get(i)));
     recyclerView.setAdapter(rviewAdapter);
     recyclerView.setLayoutManager(rLayoutManger);
   }
+
 
   @Override
   protected void onResume() {
@@ -80,5 +82,10 @@ public class QuizManager extends AppCompatActivity {
               rviewAdapter.notifyDataSetChanged();
               Toast.makeText(QuizManager.this, "Deleted.", Toast.LENGTH_SHORT).show();
             }).addOnFailureListener(e -> Log.d("error", e.toString()));
+  }
+
+
+  private void startQuiz(Quiz quiz) {
+    db.collection("quizToTake").document(quiz.quizId).set(quiz);
   }
 }

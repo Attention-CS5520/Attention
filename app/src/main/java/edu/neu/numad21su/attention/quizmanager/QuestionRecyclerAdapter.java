@@ -1,4 +1,4 @@
-package edu.neu.numad21su.attention;
+package edu.neu.numad21su.attention.quizmanager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
+import edu.neu.numad21su.attention.ItemClickListener;
+import edu.neu.numad21su.attention.R;
 import edu.neu.numad21su.attention.quizScreen.Question;
 
 public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecyclerHolder> {

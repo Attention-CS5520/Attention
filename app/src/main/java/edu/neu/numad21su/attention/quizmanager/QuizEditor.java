@@ -1,4 +1,4 @@
-package edu.neu.numad21su.attention;
+package edu.neu.numad21su.attention.quizmanager;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import edu.neu.numad21su.attention.R;
 import edu.neu.numad21su.attention.quizScreen.Question;
 import edu.neu.numad21su.attention.quizScreen.Quiz;
 
