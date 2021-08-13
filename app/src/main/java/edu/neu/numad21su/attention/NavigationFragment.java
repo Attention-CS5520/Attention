@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.github.slugify.Slugify;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -113,7 +114,7 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
     public void onClick(View v){
 
 
-       // LiveClassDiscussionActivity activity = (LiveClassDiscussionActivity) getActivity();
+
         postHandRaiseToDataBase();
 
 
@@ -160,7 +161,7 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
                 .set(newHandRaise).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(@NonNull Void unused) {
-                Toast.makeText(getActivity(), "Hand raised!", Toast.LENGTH_SHORT).show();
+                Log.d("hand raise", "new hand raised");
 
 
 
@@ -187,36 +188,37 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
 
                 if (task.isSuccessful()){
 
+                    Log.d("current user", mAuth.getCurrentUser().getEmail());
+
+
+
                     QuerySnapshot querySnapshot = task.getResult();
 
                     for (int i = 0; i < querySnapshot.size(); i++){
 
                         String account = querySnapshot.getDocuments().get(i).getId();
                         String accountType = (String) querySnapshot.getDocuments().get(i).get("type");
+                        String user_email = mAuth.getCurrentUser().getEmail();
 
-                        if (account.equals(mAuth.getCurrentUser().getEmail())
-                                && accountType.equals("instructor")){
+                        Slugify slg = new Slugify();
+                        String emailSlug = slg.slugify(user_email);
+
+                        if (account.equals(emailSlug) && accountType.equals("instructor")){
 
                             Log.d("user type", "current user is instructor");
 
-                        } else {
 
 
-                            Log.d("user type", "current user is not instructor");
+                            Toast.makeText(getActivity(), "A student raised their hand", Toast.LENGTH_SHORT).show();
+
 
                         }
-
-
 
 
                     }
 
 
-
-
                 }
-
-
 
 
             }
