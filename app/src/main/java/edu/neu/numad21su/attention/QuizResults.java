@@ -20,8 +20,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.neu.numad21su.attention.quizScreen.Question;
+import edu.neu.numad21su.attention.quizScreen.QuestionEntry;
 import edu.neu.numad21su.attention.quizScreen.QuizEntry;
 
 public class QuizResults extends AppCompatActivity implements Serializable {
@@ -29,10 +31,10 @@ public class QuizResults extends AppCompatActivity implements Serializable {
   private static final String TAG = "";
   private FirebaseFirestore primaryDB;
   private FirebaseAuth mAuth;
-  FirebaseUser currentUser;
   protected String userFirstName;
   protected String userLastName;
   protected QuizEntry quizEntry;
+  FirebaseUser currentUser;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,13 @@ public class QuizResults extends AppCompatActivity implements Serializable {
     System.out.println(quizEntry);
     getUserData();
     getQuizData(quizEntry);
+    updateDisplay(calculateResults(quizEntry));
+  }
+
+  public void updateDisplay(double score) {
+    TextView percent = findViewById(R.id.percent);
+    String percentageScore = Double.toString(score);
+    percent.setText(percentageScore);
   }
 
   public void fillUserInfo() {
@@ -59,7 +68,7 @@ public class QuizResults extends AppCompatActivity implements Serializable {
     return slug;
   }
 
-  public void getUserData () {
+  public void getUserData() {
     String email = mAuth.getCurrentUser().getEmail();
     DocumentReference docRef = primaryDB.collection("userType").document(slugify(email));
     docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -68,9 +77,8 @@ public class QuizResults extends AppCompatActivity implements Serializable {
         if (task.isSuccessful()) {
           DocumentSnapshot document = task.getResult();
           if (document.exists()) {
-            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-            userFirstName =  document.get("firstName").toString();
-            userLastName =  document.get("lastName").toString();
+            userFirstName = document.get("firstName").toString();
+            userLastName = document.get("lastName").toString();
             fillUserInfo();
           } else {
             Log.d(TAG, "No such document");
@@ -85,43 +93,7 @@ public class QuizResults extends AppCompatActivity implements Serializable {
   public void getQuizData(QuizEntry quiz) {
     TextView quizName = findViewById(R.id.quiz_name);
     quizName.setText(quizEntry.getQuizName());
-//    DocumentReference docRef = primaryDB.collection("quizEntries").document(quiz.getQuizEntryId());
-//    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//      @Override
-//      public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//        if (task.isSuccessful()) {
-//          DocumentSnapshot document = task.getResult();
-//          if (document.exists()) {
-//            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-//            ArrayList<Question> questions = (ArrayList<Question>) document.get("questionEntries");
-//            String stringify = questions.toString();
-//            int numQuestions = questions.size();
-//            System.out.println(numQuestions);
-//          } else {
-//            Log.d(TAG, "No such document");
-//          }
-//        } else {
-//          Log.d(TAG, "get failed with ", task.getException());
-//        }
-//      }
-//    });
   }
-//
-//  private void fillQuizInfo(QuizEntry quiz) {
-//    String quizID = quiz.getQuizId();
-//    primaryDB.child("quizzes").child(quizID).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//      @Override
-//      public void onComplete(@NonNull Task<DataSnapshot> task) {
-//        if (!task.isSuccessful()) {
-//          Log.e("firebase", "Error getting data", task.getException());
-//        }
-//        else {
-//          Log.d("firebase", String.valueOf(task.getResult().getValue()));
-//        }
-//      }
-//    });
-//
-//  }
 
   /**
    * Input None, Output double (score of the quiz) Takes the quiz object passed from the quizEntry
@@ -129,26 +101,18 @@ public class QuizResults extends AppCompatActivity implements Serializable {
    * as a percentage
    */
   private double calculateResults(QuizEntry quiz) {
-    DocumentReference docRef = primaryDB.collection("quizEntry").document(quiz.getQuizEntryId());
-    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-      @Override
-      public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-        if (task.isSuccessful()) {
-          DocumentSnapshot document = task.getResult();
-          if (document.exists()) {
-            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-            userFirstName =  document.get("firstName").toString();
-            userLastName =  document.get("lastName").toString();
-            fillUserInfo();
-          } else {
-            Log.d(TAG, "No such document");
-          }
-        } else {
-          Log.d(TAG, "get failed with ", task.getException());
-        }
+    double totalPoints = 0.0;
+    double pointsPerQuestion = (100 / quiz.getQuestionEntries().size()) + 100%quiz.getQuestionEntries().size();
+    List<QuestionEntry> questionEntries = quiz.getQuestionEntries();
+    for (int i = 0; i < questionEntries.size(); i++) {
+      QuestionEntry currentEntry = questionEntries.get(i);
+      System.out.println(currentEntry.getSelectedOption());
+      System.out.println(currentEntry.getQuestionId().correctAnswer);
+      if (currentEntry.getSelectedOption().equals(currentEntry.getQuestionId().correctAnswer)) {
+        totalPoints = (totalPoints + pointsPerQuestion);
       }
-    });
-    return 0.0;
+    }
+    System.out.println(totalPoints);
+    return totalPoints;
   }
 }
-
