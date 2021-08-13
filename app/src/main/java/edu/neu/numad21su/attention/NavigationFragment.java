@@ -3,6 +3,7 @@ package edu.neu.numad21su.attention;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -19,7 +20,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -28,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 
@@ -142,6 +146,51 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
         handRaiseButton = handRaiseButton.findViewById(R.id.raise_hand_button);
 
 
+        // Catches a null email case
+        try {
+            String user_email = mAuth.getCurrentUser().getEmail();
+
+        } catch (Exception e) {
+            Random random = new Random();
+
+
+
+            Date dNow = new Date();
+            SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd H:mm aaa");
+
+
+
+
+            Map<String, Object> newHandRaise = new HashMap<>();
+            newHandRaise.put("author", "James Harlowe");
+            newHandRaise.put("classId", "classId");
+            newHandRaise.put("date", ft.format(dNow));
+
+            db.collection("hands_raised").document("user_hand" + random)
+                    .set(newHandRaise).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(@NonNull Void unused) {
+
+                    Toast.makeText(getActivity(), "Hand raised!", Toast.LENGTH_SHORT).show();
+                    Log.d("hand raise", "new hand raised");
+
+
+
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+                    Log.d("error", e.toString());
+
+                }
+            });
+            return;
+
+        }
+
+
         Random random = new Random();
 
 
@@ -176,51 +225,76 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
             }
         });
 
-        // If the user's email is registered as an instructor, send a toast message
+        // If the user's email is registered as an instructor, send a toast message:
 
         // Get the collection of emails
         Query email_addresses = db.collection("userType");
+
+        // Get the collection of hands raised
+        Query hands_raised = db.collection("hands_raised");
+
+
 
 
         email_addresses.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-                if (task.isSuccessful()){
+                EventListener<QuerySnapshot> querySnapshotEventListener = new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
 
-                    Log.d("current user", mAuth.getCurrentUser().getEmail());
+                        Toast.makeText(getActivity(), "A student raised their hand", Toast.LENGTH_SHORT).show();
 
+
+                    }
+                };
+
+                hands_raised.addSnapshotListener(querySnapshotEventListener);
+
+                if (task.isSuccessful()) {
 
 
                     QuerySnapshot querySnapshot = task.getResult();
 
-                    for (int i = 0; i < querySnapshot.size(); i++){
+
+                    for (int i = 0; i < querySnapshot.size(); i++) {
 
                         String account = querySnapshot.getDocuments().get(i).getId();
                         String accountType = (String) querySnapshot.getDocuments().get(i).get("type");
+
+
                         String user_email = mAuth.getCurrentUser().getEmail();
+
+
+
 
                         Slugify slg = new Slugify();
                         String emailSlug = slg.slugify(user_email);
 
-                        if (account.equals(emailSlug) && accountType.equals("instructor")){
+                        if (account.equals(emailSlug) && accountType.equals("instructor")) {
 
                             Log.d("user type", "current user is instructor");
 
 
+                            //  Toast.makeText(getActivity(), "A student raised their hand", Toast.LENGTH_SHORT).show();
 
-                            Toast.makeText(getActivity(), "A student raised their hand", Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        if (account.equals(emailSlug) && accountType.equals("student")) {
+
+                            Log.d("user type", "current user is student");
+
+
+                            Toast.makeText(getActivity(), "Hand raised!", Toast.LENGTH_SHORT).show();
 
 
                         }
 
 
                     }
-
-
                 }
-
-
             }
 
 
