@@ -10,17 +10,18 @@ public class QuizEntry implements Serializable {
   List<QuestionEntry> questionEntries;
   String userId;
 
-  public QuizEntry(String quizId, String quizName, String quizEntryId,
-                   List<QuestionEntry> questionEntries, String userId) {
+//  public QuizEntry(String quizId, String quizName, String quizEntryId,
+//                   List<QuestionEntry> questionEntries, String userId) {
+//    this.quizId = quizId;
+//    this.quizName = quizName;
+////    this.quizEntryId = quizEntryId;
+//    this.questionEntries = questionEntries;
+//    this.userId = userId;
+  //}
+
+  public QuizEntry(String quizId, String quizName, String quizEntryId, List<QuestionEntry> questionEntries, String userId) {
     this.quizId = quizId;
     this.quizName = quizName;
-//    this.quizEntryId = quizEntryId;
-    this.questionEntries = questionEntries;
-    this.userId = userId;
-  }
-
-  public QuizEntry(String quizId, String quizEntryId, List<QuestionEntry> questionEntries, String userId) {
-    this.quizId = quizId;
     this.quizEntryId = quizEntryId;
     this.questionEntries = questionEntries;
     this.userId = userId;

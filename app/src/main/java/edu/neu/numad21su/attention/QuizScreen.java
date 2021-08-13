@@ -14,20 +14,16 @@ import com.github.slugify.Slugify;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
-//import com.google.gson.reflect.TypeToken;
 import java.io.Serializable;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import edu.neu.numad21su.attention.quizScreen.Question;
 import edu.neu.numad21su.attention.quizScreen.QuestionEntry;
 import edu.neu.numad21su.attention.quizScreen.Quiz;
 import edu.neu.numad21su.attention.quizScreen.QuizEntry;
-import java.io.Serializable;
+
 
 public class QuizScreen extends AppCompatActivity implements Serializable {
 
@@ -121,7 +117,7 @@ public class QuizScreen extends AppCompatActivity implements Serializable {
             }
             Slugify slg = new Slugify();
             String emailSlug = slg.slugify(userEmail);
-            QuizEntry quizEntry = new QuizEntry(quiz.quizId,
+            QuizEntry quizEntry = new QuizEntry(quiz.quizId, quiz.quizTitle,
                     quiz.getQuizTitle()+"-"+quiz.getQuizId()+"-"+emailSlug, answeredQuestions, userEmail);
 //            mDatabase.child("quizzes").child(quiz.getQuizTitle()+"-"+quiz.getQuizId()+"-"+emailSlug).setValue(quizEntry);
 
