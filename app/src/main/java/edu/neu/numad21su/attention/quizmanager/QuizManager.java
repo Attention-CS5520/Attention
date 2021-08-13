@@ -1,12 +1,16 @@
 package edu.neu.numad21su.attention.quizmanager;
 
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,9 +49,6 @@ public class QuizManager extends AppCompatActivity {
     recyclerView.setLayoutManager(rLayoutManger);
   }
 
-  private void startQuiz(Quiz quiz) {
-
-  }
 
   @Override
   protected void onResume() {
@@ -84,5 +85,10 @@ public class QuizManager extends AppCompatActivity {
               rviewAdapter.notifyDataSetChanged();
               Toast.makeText(QuizManager.this, "Deleted.", Toast.LENGTH_SHORT).show();
             }).addOnFailureListener(e -> Log.d("error", e.toString()));
+  }
+
+
+  private void startQuiz(Quiz quiz) {
+    db.collection("quizToTake").document(quiz.quizId).set(quiz);
   }
 }
