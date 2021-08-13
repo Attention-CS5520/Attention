@@ -64,11 +64,8 @@ public class WelcomeLogin extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         // Temporary Toast Message - Need to change to In Class Screen once the in Class screen is merged
-                        // Intent activity2Intent = new Intent(getApplicationContext(), InClass.class);
-                        // startActivity(activity2Intent);
-                        Toast.makeText(WelcomeLogin.this, "Logged In Successfully! ",
-                                Toast.LENGTH_SHORT).show();
-                        reload();
+                        Intent activity2Intent = new Intent(getApplicationContext(), AttendanceActivity.class);
+                        startActivity(activity2Intent);
 
                     } else {
                         // If sign in fails, display a message to the user.

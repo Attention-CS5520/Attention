@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
-
 import com.github.slugify.Slugify;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,6 +34,11 @@ public class RegisterActivity extends AppCompatActivity {
     private DatabaseReference primaryDB;
     private FirebaseFirestore db;
     private boolean isStudent = false;
+    private String registrantFirstName;
+    private String registrantLastName;
+    private String registrantEmail;
+    private String registrantPassword;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,32 +60,45 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    // Take the E-Mail and Password input and save it to a String to create the account
-    public void registerAccount(View view){
-        EditText rawEmail, rawPassword;
+    public void parseValues() {
+        EditText rawEmail, rawPassword, rawFirstName, rawLastName;
         rawEmail = findViewById(R.id.editEmailAddress);
         rawPassword = findViewById(R.id.editPassword);
-        String email = rawEmail.getText().toString();
-        String password = rawPassword.getText().toString();
-        createAccount(email, password);
+        rawFirstName = findViewById(R.id.editFirstName);
+        rawLastName = findViewById(R.id.editLastName);
+        registrantEmail = rawEmail.getText().toString();
+        registrantFirstName = rawFirstName.getText().toString();
+        registrantLastName = rawLastName.getText().toString();
+        registrantPassword = rawPassword.getText().toString();
+
+    }
+
+    // Take the E-Mail and Password input and save it to a String to create the account
+    public void onClick(View view){
+        parseValues();
+        createAccount();
+       createAccount();
     }
 
     // Logic that communicated with Firebase and actually creates the account on DB
-    private void createAccount(String email, String password) {
-        mAuth.createUserWithEmailAndPassword(email, password)
+    private void createAccount() {
+        mAuth.createUserWithEmailAndPassword(registrantEmail, registrantPassword)
             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "createUserWithEmail:success");
-                        FirebaseUser user = mAuth.getCurrentUser();
+                        // Log.d(TAG, "createUserWithEmail:success");
+                        // FirebaseUser user = mAuth.getCurrentUser();
                         // Connect with firebase
+                        // If succesfull get the firebase instance and log the student as a student.
                         db = FirebaseFirestore.getInstance();
                         Map<String, Object> newPost = new HashMap<>();
                         newPost.put("type", isStudent? "student" : "instructor");
+                        newPost.put("firstName", registrantFirstName);
+                        newPost.put("lastName", registrantLastName);
                         Slugify slg = new Slugify();
-                        String emailSlug = slg.slugify(email);
+                        String emailSlug = slg.slugify(registrantEmail);
                         db.collection("userType").document(emailSlug)
                                 .set(newPost).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
@@ -93,8 +110,11 @@ public class RegisterActivity extends AppCompatActivity {
                             public void onFailure(@NonNull Exception e) {
                                 Log.d("UserType", "success");}
                         });
-                        createNewUser(email);
-                        updateUI(user);
+                        //createNewUser(emailSlug);
+                        finish();
+                        Toast.makeText(RegisterActivity.this, "Account Creation Succesfull, Please Login",
+                                Toast.LENGTH_SHORT).show();
+                        //updateUI(user);
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -106,17 +126,17 @@ public class RegisterActivity extends AppCompatActivity {
             });
     }
 
-    private void createNewUser(String email) {
-        EditText rawFirstName, rawLastName;
-        rawFirstName = findViewById(R.id.editFirstName);
-        rawLastName = findViewById(R.id.editLastName);
-        String firstName = rawFirstName.getText().toString();
-        String lastName = rawLastName.getText().toString();
-        userAccount newUser = new userAccount(email, firstName, lastName);
-
-        primaryDB.child("users").setValue(email);
-        primaryDB.child("users").child(email).setValue(newUser);
-    }
+//    private void createNewUser(String email) {
+//        EditText rawFirstName, rawLastName;
+//        rawFirstName = findViewById(R.id.editFirstName);
+//        rawLastName = findViewById(R.id.editLastName);
+//        String firstName = rawFirstName.getText().toString();
+//        String lastName = rawLastName.getText().toString();
+//        userAccount newUser = new userAccount(email, firstName, lastName);
+//
+//        primaryDB.child("users").setValue(email);
+//        primaryDB.child("users").child(email).setValue(newUser);
+//    }
 
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
@@ -134,17 +154,6 @@ public class RegisterActivity extends AppCompatActivity {
                     isStudent = true;
                     break;
         }
-    }
-
-    private void sendEmailVerification() {
-        final FirebaseUser user = mAuth.getCurrentUser();
-        user.sendEmailVerification()
-            .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    // Email sent
-                }
-            });
     }
 
     private void reload() { }

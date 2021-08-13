@@ -1,9 +1,11 @@
 package edu.neu.numad21su.attention.quizScreen;
 
-public class QuestionEntry {
+import java.io.Serializable;
+
+public class QuestionEntry implements Serializable{
   String questionEntryId;
-  String questionId;
   String selectedOption;
+  Question questionId;
 
   public String getSelectedOption() {
     return selectedOption;
@@ -13,13 +15,13 @@ public class QuestionEntry {
     this.selectedOption = selectedOption;
   }
 
-  public QuestionEntry(String questionEntryId, String questionId, String selectedOption) {
+  public QuestionEntry(String questionEntryId, Question questionId, String selectedOption) {
     this.questionEntryId = questionEntryId;
     this.questionId = questionId;
     this.selectedOption = selectedOption;
   }
 
-  public QuestionEntry(String questionId, String selectedOption) {
+  public QuestionEntry(Question questionId, String selectedOption) {
     this.questionId = questionId;
     this.selectedOption = selectedOption;
   }
@@ -34,11 +36,11 @@ public class QuestionEntry {
     this.questionEntryId = questionEntryId;
   }
 
-  public String getQuestionId() {
+  public Question getQuestionId() {
     return questionId;
   }
 
-  public void setQuestionId(String questionId) {
+public void setQuestionId(Question questionId) {
     this.questionId = questionId;
   }
 }

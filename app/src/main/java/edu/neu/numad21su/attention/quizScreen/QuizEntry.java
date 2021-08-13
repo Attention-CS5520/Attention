@@ -1,25 +1,27 @@
 package edu.neu.numad21su.attention.quizScreen;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class QuizEntry {
+public class QuizEntry implements Serializable {
   String quizId;
   String quizName;
   String quizEntryId;
   List<QuestionEntry> questionEntries;
   String userId;
 
-  public QuizEntry(String quizId, String quizName, String quizEntryId,
-                   List<QuestionEntry> questionEntries, String userId) {
+//  public QuizEntry(String quizId, String quizName, String quizEntryId,
+//                   List<QuestionEntry> questionEntries, String userId) {
+//    this.quizId = quizId;
+//    this.quizName = quizName;
+////    this.quizEntryId = quizEntryId;
+//    this.questionEntries = questionEntries;
+//    this.userId = userId;
+  //}
+
+  public QuizEntry(String quizId, String quizName, String quizEntryId, List<QuestionEntry> questionEntries, String userId) {
     this.quizId = quizId;
     this.quizName = quizName;
-//    this.quizEntryId = quizEntryId;
-    this.questionEntries = questionEntries;
-    this.userId = userId;
-  }
-
-  public QuizEntry(String quizId, String quizEntryId, List<QuestionEntry> questionEntries, String userId) {
-    this.quizId = quizId;
     this.quizEntryId = quizEntryId;
     this.questionEntries = questionEntries;
     this.userId = userId;
