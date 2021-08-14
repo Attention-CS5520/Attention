@@ -8,7 +8,6 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -25,7 +24,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,12 +37,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.installations.time.SystemClock;
-import com.google.firebase.messaging.FirebaseMessaging;
-
-
+//import com.google.firebase.messaging.FirebaseMessaging;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -69,9 +64,6 @@ public class LiveClassDiscussionActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager rLayoutManger;
     private ArrayList<MyItemCard> itemList = new ArrayList<>();
     private FloatingActionButton floatingButton;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

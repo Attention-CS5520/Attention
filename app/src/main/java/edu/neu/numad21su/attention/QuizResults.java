@@ -29,6 +29,7 @@ import edu.neu.numad21su.attention.quizScreen.Question;
 import edu.neu.numad21su.attention.quizScreen.QuestionEntry;
 import edu.neu.numad21su.attention.quizScreen.QuizEntry;
 import edu.neu.numad21su.attention.quizmanager.QuestionRecyclerAdapter;
+import edu.neu.numad21su.attention.QuestionResultsRecyclerAdapter;
 
 public class QuizResults extends AppCompatActivity implements Serializable {
 
@@ -40,7 +41,7 @@ public class QuizResults extends AppCompatActivity implements Serializable {
   protected QuizEntry quizEntry;
   FirebaseUser currentUser;
   private RecyclerView recyclerView;
-  private QuestionRecyclerAdapter rviewAdapter;
+  private QuestionResultsRecyclerAdapter rviewAdapter;
   private RecyclerView.LayoutManager rLayoutManger;
   private List<Question> itemList = new ArrayList<>();
 
@@ -179,7 +180,7 @@ public class QuizResults extends AppCompatActivity implements Serializable {
     rLayoutManger = new LinearLayoutManager(this);
     recyclerView = findViewById(R.id.recyclerView);
     recyclerView.setHasFixedSize(true);
-    rviewAdapter = new QuestionRecyclerAdapter(itemList);
+    rviewAdapter = new QuestionResultsRecyclerAdapter(itemList);
     recyclerView.setAdapter(rviewAdapter);
     recyclerView.setLayoutManager(rLayoutManger);
   }
