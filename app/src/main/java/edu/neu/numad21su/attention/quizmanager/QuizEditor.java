@@ -61,7 +61,11 @@ public class QuizEditor extends AppCompatActivity {
     recyclerView.setLayoutManager(rLayoutManger);
   }
 
-  public void saveQuiz(View view) {
+  public void saveButtonClicked(View view) {
+    this.saveQuiz();
+    QuizEditor.this.finish();
+  }
+  private void saveQuiz(){
     quiz.setQuizTitle(quizTitle.getText().toString());
     quiz.setLastEdited(new SimpleDateFormat("yyyy-MM-dd H:mm aaa").format(new Date()));
     if (quiz.quizId == null) {
@@ -69,8 +73,7 @@ public class QuizEditor extends AppCompatActivity {
     }
     db.collection("quizzes").document(quiz.getQuizId()).set(quiz, SetOptions.merge())
             .addOnSuccessListener(dr -> {
-              Toast.makeText(QuizEditor.this, "Saved!", Toast.LENGTH_SHORT).show();
-              QuizEditor.this.finish();
+              Toast.makeText(QuizEditor.this, "Quiz Saved!", Toast.LENGTH_SHORT).show();
             }).addOnFailureListener(e -> Log.d("error", e.toString()));
   }
 
@@ -91,6 +94,7 @@ public class QuizEditor extends AppCompatActivity {
   }
 
   private void openQuestion(Question question) {
+    saveQuiz();
     Intent editIntent = new Intent(QuizEditor.this, QuestionEditor.class);
     editIntent.putExtra("Question", question);
     editIntent.putExtra("QuizId", quiz);
@@ -104,13 +108,15 @@ public class QuizEditor extends AppCompatActivity {
   }
 
   private void refreshQuestions() {
-    db.collection("quizzes").document(quiz.getQuizId()).get()
-            .addOnSuccessListener(dr -> {
-              quiz.questions.clear();
-              quiz.questions.addAll(Objects.requireNonNull(dr.toObject(Quiz.class)).questions);
-              rviewAdapter.notifyDataSetChanged();
-            })
-            .addOnFailureListener(e -> Log.d("error", e.toString()));
+    if (quiz.getQuizId() != null) {
+      db.collection("quizzes").document(quiz.getQuizId()).get()
+              .addOnSuccessListener(dr -> {
+                quiz.questions.clear();
+                quiz.questions.addAll(Objects.requireNonNull(dr.toObject(Quiz.class)).questions);
+                rviewAdapter.notifyDataSetChanged();
+              })
+              .addOnFailureListener(e -> Log.d("error", e.toString()));
+    }
   }
 
 

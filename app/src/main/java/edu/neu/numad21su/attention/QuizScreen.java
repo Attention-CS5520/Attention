@@ -136,6 +136,7 @@ public class QuizScreen extends AppCompatActivity implements Serializable {
                     Intent intent = new Intent(getApplicationContext(), QuizResults.class);
                     intent.putExtra("quizEntry", (Serializable) quizEntry);
                     startActivity(intent);
+                    QuizScreen.this.finish();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

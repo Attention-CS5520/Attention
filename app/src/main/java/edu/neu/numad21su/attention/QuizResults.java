@@ -199,7 +199,7 @@ public class QuizResults extends AppCompatActivity implements Serializable {
    */
   public void getQuizData(QuizEntry quiz) {
     TextView quizName = findViewById(R.id.quiz_name);
-    quizName.setText("Quiz: " +quizEntry.getQuizName());
+    quizName.setText("Quiz: " + quizEntry.getQuizName());
   }
 
   /**

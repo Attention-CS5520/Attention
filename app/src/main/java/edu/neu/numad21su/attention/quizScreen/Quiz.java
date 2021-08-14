@@ -9,6 +9,7 @@ public class Quiz implements Serializable {
   public String quizId;
   public String quizTitle;
   public String lastEdited;
+  public long startedAtMillis;
   public List<Question> questions;
 
   public Quiz() {
