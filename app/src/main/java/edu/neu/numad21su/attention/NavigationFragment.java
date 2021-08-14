@@ -1,5 +1,6 @@
 package edu.neu.numad21su.attention;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -56,6 +57,7 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
 
     private Button handRaiseButton;
     private Button backButton;
+    private Button pollsQuizButton;
 
     public NavigationFragment() {
         // Required empty public constructor
@@ -108,6 +110,9 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
         backButton = view.findViewById(R.id.back_button);
         backButton.setOnClickListener(this);
 
+        pollsQuizButton = view.findViewById(R.id.polls_quizzes_button);
+        pollsQuizButton.setOnClickListener(this);
+
 
 
 
@@ -125,8 +130,15 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
             case R.id.raise_hand_button:
                 postHandRaiseToDataBase();
                 break;
+
             case R.id.back_button:
                 getActivity().finish();
+                break;
+
+            case R.id.polls_quizzes_button:
+                Intent switchActivityIntent = new Intent(getActivity(), QuizResults.class);
+                startActivity(switchActivityIntent);
+                break;
 
 
         }
