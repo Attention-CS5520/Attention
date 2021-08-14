@@ -125,18 +125,7 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
     }
 
 
-    // Put the hand raising code here
 
-    // Subscribe to a hand-raising collection in the database
-
-    // If user is a professor, subscribe to hand raising collection in the firebase database
-
-    // Hook up navigation bar fragment
-
-    // RaiseHand()
-
-
-    // Listener for a click of the Hand button
 
 
 
