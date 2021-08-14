@@ -23,24 +23,31 @@
                 android:text="@string/question_preview"/>
 
         <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_delete"
-                android:id="@+id/delete_question_icon"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="7dp"
-                android:layout_marginEnd="10dp"
-                android:layout_toStartOf="@+id/edit_question_icon"/>
+            android:id="@+id/delete_question_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@+id/edit_question_icon" />
 
-        <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_edit"
-                android:id="@+id/edit_question_icon"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="7dp"
-                android:layout_marginEnd="1dp"/>
+        <TextView
+            android:id="@+id/studentAnswer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentEnd="true"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/correctAnswer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentEnd="true"
+            android:text="TextView" />
 
     </RelativeLayout>
 

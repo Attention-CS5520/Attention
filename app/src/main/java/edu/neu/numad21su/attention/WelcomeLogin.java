@@ -37,7 +37,7 @@ public class WelcomeLogin extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
-            reload();
+            //reload();
         }
     }
 
@@ -52,7 +52,6 @@ public class WelcomeLogin extends AppCompatActivity {
         rawPassword = findViewById(R.id.password);
         String email = rawEmail.getText().toString();
         String password = rawPassword.getText().toString();
-        System.out.println(email + password);
         signIn(email, password);
     }
 
@@ -78,7 +77,5 @@ public class WelcomeLogin extends AppCompatActivity {
     }
 
     private void reload() {
-        TextView login = findViewById(R.id.loginConfirmation);
-        login.setText(mAuth.getCurrentUser().getEmail());
     }
 }

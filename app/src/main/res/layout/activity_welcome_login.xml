@@ -113,13 +113,4 @@
         app:layout_constraintTop_toBottomOf="@id/AppName"
         android:textColor="@color/white" />
 
-    <TextView
-        android:id="@+id/loginConfirmation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/register" />
 </androidx.constraintlayout.widget.ConstraintLayout>
