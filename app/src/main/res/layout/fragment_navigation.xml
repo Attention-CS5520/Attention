@@ -33,8 +33,8 @@
             android:id="@+id/raise_hand_button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Hand"
             android:background="@color/design_default_color_on_primary"
+            android:text="Hand"
             app:layout_constraintStart_toEndOf="@+id/polls_quizzes_button"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,6 +46,8 @@
             android:background="@color/design_default_color_on_primary"
             app:layout_constraintStart_toEndOf="@+id/raise_hand_button"
             app:layout_constraintTop_toTopOf="parent" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

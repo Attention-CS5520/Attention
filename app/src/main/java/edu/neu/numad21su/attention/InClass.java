@@ -44,7 +44,7 @@ public class InClass extends AppCompatActivity {
     private TextView className;
 
     // Class code
-    private TextView classCode;
+    private TextView classCodeText;
 
     // Building
     private TextView building;
@@ -77,10 +77,15 @@ public class InClass extends AppCompatActivity {
 
 
 
+
         // Connect with firebase
         db = FirebaseFirestore.getInstance();
 
         getClassDiscussion();
+
+        getHeaderInfo();
+
+
 
 
         // Setting up the More text
@@ -101,8 +106,7 @@ public class InClass extends AppCompatActivity {
 
     }
 
-    // A method to get the current class info [...]
-    // https://dzone.com/articles/cloud-firestore-read-write-update-and-delete
+
 
     public void getClassDiscussion(){
 
@@ -211,6 +215,69 @@ public class InClass extends AppCompatActivity {
         // The user switches to the Class Discussion activity
          Intent switchActivityIntent = new Intent(this, LiveClassDiscussionActivity.class);
          startActivity(switchActivityIntent);
+
+
+    }
+
+    // Getting the header info from the database
+    public void getHeaderInfo(){
+
+        TextView classCodeTextView = findViewById(R.id.classCode);
+        TextView classNameTextView = findViewById(R.id.className);
+        TextView instructorNameTextView = findViewById(R.id.instructorName);
+        TextView buildingTextView = findViewById(R.id.building);
+        TextView roomNumberTextView = findViewById(R.id.roomNumber);
+
+
+
+        Query header_info = db.collection("classes");
+
+        header_info.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                if(task.isSuccessful()){
+
+                    QuerySnapshot querySnapshot = task.getResult();
+
+                    StringBuilder classCode = new StringBuilder("");
+                    StringBuilder className = new StringBuilder("");
+                    StringBuilder instructorName = new StringBuilder("");
+                    StringBuilder building = new StringBuilder("");
+                    StringBuilder room = new StringBuilder("");
+
+                    classCode.append(querySnapshot.getDocuments().get(0).get("classCode"));
+                    classCodeTextView.setText(classCode);
+
+                    className.append(querySnapshot.getDocuments().get(0).get("className"));
+                    classNameTextView.setText(className);
+
+                    instructorName.append(querySnapshot.getDocuments().get(0).get("professor"));
+                    instructorNameTextView.setText(instructorName);
+
+                    building.append(querySnapshot.getDocuments().get(0).get("building"));
+                    buildingTextView.setText(building);
+
+                    room.append(querySnapshot.getDocuments().get(0).get("roomNumber"));
+                    roomNumberTextView.setText(room);
+
+
+
+                }
+
+
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
+
+
+
 
 
     }
