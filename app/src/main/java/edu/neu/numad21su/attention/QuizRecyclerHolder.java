@@ -2,7 +2,6 @@ package edu.neu.numad21su.attention;
 
 import android.view.View;
 import android.widget.TextView;
-
 import androidx.recyclerview.widget.RecyclerView;
 
 public class QuizRecyclerHolder extends RecyclerView.ViewHolder {
