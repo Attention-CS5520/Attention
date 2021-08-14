@@ -72,7 +72,7 @@ public class QuizResults extends AppCompatActivity implements Serializable {
     double score = calculateResults(quizEntry) * 100;
     updateDisplay(score, calculateGrade(score));
     int intScore = (int) (score * 7.5);
-    updateBars(intScore,150,200,250);
+    updateBars(intScore,66*7,1,750);
     updatePercentages(score, 66, 0, 100);
     getQuizQuestions(quizEntry);
   }
@@ -80,7 +80,13 @@ public class QuizResults extends AppCompatActivity implements Serializable {
   public void updatePercentages(double userScore, int classAverage, int low, int high) {
     int intScore = (int) userScore;
     TextView userScorePercent = findViewById(R.id.answer_1_amount);
+    TextView classAverageView = findViewById(R.id.answer_2_amount);
+    TextView lowView = findViewById(R.id.answer_3_amount);
+    TextView highView = findViewById(R.id.answer_4_amount);
     userScorePercent.setText("You: " + intScore);
+    classAverageView.setText("Class: " + classAverage);
+    lowView.setText("Low: " + low);
+    highView.setText("High: " + high);
   }
 
   /**
