@@ -24,6 +24,12 @@ import java.util.List;
 import edu.neu.numad21su.attention.quizScreen.QuestionEntry;
 import edu.neu.numad21su.attention.quizScreen.QuizEntry;
 
+
+/**
+ * QuizResults takes the data file created from taking a Quiz (QuizEntry) and calculates the score onboard
+ * the device. QuizResults implements Serialiazable in order to allow transfer of the QuizEntry object
+ * between activites.
+ */
 public class QuizResults extends AppCompatActivity implements Serializable {
 
   private static final String TAG = "";
@@ -38,6 +44,13 @@ public class QuizResults extends AppCompatActivity implements Serializable {
   private RecyclerView.LayoutManager rLayoutManger;
   private List<QuestionEntry> itemList = new ArrayList<>();
 
+  /**
+   * In onCreate the main instance is created and the view is opened. The Firebase Databse is retreived
+   * from Firestore. The user Authentication is retrieved from Firebase Authentication
+   * and the Serializable QuizEntry object is pulled from the previous Quiz activity in order
+   * to be able to process and score the quiz.
+   * @param savedInstanceState
+   */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -54,6 +67,15 @@ public class QuizResults extends AppCompatActivity implements Serializable {
     getQuizQuestions(quizEntry);
   }
 
+  /**
+   * updateBars changes the height of the colored bars on the screen programtically in order to give
+   * a visual display of how the user did. The bars are caluclated using a total of 300 points
+   * dependent on how the user did on the quiz overall and compared to the class.
+   * @param score1 - Score height of the first bar
+   * @param score2 - score height of the second bar
+   * @param score3 - score height of the third bar
+   * @param score4 - score height of the fourth bar
+   */
   public void updateBars(int score1, int score2, int score3, int score4) {
     ConstraintLayout layout = findViewById(R.id.quizResults);
     View progressBar1 = layout.findViewById(R.id.progress_bar_2);
@@ -74,6 +96,12 @@ public class QuizResults extends AppCompatActivity implements Serializable {
     progressBar4.setLayoutParams(params4);
   }
 
+  /**
+   * calculateGrade takes a score from the function calculateResults and produces a letter grade
+   * dependent on that score.
+   * @param score - The score of the quiz, as a double out of 100
+   * @return - A letter grade depending on the score of the quiz
+   */
   public String calculateGrade(double score) {
     if (score > 90) {
       return "A";
@@ -90,6 +118,11 @@ public class QuizResults extends AppCompatActivity implements Serializable {
     }
   }
 
+  /**
+   * updateDisplay updates the View on the device to reflect information about the grades of the quiz
+   * @param score - The score of the quiz out of 100
+   * @param grade - The letter grade of the quiz based on the score
+   */
   public void updateDisplay(double score, String grade) {
     TextView percent = findViewById(R.id.percent);
     TextView letterGrade = findViewById(R.id.letter);
@@ -99,18 +132,28 @@ public class QuizResults extends AppCompatActivity implements Serializable {
     letterGrade.setText("Letter Grade: "+ grade);
   }
 
+  /**
+   * Fills in the user information at the top of the View to show who's quiz was graded
+   */
   public void fillUserInfo() {
     TextView login = findViewById(R.id.user_name);
     String usersName = ("Student: " + userFirstName + " " + userLastName);
     login.setText(usersName);
   }
 
+  /**
+   * slugify creates an e-mail slug without any periods to ensure no Firestore DB errors
+   */
   private String slugify(String text) {
     Slugify slg = new Slugify();
     String slug = slg.slugify(text);
     return slug;
   }
 
+  /**
+   * getUserData takes the Firebase User Authentication and retrieves the First and Last name of the
+   * user to use in fillUserInfo()
+   */
   public void getUserData() {
     String email = mAuth.getCurrentUser().getEmail();
     DocumentReference docRef = primaryDB.collection("userType").document(slugify(email));
@@ -133,11 +176,22 @@ public class QuizResults extends AppCompatActivity implements Serializable {
     });
   }
 
+  /**
+   * getQuizData takes in a QuizEntry object and fills the data at the top of the view to display what
+   * quiz was just taken.
+   * @param quiz - a quizEntry object that was created when completing a quiz.
+   */
   public void getQuizData(QuizEntry quiz) {
     TextView quizName = findViewById(R.id.quiz_name);
     quizName.setText("Quiz: " +quizEntry.getQuizName());
   }
 
+  /**
+   * A method taken from online sources that rounds a double to a certain number of decimal places
+   * @param value - The value (Double) to be rounded
+   * @param places - How many decimal places to be kept in rounding
+   * @return - A double with places number of decimal places
+   */
   public double round(double value, int places) {
     if (places < 0) throw new IllegalArgumentException();
     long factor = (long) Math.pow(10, places);
@@ -167,6 +221,11 @@ public class QuizResults extends AppCompatActivity implements Serializable {
     return score;
   }
 
+  /**
+   * createRecyclerView creates a new RecyclerView to display the question asked on the quiz,
+   * and the correct answer to each question. It also displays a check mark or x depending
+   * on whether the user go the answer correct or wrong.
+   */
   private void createRecyclerView() {
     rLayoutManger = new LinearLayoutManager(this);
     recyclerView = findViewById(R.id.recyclerView);
@@ -176,6 +235,10 @@ public class QuizResults extends AppCompatActivity implements Serializable {
     recyclerView.setLayoutManager(rLayoutManger);
   }
 
+  /**
+   * getQuizQuestions takes a quizEntry object and adds the questions to a list itemList to be
+   * dusplayed in the createRecyclerView later on.
+   */
   private void getQuizQuestions(QuizEntry quiz){
     List<QuestionEntry> questionEntries = quiz.getQuestionEntries();
     for (int i = 0; i < questionEntries.size(); i++) {
