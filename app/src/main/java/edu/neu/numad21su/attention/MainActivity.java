@@ -45,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
                     quizToTake.addSnapshotListener((value, error) -> {
                         if (value != null) {
                             value.getDocumentChanges().forEach(quizDoc -> {
-                                Intent quizIntent = new Intent(getApplicationContext(), QuizScreen.class);
-                                quizIntent.putExtra("Quiz",quizDoc.getDocument().toObject(Quiz.class));
-                                MainActivity.this.startActivity(quizIntent);
+                                //Intent quizIntent = new Intent(getApplicationContext(), QuizScreen.class);
+                                //quizIntent.putExtra("Quiz",quizDoc.getDocument().toObject(Quiz.class));
+                                //MainActivity.this.startActivity(quizIntent);
                             });
                         }
                     });
