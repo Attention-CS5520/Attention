@@ -55,6 +55,7 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
     private FirebaseAuth mAuth;
 
     private Button handRaiseButton;
+    private Button backButton;
 
     public NavigationFragment() {
         // Required empty public constructor
@@ -104,6 +105,9 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
         handRaiseButton = view.findViewById(R.id.raise_hand_button);
         handRaiseButton.setOnClickListener(this);
 
+        backButton = view.findViewById(R.id.back_button);
+        backButton.setOnClickListener(this);
+
 
 
 
@@ -116,11 +120,16 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
 
    @Override
     public void onClick(View v){
+        switch (v.getId()){
+
+            case R.id.raise_hand_button:
+                postHandRaiseToDataBase();
+                break;
+            case R.id.back_button:
+                getActivity().finish();
 
 
-
-        postHandRaiseToDataBase();
-
+        }
 
     }
 
