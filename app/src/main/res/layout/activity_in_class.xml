@@ -8,6 +8,7 @@
     android:background="@drawable/background_gradient_in_class">
 
     <TextView
+        android:id="@+id/className"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="[class name]"
@@ -20,6 +21,7 @@
         android:textColor="@color/white"/>
 
     <TextView
+        android:id="@+id/classCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="[class code]"
@@ -32,6 +34,7 @@
         android:textColor="@color/white"/>
 
     <TextView
+        android:id="@+id/building"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="[building]"
@@ -45,31 +48,33 @@
         android:textColor="@color/white"/>
 
     <TextView
+        android:id="@+id/roomNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="[room #]"
+        android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.645"
+        app:layout_constraintHorizontal_bias="0.687"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.146"
-        android:textColor="@color/white"/>
+        app:layout_constraintVertical_bias="0.146" />
+
 
     <TextView
+        android:id="@+id/instructorName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="[instructor]"
+        android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintHorizontal_bias="0.474"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.184"
-        android:textColor="@color/white"/>
-
+        app:layout_constraintVertical_bias="0.184" />
 
     <TextView
         android:id="@+id/live_class_discussion"
