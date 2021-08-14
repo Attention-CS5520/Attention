@@ -6,9 +6,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -30,7 +29,6 @@ import java.util.Map;
 import java.util.Random;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import edu.neu.numad21su.attention.quizmanager.QuizManager;
@@ -59,6 +57,8 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
   private Button pollsQuizButton;
   private FirebaseUser user;
   private FragmentActivity activity;
+  private String type;
+  private CollectionReference handsRaised;
 
   public NavigationFragment() {
     // Required empty public constructor
@@ -99,13 +99,19 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
     if (user != null) {
       String emailSlug = new Slugify().slugify(user.getEmail());
       db.collection("userType").document(emailSlug).get().addOnSuccessListener(dr -> {
-        String type = (String) dr.get("type");
+        type = (String) dr.get("type");
         if (type != null && type.equals("instructor")) {
           Button managerButton = activity.findViewById(R.id.quiz_manager_button);
           managerButton.setVisibility(View.VISIBLE);
         }
       });
     }
+    handsRaised = db.collection("hands_raised");
+    handsRaised.addSnapshotListener((value, error) -> {
+      if (type != null && type.equals("instructor")) {
+        Toast.makeText(activity, "A student raised their hand", Toast.LENGTH_SHORT).show();
+      }
+    });
   }
 
   @Override
@@ -175,15 +181,11 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
       newHandRaise.put("classId", "classId");
       newHandRaise.put("date", ft.format(dNow));
 
-      db.collection("hands_raised").document("user_hand" + random)
+      handsRaised.document("user_hand" + random)
               .set(newHandRaise).addOnSuccessListener(new OnSuccessListener<Void>() {
         @Override
         public void onSuccess(@NonNull Void unused) {
-
-          Toast.makeText(activity, "Hand raised!", Toast.LENGTH_SHORT).show();
           Log.d("hand raise", "new hand raised");
-
-
         }
       }).addOnFailureListener(new OnFailureListener() {
         @Override
@@ -215,8 +217,6 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
       @Override
       public void onSuccess(@NonNull Void unused) {
         Log.d("hand raise", "new hand raised");
-
-
       }
     }).addOnFailureListener(new OnFailureListener() {
       @Override
@@ -240,20 +240,6 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
       @Override
       public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-        EventListener<QuerySnapshot> querySnapshotEventListener =
-                new EventListener<QuerySnapshot>() {
-                  @Override
-                  public void onEvent(@Nullable QuerySnapshot value,
-                                      @Nullable FirebaseFirestoreException error) {
-
-                    Toast.makeText(activity, "A student raised their hand", Toast.LENGTH_SHORT).show();
-
-
-                  }
-                };
-
-        hands_raised.addSnapshotListener(querySnapshotEventListener);
-
         if (task.isSuccessful()) {
 
 
@@ -273,23 +259,12 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
             String emailSlug = slg.slugify(user_email);
 
             if (account.equals(emailSlug) && accountType.equals("instructor")) {
-
               Log.d("user type", "current user is instructor");
-
-
             }
 
             if (account.equals(emailSlug) && accountType.equals("student")) {
-
               Log.d("user type", "current user is student");
-
-
-              Toast.makeText(activity, "Hand raised!", Toast.LENGTH_SHORT).show();
-
-
             }
-
-
           }
         }
       }
