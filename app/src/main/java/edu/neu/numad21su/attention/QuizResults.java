@@ -12,24 +12,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.github.slugify.Slugify;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import edu.neu.numad21su.attention.quizScreen.Question;
 import edu.neu.numad21su.attention.quizScreen.QuestionEntry;
 import edu.neu.numad21su.attention.quizScreen.QuizEntry;
-import edu.neu.numad21su.attention.quizmanager.QuestionRecyclerAdapter;
-import edu.neu.numad21su.attention.QuestionResultsRecyclerAdapter;
 
 public class QuizResults extends AppCompatActivity implements Serializable {
 
@@ -43,7 +36,7 @@ public class QuizResults extends AppCompatActivity implements Serializable {
   private RecyclerView recyclerView;
   private QuestionResultsRecyclerAdapter rviewAdapter;
   private RecyclerView.LayoutManager rLayoutManger;
-  private List<Question> itemList = new ArrayList<>();
+  private List<QuestionEntry> itemList = new ArrayList<>();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +46,11 @@ public class QuizResults extends AppCompatActivity implements Serializable {
     mAuth = FirebaseAuth.getInstance();
     currentUser = mAuth.getCurrentUser();
     quizEntry = (QuizEntry) getIntent().getSerializableExtra("quizEntry");
-    System.out.println(quizEntry);
     getUserData();
     getQuizData(quizEntry);
     double score = calculateResults(quizEntry) * 100;
     updateDisplay(score, calculateGrade(score));
+    updateBars(100,150,200,250);
     getQuizQuestions(quizEntry);
   }
 
@@ -165,8 +158,6 @@ public class QuizResults extends AppCompatActivity implements Serializable {
     List<QuestionEntry> questionEntries = quiz.getQuestionEntries();
     for (int i = 0; i < questionEntries.size(); i++) {
       QuestionEntry currentEntry = questionEntries.get(i);
-      System.out.println(currentEntry.getSelectedOption());
-      System.out.println(currentEntry.getQuestionId().correctAnswer);
       if (currentEntry.getSelectedOption().equals(currentEntry.getQuestionId().correctAnswer)) {
         totalPoints = (totalPoints + 10);
       }
@@ -189,7 +180,7 @@ public class QuizResults extends AppCompatActivity implements Serializable {
     List<QuestionEntry> questionEntries = quiz.getQuestionEntries();
     for (int i = 0; i < questionEntries.size(); i++) {
       QuestionEntry currentEntry = questionEntries.get(i);
-      itemList.add(currentEntry.getQuestionId());
+      itemList.add(currentEntry);
     }
     createRecyclerView();
   }

@@ -15,8 +15,8 @@ public class QuizRecyclerHolder extends RecyclerView.ViewHolder {
                             ItemClickListener deleteItemListener,
                             ItemClickListener startQuizListener) {
     super(view);
-    title = itemView.findViewById(R.id.quiz_manager_title);
-    lastEdit = itemView.findViewById(R.id.quiz_last_edit);
+    title = itemView.findViewById(R.id.quizResults_question_text);
+    lastEdit = itemView.findViewById(R.id.quizResults_answer);
     this.addListener(itemView.findViewById(R.id.edit_quiz_icon), editItemListener);
     this.addListener(itemView.findViewById(R.id.delete_quiz_icon),deleteItemListener);
     this.addListener(itemView.findViewById(R.id.start_quiz_icon), startQuizListener);

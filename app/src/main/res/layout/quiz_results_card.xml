@@ -12,24 +12,24 @@
             android:layout_margin="5dp">
 
         <TextView
-                android:id="@+id/quiz_manager_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
-                android:layout_marginStart="10dp"
-                android:textColor="@android:color/black"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:text="@string/question_text"/>
+            android:id="@+id/quizResults_question_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="7dp"
+            android:text="@string/question_text"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/quiz_manager_title"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:id="@+id/quiz_last_edit"
-                android:text="@string/answer_text"/>
+            android:id="@+id/quizResults_answer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/quizResults_question_text"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/answer_text" />
 
         <ImageView
                 android:layout_width="wrap_content"
@@ -42,14 +42,14 @@
                 android:layout_marginEnd="1dp"/>
 
         <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_close"
-                android:id="@+id/incorrect_indicator"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="7dp"
-                android:layout_marginEnd="1dp"/>
+            android:id="@+id/incorrect_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="1dp"
+            app:srcCompat="@drawable/ic_close" />
 
     </RelativeLayout>
 
