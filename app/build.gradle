@@ -53,5 +53,6 @@ dependencies {
     implementation "androidx.fragment:fragment:$fragment_version"
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.github.slugify:slugify:2.4'
+    implementation 'com.google.firebase:firebase-messaging:15.0.2'
 }
 

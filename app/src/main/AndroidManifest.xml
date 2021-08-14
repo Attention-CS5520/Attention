@@ -26,9 +26,9 @@
         <activity android:name=".QuizResults"/>
         <activity android:name=".AttendanceActivity"/>
         <activity android:name=".InClass"/>
-        <activity android:name=".QuizManager"/>
-        <activity android:name=".QuizEditor"/>
-        <activity android:name=".QuestionEditor"/>
+        <activity android:name=".quizmanager.QuizManager"/>
+        <activity android:name=".quizmanager.QuizEditor"/>
+        <activity android:name=".quizmanager.QuestionEditor"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

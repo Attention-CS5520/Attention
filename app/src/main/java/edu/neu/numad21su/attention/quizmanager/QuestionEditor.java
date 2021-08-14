@@ -1,4 +1,4 @@
-package edu.neu.numad21su.attention;
+package edu.neu.numad21su.attention.quizmanager;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -12,6 +12,7 @@ import android.widget.Toast;
 import java.util.UUID;
 
 import androidx.appcompat.app.AppCompatActivity;
+import edu.neu.numad21su.attention.R;
 import edu.neu.numad21su.attention.quizScreen.Question;
 import edu.neu.numad21su.attention.quizScreen.Quiz;
 
