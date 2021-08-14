@@ -1,10 +1,13 @@
 package edu.neu.numad21su.attention;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,7 +20,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +36,7 @@ import edu.neu.numad21su.attention.quizScreen.QuizEntry;
 /**
  * QuizResults takes the data file created from taking a Quiz (QuizEntry) and calculates the score onboard
  * the device. QuizResults implements Serialiazable in order to allow transfer of the QuizEntry object
- * between activites.
+ * between activities.
  */
 public class QuizResults extends AppCompatActivity implements Serializable {
 
@@ -63,8 +71,16 @@ public class QuizResults extends AppCompatActivity implements Serializable {
     getQuizData(quizEntry);
     double score = calculateResults(quizEntry) * 100;
     updateDisplay(score, calculateGrade(score));
-    updateBars(100,150,200,250);
+    int intScore = (int) (score * 7.5);
+    updateBars(intScore,150,200,250);
+    updatePercentages(score, 66, 0, 100);
     getQuizQuestions(quizEntry);
+  }
+
+  public void updatePercentages(double userScore, int classAverage, int low, int high) {
+    int intScore = (int) userScore;
+    TextView userScorePercent = findViewById(R.id.answer_1_amount);
+    userScorePercent.setText("You: " + intScore);
   }
 
   /**
@@ -78,9 +94,9 @@ public class QuizResults extends AppCompatActivity implements Serializable {
    */
   public void updateBars(int score1, int score2, int score3, int score4) {
     ConstraintLayout layout = findViewById(R.id.quizResults);
-    View progressBar1 = layout.findViewById(R.id.progress_bar_2);
-    View progressBar2 = layout.findViewById(R.id.progress_bar_3);
-    View progressBar3 = layout.findViewById(R.id.progress_bar_1);
+    View progressBar1 = layout.findViewById(R.id.progress_bar_1);
+    View progressBar2 = layout.findViewById(R.id.progress_bar_2);
+    View progressBar3 = layout.findViewById(R.id.progress_bar_3);
     View progressBar4 = layout.findViewById(R.id.progress_bar_4);
     ViewGroup.LayoutParams params1 = progressBar1.getLayoutParams();
     ViewGroup.LayoutParams params2 = progressBar2.getLayoutParams();
@@ -247,4 +263,5 @@ public class QuizResults extends AppCompatActivity implements Serializable {
     }
     createRecyclerView();
   }
+
 }

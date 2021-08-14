@@ -2,6 +2,7 @@ package edu.neu.numad21su.attention;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,11 +20,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.HashMap;
 import java.util.Map;
-
-import edu.neu.numad21su.attention.accountCreation.userAccount;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -87,11 +85,6 @@ public class RegisterActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        // Log.d(TAG, "createUserWithEmail:success");
-                        // FirebaseUser user = mAuth.getCurrentUser();
-                        // Connect with firebase
-                        // If succesfull get the firebase instance and log the student as a student.
                         db = FirebaseFirestore.getInstance();
                         Map<String, Object> newPost = new HashMap<>();
                         newPost.put("type", isStudent? "student" : "instructor");
@@ -110,38 +103,18 @@ public class RegisterActivity extends AppCompatActivity {
                             public void onFailure(@NonNull Exception e) {
                                 Log.d("UserType", "success");}
                         });
-                        //createNewUser(emailSlug);
-                        finish();
-                        Toast.makeText(RegisterActivity.this, "Account Creation Succesfull, Please Login",
+                        Intent activity2Intent = new Intent(getApplicationContext(), InClass.class);
+                        startActivity(activity2Intent);
+                        Toast.makeText(RegisterActivity.this, "Account Created Successfully",
                                 Toast.LENGTH_SHORT).show();
-                        //updateUI(user);
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                        Toast.makeText(RegisterActivity.this, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
-                        updateUI(null);
                     }
                 }
             });
     }
 
-//    private void createNewUser(String email) {
-//        EditText rawFirstName, rawLastName;
-//        rawFirstName = findViewById(R.id.editFirstName);
-//        rawLastName = findViewById(R.id.editLastName);
-//        String firstName = rawFirstName.getText().toString();
-//        String lastName = rawLastName.getText().toString();
-//        userAccount newUser = new userAccount(email, firstName, lastName);
-//
-//        primaryDB.child("users").setValue(email);
-//        primaryDB.child("users").child(email).setValue(newUser);
-//    }
-
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
-
         // Check which radio button was clicked
         switch(view.getId()) {
             case R.id.radio_instructor:
@@ -155,10 +128,5 @@ public class RegisterActivity extends AppCompatActivity {
                     break;
         }
     }
-
     private void reload() { }
-
-    private void updateUI(FirebaseUser user) {
-
-    }
 }
