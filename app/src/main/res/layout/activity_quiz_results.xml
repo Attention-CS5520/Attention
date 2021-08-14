@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <View
-        android:id="@+id/view"
+        android:id="@+id/graphView"
         android:layout_width="325dp"
         android:layout_height="300dp"
         android:background="#BABABA"
@@ -35,10 +35,10 @@
         android:layout_height="wrap_content"
         android:text="@string/answer_1_amount"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/answer_2_amount"
         app:layout_constraintHorizontal_bias="0.24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
+        app:layout_constraintTop_toBottomOf="@+id/graphView" />
 
     <TextView
         android:id="@+id/answer_2_amount"
@@ -46,10 +46,10 @@
         android:layout_height="wrap_content"
         android:text="@string/answer_2_amount"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/answer_3_amount"
         app:layout_constraintHorizontal_bias="0.43"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
+        app:layout_constraintStart_toEndOf="@id/answer_1_amount"
+        app:layout_constraintTop_toBottomOf="@+id/graphView" />
 
     <TextView
         android:id="@+id/answer_3_amount"
@@ -57,10 +57,10 @@
         android:layout_height="wrap_content"
         android:text="@string/answer_3_amount"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/answer_4_amount"
         app:layout_constraintHorizontal_bias="0.63"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
+        app:layout_constraintStart_toEndOf="@id/answer_2_amount"
+        app:layout_constraintTop_toBottomOf="@+id/graphView" />
 
     <TextView
         android:id="@+id/answer_4_amount"
@@ -70,48 +70,48 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.816"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
+        app:layout_constraintStart_toEndOf="@id/answer_3_amount"
+        app:layout_constraintTop_toBottomOf="@+id/graphView" />
 
     <View
         android:id="@+id/progress_bar_1"
         android:layout_width="25dp"
         android:layout_height="300dp"
         android:background="#3F51B5"
-        app:layout_constraintBottom_toBottomOf="@+id/view"
-        app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintBottom_toBottomOf="@+id/graphView"
+        app:layout_constraintEnd_toEndOf="@+id/graphView"
         app:layout_constraintHorizontal_bias="0.15"
-        app:layout_constraintStart_toStartOf="@+id/view" />
+        app:layout_constraintStart_toStartOf="@+id/graphView" />
 
     <View
         android:id="@+id/progress_bar_2"
         android:layout_width="25dp"
         android:layout_height="300dp"
         android:background="#4CAF50"
-        app:layout_constraintBottom_toBottomOf="@+id/view"
-        app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintBottom_toBottomOf="@+id/graphView"
+        app:layout_constraintEnd_toEndOf="@+id/graphView"
         app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toStartOf="@+id/view" />
+        app:layout_constraintStart_toStartOf="@+id/graphView" />
 
     <View
         android:id="@+id/progress_bar_3"
         android:layout_width="25dp"
         android:layout_height="300dp"
         android:background="#FF9800"
-        app:layout_constraintBottom_toBottomOf="@+id/view"
-        app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintBottom_toBottomOf="@+id/graphView"
+        app:layout_constraintEnd_toEndOf="@+id/graphView"
         app:layout_constraintHorizontal_bias="0.65"
-        app:layout_constraintStart_toStartOf="@+id/view" />
+        app:layout_constraintStart_toStartOf="@+id/graphView" />
 
     <View
         android:id="@+id/progress_bar_4"
         android:layout_width="25dp"
         android:layout_height="300dp"
         android:background="#9C27B0"
-        app:layout_constraintBottom_toBottomOf="@+id/view"
-        app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintBottom_toBottomOf="@+id/graphView"
+        app:layout_constraintEnd_toEndOf="@+id/graphView"
         app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintStart_toStartOf="@+id/view" />
+        app:layout_constraintStart_toStartOf="@+id/graphView" />
 
     <TextView
         android:id="@+id/quiz_results_title"

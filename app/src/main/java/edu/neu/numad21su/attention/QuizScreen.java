@@ -132,8 +132,7 @@ public class QuizScreen extends AppCompatActivity implements Serializable {
                 @Override
                 public void onSuccess(@NonNull Void unused) {
                     Toast.makeText(getApplicationContext(),
-                            "Submission Successful! You can now exit the quiz" +
-                                    " by pressing the back button.",Toast.LENGTH_LONG).show();
+                            "Submission Successful!",Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getApplicationContext(), QuizResults.class);
                     intent.putExtra("quizEntry", (Serializable) quizEntry);
                     startActivity(intent);
