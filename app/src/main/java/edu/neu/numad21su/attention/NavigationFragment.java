@@ -126,7 +126,7 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
     backButton = view.findViewById(R.id.back_button);
     backButton.setOnClickListener(this);
 
-    pollsQuizButton = view.findViewById(R.id.quiz_manager_button);
+    pollsQuizButton = view.findViewById(R.id.polls_quizzes_button);
     pollsQuizButton.setOnClickListener(this);
 
 
