@@ -275,7 +275,7 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
                             Log.d("user type", "current user is instructor");
 
 
-                            //  Toast.makeText(getActivity(), "A student raised their hand", Toast.LENGTH_SHORT).show();
+
 
 
                         }
