@@ -33,28 +33,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        db = FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
-        Query quizToTake = db.collection("quizToTake");
-        user = mAuth.getCurrentUser();
-        if(user!=null){
-            String emailSlug = new Slugify().slugify(user.getEmail());
-            db.collection("userType").document(emailSlug).get().addOnSuccessListener(dr -> {
-                String type  = (String) dr.get("type");
-                if(type != null && type.equals("student")){
-                    quizToTake.addSnapshotListener((value, error) -> {
-                        if (value != null) {
-                            value.getDocumentChanges().forEach(quizDoc -> {
-                                //Intent quizIntent = new Intent(getApplicationContext(), QuizScreen.class);
-                                //quizIntent.putExtra("Quiz",quizDoc.getDocument().toObject(Quiz.class));
-                                //MainActivity.this.startActivity(quizIntent);
-                            });
-                        }
-                    });
-                }
-            });
-
-        }
     }
 
     public void openLiveClassDiscussion(View view) {
