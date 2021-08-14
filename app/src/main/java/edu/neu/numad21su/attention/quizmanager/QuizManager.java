@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,6 +87,7 @@ public class QuizManager extends AppCompatActivity {
 
 
   private void startQuiz(Quiz quiz) {
+    quiz.startedAtMillis = System.currentTimeMillis();
     db.collection("quizToTake").document(quiz.quizId).set(quiz);
   }
 }
